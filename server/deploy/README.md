@@ -2,8 +2,13 @@
 
 The storefront (on Vercel) is published on `leatherluxindia.com`; this folder is for the **API**, which runs on your EC2 server next to Postgres.
 Until it is live, a published storefront falls back to its built-in sample catalogue and a guest bag.
-The API's `CORS_ORIGINS` must be the exact address visitors see in the browser: `https://leatherluxindia.com` if that is your primary domain on Vercel,
-`https://www.leatherluxindia.com` if you make www primary instead. (`COOKIE_DOMAIN=.leatherluxindia.com` works for both.)
+The API's `CORS_ORIGINS` allows both domains and their www hosts (`leatherluxindia.com` and `leatherluxindia.in`), so the storefront can be served on either without
+redirecting one to the other in Vercel. It must list the exact address visitors see in the browser: add any other domain you serve the shop on.
+
+**What works on each domain.** Browsing, search, the wishlist and a guest bag work on both. Signing in works on `leatherluxindia.com`, which is the same *site* as
+`api.leatherluxindia.com`. On `leatherluxindia.in` the browser treats the API as another site and drops `SameSite=lax` sign-in cookies, so a sign-in there appears to succeed
+but does not stay. Setting `COOKIE_SAMESITE=none` in the API's `.env` lets it work on `.in` too, though Safari and some privacy settings still block those cookies. If sign-in must work
+everywhere, make `.com` the primary domain in Vercel and use its *Redirect to* option on the `.in` domain instead.
 
 | File | What it is |
 | --- | --- |
@@ -57,7 +62,7 @@ cd /opt/llx/server && cp deploy/env.production.example .env && nano .env && chmo
 Fill in every `REPLACE_ME`:
 
 - `DB_PASSWORD`, `JWT_ACCESS_SECRET` and `PASSWORD_PEPPER`: take them from the `server/.env` on your PC. **Use the same pepper**: every stored password (including your admin's) depends on it, and with a new one nobody can sign in.
-- Leave `CORS_ORIGINS=https://leatherluxindia.com` and `COOKIE_DOMAIN=.leatherluxindia.com` as they are, unless your primary domain is different. Production refuses an `http://` origin and a placeholder password, and says so when it starts.
+- Leave `CORS_ORIGINS` (both domains and their www hosts) and `COOKIE_DOMAIN=.leatherluxindia.com` as they are. Production refuses an `http://` origin and a placeholder password, and says so when it starts.
 
 The database already has all migrations. This confirms it (it should apply 0):
 
@@ -96,6 +101,7 @@ curl -s "https://api.leatherluxindia.com/api/products?limit=1" | head -c 300
 curl -s -o /dev/null -w "%{http_code}\n" https://api.leatherluxindia.com/media/products/maren-satchel-tan/<any file from the API output>
 # CORS: the shop's origin is accepted, another one is not
 curl -s -i -H "Origin: https://leatherluxindia.com" https://api.leatherluxindia.com/api/branding | grep -i access-control-allow-origin
+curl -s -i -H "Origin: https://leatherluxindia.in"  https://api.leatherluxindia.com/api/branding | grep -i access-control-allow-origin
 curl -s -i -H "Origin: https://example.com"         https://api.leatherluxindia.com/api/branding | grep -ci access-control-allow-origin
 ```
 

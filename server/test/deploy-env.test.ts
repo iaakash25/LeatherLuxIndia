@@ -31,7 +31,10 @@ describe("deploy/env.production.example", () => {
     expect(e.cookieSecure).toBe(true);
     expect(e.HOST).toBe("127.0.0.1"); // only nginx may reach it
     expect(e.TRUST_PROXY).toBe(1);
-    expect(e.corsOrigins).toEqual(["https://leatherluxindia.com"]);
+    // Both domains, each with its www host, so the shop can be served on either without redirecting one to the other.
+    expect(e.corsOrigins).toEqual([
+      "https://leatherluxindia.com", "https://www.leatherluxindia.com", "https://leatherluxindia.in", "https://www.leatherluxindia.in",
+    ]);
     expect(e.COOKIE_DOMAIN).toBe(".leatherluxindia.com");
     expect(e.DB_SSL_MODE).not.toBe("disable");
   });
