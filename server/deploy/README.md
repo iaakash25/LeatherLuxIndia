@@ -1,4 +1,7 @@
-# Putting the API on https://api.leatherluxindia.com
+# Putting the API on its own server (https://api.leatherluxindia.com)
+
+> **This is the alternative setup.** The default is to run the API inside the Vercel deployment, on the same domain as the site: see [`VERCEL.md`](VERCEL.md). Use this guide only if you want the API on a server of your own.
+> If you do, point the storefront at it with `VITE_API_URL=https://api.leatherluxindia.com` in Vercel's Environment Variables, and set `MEDIA_DIR` to the default `../public/media` (the photos are in the repository).
 
 The storefront (on Vercel) is published on `leatherluxindia.com`; this folder is for the **API**, which runs on your EC2 server next to Postgres.
 Until it is live, a published storefront falls back to its built-in sample catalogue and a guest bag.
@@ -47,7 +50,7 @@ cd app/server && npm ci && npm run build && npm prune --omit=dev
 mkdir -p logs && sudo chown llx:llx logs
 ```
 
-The product photos are not in git. Send them from your Windows PC (PowerShell), then unpack them on the server:
+The product photos are in the repository (`public/media/`), so the clone above already has them. The rest of this step is only needed if you want to send a changed set of photos from your PC without pushing to GitHub first:
 
 ```powershell
 cd "C:\Users\Aakash Srivastava\Downloads\LLI"
