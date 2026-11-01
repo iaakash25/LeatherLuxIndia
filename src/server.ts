@@ -1,7 +1,20 @@
 import "./lib/error-capture";
 
+import { API_ORIGIN } from "./lib/api";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { securityHeaders } from "./lib/security-headers";
+
+// Production only: the dev server needs inline scripts and a websocket that this policy would block.
+const SECURITY_HEADERS: Record<string, string> = import.meta.env.PROD ? securityHeaders(API_ORIGIN) : {};
+
+function withSecurityHeaders(response: Response): Response {
+  if (!Object.keys(SECURITY_HEADERS).length) return response;
+  const headers = new Headers(response.headers);
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) headers.set(name, value);
+  // A new Response around the same body keeps streaming intact.
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -49,13 +62,13 @@ export default {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      return withSecurityHeaders(await normalizeCatastrophicSsrResponse(response));
     } catch (error) {
       console.error(error);
-      return new Response(renderErrorPage(), {
+      return withSecurityHeaders(new Response(renderErrorPage(), {
         status: 500,
         headers: { "content-type": "text/html; charset=utf-8" },
-      });
+      }));
     }
   },
 };

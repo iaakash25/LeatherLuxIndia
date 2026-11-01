@@ -12,6 +12,9 @@ dist
 dist-ssr
 .output
 .vercel
+# Product photos are made by `npm run products:import` and copied to the API server; they are not part of the code.
+server/media/*
+!server/media/.gitkeep
 .vinxi
 .tanstack/**
 .nitro

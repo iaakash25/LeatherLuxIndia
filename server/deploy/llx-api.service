@@ -1,7 +1,8 @@
 # systemd unit for the LLX API. Install: sudo cp llx-api.service /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now llx-api
 #
-# Settings come from /opt/llx/server/.env, which the app reads itself (dotenv, from WorkingDirectory).
-# Do not add EnvironmentFile= for it: systemd does not understand inline comments in env files the way dotenv does.
+# The code lives in /opt/llx/app (a git clone owned by the deploying user); this service runs as the unprivileged user "llx", which can
+# READ the code and the .env but write only to logs/. Settings come from /opt/llx/app/server/.env, which the app reads itself (dotenv,
+# from WorkingDirectory). Do not add EnvironmentFile= for it: systemd does not understand inline comments in env files the way dotenv does.
 [Unit]
 Description=LLX API (Leather Lux India)
 After=network-online.target postgresql.service
@@ -11,7 +12,7 @@ Wants=network-online.target
 Type=simple
 User=llx
 Group=llx
-WorkingDirectory=/opt/llx/server
+WorkingDirectory=/opt/llx/app/server
 ExecStart=/usr/bin/node dist/index.js
 Restart=always
 RestartSec=3
@@ -22,12 +23,18 @@ TimeoutStopSec=20
 # It only needs to read its own folder and write logs there; no more than that.
 NoNewPrivileges=true
 PrivateTmp=true
+PrivateDevices=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/opt/llx/server/logs
+ReadWritePaths=/opt/llx/app/server/logs
 ProtectKernelTunables=true
+ProtectKernelModules=true
 ProtectControlGroups=true
 RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+CapabilityBoundingSet=
+SystemCallArchitectures=native
 
 [Install]
 WantedBy=multi-user.target

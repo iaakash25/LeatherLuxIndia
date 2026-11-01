@@ -12,6 +12,9 @@ const BASE = (configured ?? (import.meta.env.DEV ? "http://localhost:4000" : PRO
 
 export const apiEnabled = BASE !== "";
 
+/** The API's origin (scheme + host), or "" in guest mode. The storefront's security policy lets the browser talk to exactly this and nothing else. */
+export const API_ORIGIN = (() => { try { return BASE ? new URL(BASE).origin : ""; } catch { return ""; } })();
+
 /** Absolute URL for a path the API returned (e.g. the logo), which is relative to the API origin. */
 export const apiUrl = (path: string) => `${BASE}${path}`;
 
