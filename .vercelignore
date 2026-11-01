@@ -1,9 +1,3 @@
-# The API (server/) is built into the same deployment (scripts/vercel-api.mjs), so its source is uploaded.
-# Its dependencies, logs, tests and any local settings file are not.
-server/node_modules
-server/dist
-server/logs
-server/test
-server/.env
-server/.env.*
-!server/.env.example
+# The API (server/) is deployed to its own server (server/deploy/README.md), never to Vercel.
+# This keeps its code, .env and photos out of any `vercel` CLI upload.
+server

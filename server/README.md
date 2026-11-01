@@ -215,7 +215,7 @@ npm run db:migrate:prod && npm start
 Run it under systemd or pm2 as an unprivileged user; `SIGTERM` drains connections gracefully. In production
 `COOKIE_SECURE` is forced on, and `CORS_ORIGINS` must be `https://` origins.
 
-**The API runs inside the storefront's Vercel deployment, on the same domain (`/api/...`): the whole procedure is in [`deploy/VERCEL.md`](deploy/VERCEL.md).** If you would rather run it on a server of your own, **the procedure for `https://api.leatherluxindia.com` is in [`deploy/README.md`](deploy/README.md)**: DNS and firewall, installing Node and nginx, copying the code and `media/`, the production settings template (`deploy/env.production.example`), the systemd unit (`deploy/llx-api.service`) and the nginx site with a free HTTPS certificate (`deploy/nginx-api.conf`), plus how to update later.
+**For `https://api.leatherluxindia.com` the whole procedure is in [`deploy/README.md`](deploy/README.md)**: DNS and firewall, installing Node and nginx, copying the code and `media/`, the production settings template (`deploy/env.production.example`), the systemd unit (`deploy/llx-api.service`) and the nginx site with a free HTTPS certificate (`deploy/nginx-api.conf`), plus how to update later.
 
 ## 5. Tests
 

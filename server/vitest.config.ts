@@ -29,7 +29,6 @@ export default defineConfig({
       RATE_LIMIT_GLOBAL_PER_MIN: "10000",
       // Pinned like everything else: a developer's server/.env (which may close ordering before launch) must never reach the tests.
       ORDERS_OPEN: "true",
-      RATE_LIMIT_STORE: "memory",
       SHIPPING_FREE_THRESHOLD_INR: "2500",
       SHIPPING_FLAT_INR: "150",
     },

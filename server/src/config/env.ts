@@ -23,8 +23,7 @@ const schema = z.object({
   // Daily log files: <LOG_DIR>/app-YYYY-MM-DD.log (everything) and error-YYYY-MM-DD.log (errors only).
   LOG_TO_FILES: z.enum(["true", "false"]).transform((v) => v === "true").optional(),
   // Product photos (optimised by `npm run products:import`) are served from here at /media.
-  // Lives in the storefront's public/ folder so the same files are served by the hosting CDN in production.
-  MEDIA_DIR: z.string().trim().min(1).default("../public/media"),
+  MEDIA_DIR: z.string().trim().min(1).default("media"),
   LOG_DIR: z.string().trim().min(1).default("logs"),
   LOG_RETENTION_DAYS: int(0, 3650).default(30),
   LOG_TIMEZONE: z.string().trim().refine(validZone, "LOG_TIMEZONE must be an IANA time zone, e.g. Asia/Kolkata").default("Asia/Kolkata"),
@@ -42,8 +41,6 @@ const schema = z.object({
   DB_PASSWORD: z.string().min(1, "DB_PASSWORD is required"),
   DB_SSL_MODE: z.enum(["disable", "require", "verify-full"]).default("verify-full"),
   DB_SSL_CA_PATH: optional,
-  // The database's certificate (or its CA's) as PEM text, for hosting where a file cannot be supplied (Vercel). Line breaks may be written \n.
-  DB_SSL_CA: optional,
   DB_SSL_SERVERNAME: optional,
   DB_POOL_MAX: int(1, 100).default(10),
   DB_POOL_IDLE_MS: int(1000, 600_000).default(30_000),
@@ -61,9 +58,6 @@ const schema = z.object({
 
   CORS_ORIGINS: z.string().default(""),
 
-  // Where the login/register/newsletter/visit request counters live. "memory" is right for ONE long-running process. On Vercel many short-lived
-  // instances run side by side, each with its own memory, so a limit would be per instance and trivially dodged: use "postgres" there.
-  RATE_LIMIT_STORE: z.enum(["memory", "postgres"]).default("memory"),
   RATE_LIMIT_GLOBAL_PER_MIN: int(1, 100_000).default(300),
   RATE_LIMIT_AUTH_PER_15MIN: int(1, 10_000).default(20),
   RATE_LIMIT_NEWSLETTER_PER_HOUR: int(1, 10_000).default(10),
@@ -107,11 +101,8 @@ export function parseEnv(source: NodeJS.ProcessEnv = process.env) {
   if (e.COOKIE_SAMESITE === "none" && !(e.COOKIE_SECURE || isProd)) {
     problems.push("COOKIE_SAMESITE=none requires COOKIE_SECURE=true");
   }
-  if (e.DB_SSL_MODE === "verify-full" && !e.DB_SSL_CA_PATH && !e.DB_SSL_CA && /^[\d.]+$/.test(e.DB_HOST)) {
-    problems.push("DB_SSL_MODE=verify-full with an IP address needs DB_SSL_SERVERNAME (certificate name) and the certificate (DB_SSL_CA or DB_SSL_CA_PATH)");
-  }
-  if (e.DB_SSL_CA && !/-----BEGIN CERTIFICATE-----/.test(e.DB_SSL_CA)) {
-    problems.push("DB_SSL_CA must be a certificate in PEM format (starting with -----BEGIN CERTIFICATE-----)");
+  if (e.DB_SSL_MODE === "verify-full" && !e.DB_SSL_CA_PATH && /^[\d.]+$/.test(e.DB_HOST)) {
+    problems.push("DB_SSL_MODE=verify-full with an IP address needs DB_SSL_SERVERNAME (certificate name) and DB_SSL_CA_PATH");
   }
   if (problems.length) throw new Error(`Unsafe environment configuration:\n${problems.map((p) => `  - ${p}`).join("\n")}`);
 

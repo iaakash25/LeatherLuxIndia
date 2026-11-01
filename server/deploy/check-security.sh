@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 # Checks the LIVE deployment from the outside: HTTPS, security headers, CORS, certificate. Run it from any computer with curl and openssl
 # (Git Bash on Windows is fine), after every deploy:   bash deploy/check-security.sh
-# The API is part of the site (same domain, /api), so API defaults to the main domain. Override if needed:
-#   SITES="https://example.com" API="https://example.com" bash deploy/check-security.sh
+# Override the addresses if needed:   SITES="https://example.com" API="https://api.example.com" bash deploy/check-security.sh
 # Exit status 0 = every check passed.
 
-API="${API:-https://leatherluxindia.com}"
+API="${API:-https://api.leatherluxindia.com}"
 SITES="${SITES:-https://leatherluxindia.com https://www.leatherluxindia.com https://leatherluxindia.in https://www.leatherluxindia.in}"
 failures=0
 

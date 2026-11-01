@@ -1,36 +1,22 @@
 // Thin client for the LLX API (see server/README.md). Auth lives in httpOnly cookies, so every
 // request is sent with credentials and no token ever touches JavaScript.
 
-// Where the API is, decided at build time (so the server and the browser always agree):
-//   VITE_API_URL unset  development: the local API (http://localhost:4000).
-//                       production: THIS site's own /api. The API is part of the same deployment, on the same domain, so there is
-//                       no second address to secure, no CORS, and sign-in cookies work on every domain the site is served from.
-//   VITE_API_URL=<url>  a separate API at that address.
-//   VITE_API_URL=off    no server at all: guest mode (localStorage, built-in catalogue).
 const configured = import.meta.env["VITE_API_URL"] as string | undefined;
-const off = configured === "off";
-const separate = configured && !off ? configured.replace(/\/+$/, "") : undefined;
-/** What the browser puts in front of /api and /media: nothing (same origin), unless the API lives elsewhere. */
-const BASE = separate ?? (import.meta.env.DEV ? "http://localhost:4000" : "");
+/** The public API of the live shop (server/deploy/README.md). It is an address, not a secret. */
+const PRODUCTION_API = "https://api.leatherluxindia.com";
+// VITE_API_URL wins when it is set. Otherwise dev builds use the local API and production builds the live one.
+// Set VITE_API_URL to an EMPTY value for a build with no server at all: the storefront then stays in guest
+// mode (localStorage, built-in catalogue) instead of calling an API. This is read at build time, so server
+// and browser always agree on it.
+const BASE = (configured ?? (import.meta.env.DEV ? "http://localhost:4000" : PRODUCTION_API)).replace(/\/+$/, "");
 
-export const apiEnabled = !off;
+export const apiEnabled = BASE !== "";
 
-/** The API's origin when it is NOT this site, or "" when it is. The storefront's security policy lets the browser talk to exactly this and nothing else. */
+/** The API's origin (scheme + host), or "" in guest mode. The storefront's security policy lets the browser talk to exactly this and nothing else. */
 export const API_ORIGIN = (() => { try { return BASE ? new URL(BASE).origin : ""; } catch { return ""; } })();
 
-/** Address for a path the API returned (the logo, product photos): relative to this site, or to a separate API. */
+/** Absolute URL for a path the API returned (e.g. the logo), which is relative to the API origin. */
 export const apiUrl = (path: string) => `${BASE}${path}`;
-
-/**
- * What to put in front of /api for a request made right now. In the browser a same-origin API needs nothing. Server rendering has no page
- * to be relative to, so it calls this deployment's own public address (SITE_URL, or Vercel's production address).
- */
-function fetchBase(): string {
-  if (BASE || !import.meta.env.SSR) return BASE;
-  const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env ?? {};
-  const site = env["SITE_URL"] ?? (env["VERCEL_PROJECT_PRODUCTION_URL"] ? `https://${env["VERCEL_PROJECT_PRODUCTION_URL"]}` : "");
-  return site.replace(/\/+$/, "");
-}
 
 export class ApiError extends Error {
   constructor(
@@ -48,7 +34,7 @@ type Options = { method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"; body?: un
 
 async function send(path: string, { method = "GET", body, file, headers, timeoutMs }: Options): Promise<Response> {
   try {
-    return await fetch(`${fetchBase()}/api${path}`, {
+    return await fetch(`${BASE}/api${path}`, {
       method,
       credentials: "include",
       headers: { ...(file ? { "Content-Type": file.type } : body === undefined ? {} : { "Content-Type": "application/json" }), ...headers },
