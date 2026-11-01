@@ -9,7 +9,7 @@ let pool: pg.Pool | undefined;
 function sslConfig(): pg.ConnectionConfig["ssl"] {
   const e = env();
   if (e.DB_SSL_MODE === "disable") return false;
-  const ca = e.DB_SSL_CA_PATH ? fs.readFileSync(e.DB_SSL_CA_PATH, "utf8") : undefined;
+  const ca = e.DB_SSL_CA ? e.DB_SSL_CA.replace(/\\n/g, "\n") : e.DB_SSL_CA_PATH ? fs.readFileSync(e.DB_SSL_CA_PATH, "utf8") : undefined;
   return {
     // `require` encrypts but does not authenticate the server (typical self-signed EC2 cert).
     // `verify-full` authenticates the certificate chain and the hostname.
@@ -24,7 +24,7 @@ export function getPool(): pg.Pool {
   if (pool) return pool;
   const e = env();
   if (e.DB_SSL_MODE === "require") {
-    logger.warn("DB_SSL_MODE=require: traffic to Postgres is encrypted but the server is not verified. Use verify-full with DB_SSL_CA_PATH.");
+    logger.warn("DB_SSL_MODE=require: traffic to Postgres is encrypted but the server is not verified. Use verify-full with DB_SSL_CA (or DB_SSL_CA_PATH).");
   }
   pool = new pg.Pool({
     host: e.DB_HOST,

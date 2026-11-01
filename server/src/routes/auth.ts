@@ -44,9 +44,12 @@ const publicUser = (u: Pick<UserRow, "id" | "email" | "username" | "name" | "rol
   ({ id: u.id, email: u.email, username: u.username, name: u.name, role: u.role, mustChangePassword: u.must_change_password });
 
 export const authRouter = Router();
-authRouter.use(authLimiter());
+// The strict limit is for routes where someone can GUESS credentials: registering, logging in, changing a password. Checking "am I signed in?"
+// (/me) and renewing a session (/refresh, whose token is 256 random bits) happen on every page view of every visitor; counting them here would
+// use up a visitor's (or a whole office's) login attempts just by browsing. They are still covered by the global per-address limit.
+const guessing = authLimiter();
 
-authRouter.post("/register", async (req, res) => {
+authRouter.post("/register", guessing, async (req, res) => {
   const body = registerSchema.parse(req.body);
   const hash = await hashPassword(body.password);
   let row: UserRow;
@@ -65,7 +68,7 @@ authRouter.post("/register", async (req, res) => {
   res.status(201).json({ user: publicUser(row) });
 });
 
-authRouter.post("/login", async (req, res) => {
+authRouter.post("/login", guessing, async (req, res) => {
   const body = loginSchema.parse(req.body);
   const who = (body.identifier ?? body.email)!;
   const password = body.password;
@@ -162,7 +165,7 @@ authRouter.post("/logout-all", requireAuth, async (req, res) => {
   res.status(204).end();
 });
 
-authRouter.post("/change-password", requireAuth, async (req, res) => {
+authRouter.post("/change-password", guessing, requireAuth, async (req, res) => {
   const u = me(req);
   const body = changePasswordSchema.parse(req.body);
   if (body.newPassword === body.currentPassword) throw badRequest("Choose a new password, different from the current one.");
