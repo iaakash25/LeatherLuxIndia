@@ -1,0 +1,109 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "API: dev",
+      "detail": "Express API on http://localhost:4000 (reloads on save). Needs server/.env and the database.",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "isBackground": true,
+      "presentation": { "group": "llx", "panel": "dedicated", "reveal": "always" },
+      "problemMatcher": {
+        "owner": "llx-api",
+        "pattern": { "regexp": "^__never_matches__$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "__never_matches__",
+          "endsPattern": "LLX API listening|Cannot reach Postgres"
+        }
+      }
+    },
+    {
+      "label": "Storefront: dev",
+      "detail": "Vite dev server on http://localhost:5173 (a fixed port, which the API allows).",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "dev", "--", "--port", "5173", "--strictPort"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "presentation": { "group": "llx", "panel": "dedicated", "reveal": "always" },
+      "problemMatcher": {
+        "owner": "llx-storefront",
+        "pattern": { "regexp": "^__never_matches__$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "__never_matches__",
+          "endsPattern": "Local:|already in use"
+        }
+      }
+    },
+    {
+      "label": "Start LLX (API + storefront)",
+      "detail": "Runs both servers side by side. Press Ctrl+Shift+B.",
+      "dependsOn": ["API: dev", "Storefront: dev"],
+      "dependsOrder": "parallel",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "API: check database connection",
+      "detail": "Connects to the Postgres in server/.env and reports the role and whether TLS is on.",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "db:check"],
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "presentation": { "panel": "shared", "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "API: tests",
+      "detail": "59 tests against a throw-away local Postgres (never touches your EC2 database).",
+      "type": "shell",
+      "command": "npm",
+      "args": ["test"],
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "group": "test",
+      "presentation": { "panel": "shared", "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Storefront: tests",
+      "type": "shell",
+      "command": "npm",
+      "args": ["test"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "test",
+      "presentation": { "panel": "shared", "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Typecheck: storefront",
+      "type": "shell",
+      "command": "npx",
+      "args": ["tsc", "--noEmit", "-p", "tsconfig.json"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "panel": "shared", "reveal": "silent" },
+      "problemMatcher": "$tsc"
+    },
+    {
+      "label": "Typecheck: API",
+      "type": "shell",
+      "command": "npx",
+      "args": ["tsc", "--noEmit"],
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "presentation": { "panel": "shared", "reveal": "silent" },
+      "problemMatcher": {
+        "base": "$tsc",
+        "fileLocation": ["relative", "${workspaceFolder}/server"]
+      }
+    },
+    {
+      "label": "Typecheck: all",
+      "dependsOn": ["Typecheck: storefront", "Typecheck: API"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    }
+  ]
+}

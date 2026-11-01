@@ -1,0 +1,33 @@
+# systemd unit for the LLX API. Install: sudo cp llx-api.service /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now llx-api
+#
+# Settings come from /opt/llx/server/.env, which the app reads itself (dotenv, from WorkingDirectory).
+# Do not add EnvironmentFile= for it: systemd does not understand inline comments in env files the way dotenv does.
+[Unit]
+Description=LLX API (Leather Lux India)
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=llx
+Group=llx
+WorkingDirectory=/opt/llx/server
+ExecStart=/usr/bin/node dist/index.js
+Restart=always
+RestartSec=3
+# The API drains open connections on SIGTERM.
+KillSignal=SIGTERM
+TimeoutStopSec=20
+
+# It only needs to read its own folder and write logs there; no more than that.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/llx/server/logs
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,43 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API (debug)",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/server",
+      "program": "${workspaceFolder}/server/src/index.ts",
+      "runtimeArgs": ["--import", "tsx"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/server/node_modules/**"]
+    },
+    {
+      "name": "Storefront in Edge",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "Storefront: dev"
+    },
+    {
+      "name": "Storefront in Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "Storefront: dev"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "LLX: API + storefront (Edge)",
+      "configurations": ["API (debug)", "Storefront in Edge"],
+      "stopAll": true
+    },
+    {
+      "name": "LLX: API + storefront (Chrome)",
+      "configurations": ["API (debug)", "Storefront in Chrome"],
+      "stopAll": true
+    }
+  ]
+}

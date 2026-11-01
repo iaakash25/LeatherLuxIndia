@@ -1,0 +1,208 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Bodoni Moda", "Didot", Georgia, serif;
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: 0px;
+  --radius-md: 1px;
+  --radius-lg: 2px;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ink: var(--ink);
+  --color-chalk: var(--chalk);
+  --color-paper: var(--paper);
+  --color-oxblood: var(--oxblood);
+  --color-brass: var(--brass);
+  --color-hairline: var(--hairline);
+}
+
+:root {
+  --ink: oklch(0.205 0.003 145);          /* #171817 */
+  --chalk: oklch(0.963 0.007 85);         /* #F4F2ED */
+  --paper: oklch(1 0 0);
+  --oxblood: oklch(0.375 0.085 6);        /* #642F3B */
+  --brass: oklch(0.645 0.048 72);         /* #A58B68 */
+  --hairline: oklch(0.205 0.003 145 / 0.12);
+
+  --radius: 0px;
+  --background: var(--chalk);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--chalk);
+  --secondary: var(--paper);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.93 0.008 85);
+  --muted-foreground: oklch(0.45 0.005 145);
+  --accent: var(--oxblood);
+  --accent-foreground: var(--chalk);
+  --destructive: oklch(0.5 0.17 25);
+  --destructive-foreground: var(--chalk);
+  --border: var(--hairline);
+  --input: oklch(0.205 0.003 145 / 0.25);
+  --ring: var(--oxblood);
+
+  --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 0.25s;
+  --dur-base: 0.5s;
+  --dur-slow: 0.9s;
+  --shadow-drawer: -30px 0 60px -20px oklch(0.205 0.003 145 / 0.25);
+  --scrim-hero: linear-gradient(90deg, oklch(0.15 0 0 / 0.72) 0%, oklch(0.15 0 0 / 0.25) 55%, transparent 100%);
+  --scrim-bottom: linear-gradient(0deg, oklch(0.15 0 0 / 0.65) 0%, transparent 60%);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html {
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+    /* Keep the scrollbar's space reserved, so locking the page behind a drawer doesn't make everything jump sideways. */
+    scrollbar-gutter: stable;
+    /* Anchor links and focus land below the sticky header, not under it. */
+    scroll-padding-top: 6.5rem;
+  }
+  @media (min-width: 1024px) { html { scroll-padding-top: 10.5rem; } }
+  /* Scrolling a drawer's list must not drag the page behind it. */
+  [role="dialog"] .overflow-y-auto { overscroll-behavior: contain; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01";
+  }
+  :focus-visible { outline: 1.5px solid var(--oxblood); outline-offset: 3px; }
+  ::selection { background: var(--oxblood); color: var(--chalk); }
+}
+
+@utility font-display { font-family: var(--font-display); font-optical-sizing: auto; }
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@utility link-line {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.5s var(--ease-lux);
+  &:hover { background-size: 100% 1px; }
+}
+
+@utility btn-ink {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  height: 3.25rem; padding: 0 2rem;
+  background: var(--ink); color: var(--chalk);
+  font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500;
+  transition: background-color 0.35s var(--ease-lux), color 0.35s var(--ease-lux), border-color 0.35s var(--ease-lux), transform 0.2s var(--ease-lux), opacity 0.3s;
+  &:hover { background: var(--oxblood); }
+  &:active:not(:disabled) { transform: scale(0.985); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+@utility btn-outline {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  height: 3.25rem; padding: 0 2rem;
+  border: 1px solid currentColor; color: inherit;
+  font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500;
+  transition: background-color 0.35s var(--ease-lux), color 0.35s var(--ease-lux), border-color 0.35s var(--ease-lux), transform 0.2s var(--ease-lux);
+  &:hover { background: var(--ink); color: var(--chalk); border-color: var(--ink); }
+  &:active:not(:disabled) { transform: scale(0.985); }
+}
+
+@utility btn-chalk {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  height: 3.25rem; padding: 0 2rem;
+  background: var(--chalk); color: var(--ink);
+  font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500;
+  transition: background-color 0.35s var(--ease-lux), color 0.35s var(--ease-lux), transform 0.2s var(--ease-lux);
+  &:hover { background: var(--oxblood); color: var(--chalk); }
+  &:active:not(:disabled) { transform: scale(0.985); }
+}
+
+@utility field {
+  height: 3rem; width: 100%; padding: 0 1rem;
+  background: transparent; border: 1px solid var(--input);
+  font-size: 0.875rem;
+  transition: border-color 0.25s var(--ease-lux);
+  &:focus { outline: none; border-color: var(--ink); }
+}
+
+@utility scrim-hero { background: var(--scrim-hero); }
+@utility scrim-bottom { background: var(--scrim-bottom); }
+@utility shadow-drawer { box-shadow: var(--shadow-drawer); }
+@utility ease-lux { transition-timing-function: var(--ease-lux); }
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* Scroll reveal. Only hidden when scripts can run, so the page is never blank without JavaScript. */
+@media (scripting: enabled) {
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-slow) var(--ease-lux), transform var(--dur-slow) var(--ease-lux); }
+  .reveal.is-visible { opacity: 1; transform: none; }
+}
+
+@keyframes hero-zoom { from { transform: scale(1.08); } to { transform: scale(1); } }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+/* Only the start is given, so the image fades up to whatever opacity its own classes (e.g. hover) say. */
+@keyframes img-in { from { opacity: 0; } }
+.anim-hero-img { animation: hero-zoom 2.4s var(--ease-lux) both; }
+.anim-rise { animation: rise 1.1s var(--ease-lux) both; }
+.anim-fade { animation: fade-in 0.4s var(--ease-lux) both; }
+.anim-img-in { animation: img-in 0.7s var(--ease-lux) backwards; }
+
+@keyframes marquee { to { transform: translateX(-50%); } }
+.anim-marquee { animation: marquee 40s linear infinite; }
+
+/* Page-to-page transitions (View Transitions API; browsers without it simply navigate). The header stays put. */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.35s; animation-timing-function: var(--ease-lux); }
+.site-header { view-transition-name: site-header; }
+::view-transition-group(site-header) { animation-duration: 0s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .anim-marquee { animation: none !important; } /* an endless loop at 0.001ms would flicker, not rest */
+  .reveal { opacity: 1; transform: none; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}
+
+input[type="range"].range { -webkit-appearance: none; appearance: none; background: transparent; pointer-events: none; position: absolute; inset: 0; width: 100%; }
+input[type="range"].range::-webkit-slider-thumb { -webkit-appearance: none; pointer-events: auto; width: 16px; height: 16px; border-radius: 9999px; background: var(--ink); border: 3px solid var(--chalk); box-shadow: 0 0 0 1px var(--ink); cursor: pointer; }
+input[type="range"].range::-moz-range-thumb { pointer-events: auto; width: 12px; height: 12px; border-radius: 9999px; background: var(--ink); border: 3px solid var(--chalk); cursor: pointer; }

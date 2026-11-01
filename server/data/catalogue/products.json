@@ -1,0 +1,4661 @@
+[
+ {
+  "sku": "LLI-WAL-001",
+  "slug": "duo-bifold-wallet-ink-and-oxblood",
+  "name": "Duo Bifold Wallet — Ink & Oxblood",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Ink",
+   "Oxblood"
+  ],
+  "priceInr": 2290,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a two-tone body: ink leather over an oxblood base panel, finished with fine grooved lines.",
+  "description": "A men's bifold wallet cut from soft genuine leather in ink & oxblood, with a two-tone body: ink leather over an oxblood base panel, finished with fine grooved lines. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "two-tone"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3050.JPG",
+    "n": 3050,
+    "label": "Front",
+    "md5": "b4471712ad"
+   },
+   {
+    "file": "Wallets/4K5A3057.JPG",
+    "n": 3057,
+    "label": "Open view",
+    "md5": "5b01b1575f"
+   },
+   {
+    "file": "Wallets/4K5A3059.JPG",
+    "n": 3059,
+    "label": "Side view",
+    "md5": "bd7e31e1fc"
+   },
+   {
+    "file": "Wallets/4K5A3061.JPG",
+    "n": 3061,
+    "label": "Back",
+    "md5": "23dc453626"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-002",
+  "slug": "duo-bifold-wallet-tan-and-oxblood",
+  "name": "Duo Bifold Wallet — Tan & Oxblood",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Tan",
+   "Oxblood"
+  ],
+  "priceInr": 2290,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a two-tone body: tan leather over an oxblood base panel.",
+  "description": "A men's bifold wallet cut from soft genuine leather in tan & oxblood, with a two-tone body: tan leather over an oxblood base panel. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "two-tone"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3062.JPG",
+    "n": 3062,
+    "label": "Front",
+    "md5": "58d35ba627"
+   },
+   {
+    "file": "Wallets/4K5A3063.JPG",
+    "n": 3063,
+    "label": "Open view",
+    "md5": "66e149e705"
+   },
+   {
+    "file": "Wallets/4K5A3064.JPG",
+    "n": 3064,
+    "label": "Side view",
+    "md5": "93c92a372f"
+   },
+   {
+    "file": "Wallets/4K5A3065.JPG",
+    "n": 3065,
+    "label": "Back",
+    "md5": "b72c8ade9c"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-003",
+  "slug": "duo-bifold-wallet-oxblood-and-ink",
+  "name": "Duo Bifold Wallet — Oxblood & Ink",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Oxblood",
+   "Ink"
+  ],
+  "priceInr": 2290,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a two-tone body: oxblood leather over an ink base panel, with fine grooved lines.",
+  "description": "A men's bifold wallet cut from soft genuine leather in oxblood & ink, with a two-tone body: oxblood leather over an ink base panel, with fine grooved lines. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "two-tone"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3156.JPG",
+    "n": 3156,
+    "label": "Front",
+    "md5": "7fd0c8ae46"
+   },
+   {
+    "file": "Wallets/4K5A3158.JPG",
+    "n": 3158,
+    "label": "Open view",
+    "md5": "cc99abc204"
+   },
+   {
+    "file": "Wallets/4K5A3159.JPG",
+    "n": 3159,
+    "label": "Side view",
+    "md5": "414d4c472e"
+   },
+   {
+    "file": "Wallets/4K5A3161.JPG",
+    "n": 3161,
+    "label": "Back",
+    "md5": "647ac67934"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-004",
+  "slug": "classico-bifold-wallet-navy",
+  "name": "Classico Bifold Wallet — Navy",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Navy"
+  ],
+  "priceInr": 1990,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a clean, pebbled-leather front.",
+  "description": "A men's bifold wallet cut from soft genuine leather in navy, with a clean, pebbled-leather front. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark. Includes a see-through ID window and a zipped coin pocket.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "classic"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3066.JPG",
+    "n": 3066,
+    "label": "Front",
+    "md5": "dc640601e2"
+   },
+   {
+    "file": "Wallets/4K5A3067.JPG",
+    "n": 3067,
+    "label": "Open view",
+    "md5": "ec3a71a270"
+   },
+   {
+    "file": "Wallets/4K5A3068.JPG",
+    "n": 3068,
+    "label": "Side view",
+    "md5": "87c851cd13"
+   },
+   {
+    "file": "Wallets/4K5A3069.JPG",
+    "n": 3069,
+    "label": "Back",
+    "md5": "3f7fe52d18"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-005",
+  "slug": "classico-bifold-wallet-tan",
+  "name": "Classico Bifold Wallet — Tan",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 1990,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a clean, pebbled-leather front.",
+  "description": "A men's bifold wallet cut from soft genuine leather in tan, with a clean, pebbled-leather front. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "classic"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3110.JPG",
+    "n": 3110,
+    "label": "Front",
+    "md5": "42a6a45a77"
+   },
+   {
+    "file": "Wallets/4K5A3112.JPG",
+    "n": 3112,
+    "label": "Open view",
+    "md5": "89eebcc55c"
+   },
+   {
+    "file": "Wallets/4K5A3113.JPG",
+    "n": 3113,
+    "label": "Side view",
+    "md5": "a12e1fdcb4"
+   },
+   {
+    "file": "Wallets/4K5A3114.JPG",
+    "n": 3114,
+    "label": "Back",
+    "md5": "c4e027cd3e"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-006",
+  "slug": "classico-bifold-wallet-olive",
+  "name": "Classico Bifold Wallet — Olive",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Olive"
+  ],
+  "priceInr": 1990,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a clean, deeply pebbled front.",
+  "description": "A men's bifold wallet cut from soft genuine leather in olive, with a clean, deeply pebbled front. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "classic"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3152.JPG",
+    "n": 3152,
+    "label": "Front",
+    "md5": "02b84bab14"
+   },
+   {
+    "file": "Wallets/4K5A3153.JPG",
+    "n": 3153,
+    "label": "Open view",
+    "md5": "43ffb61c78"
+   },
+   {
+    "file": "Wallets/4K5A3154.JPG",
+    "n": 3154,
+    "label": "Side view",
+    "md5": "b390dc1c0f"
+   },
+   {
+    "file": "Wallets/4K5A3155.JPG",
+    "n": 3155,
+    "label": "Back",
+    "md5": "df46f9e374"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-007",
+  "slug": "classico-bifold-wallet-ink",
+  "name": "Classico Bifold Wallet — Ink",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 1990,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a tonal lower band on a pebbled ink front.",
+  "description": "A men's bifold wallet cut from soft genuine leather in ink, with a tonal lower band on a pebbled ink front. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "classic"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3080.JPG",
+    "n": 3080,
+    "label": "Front",
+    "md5": "013359250f"
+   },
+   {
+    "file": "Wallets/4K5A3084.JPG",
+    "n": 3084,
+    "label": "Open view",
+    "md5": "01e86842f4"
+   },
+   {
+    "file": "Wallets/4K5A3085.JPG",
+    "n": 3085,
+    "label": "Side view",
+    "md5": "016a701fd2"
+   },
+   {
+    "file": "Wallets/4K5A3086.JPG",
+    "n": 3086,
+    "label": "Back",
+    "md5": "7a44ac0412"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-008",
+  "slug": "ventaglio-bifold-wallet-tan",
+  "name": "Ventaglio Bifold Wallet — Tan",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 2490,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a smooth finish and fanned card slots that keep every card in view.",
+  "description": "A men's bifold wallet cut from soft genuine leather in tan, with a smooth finish and fanned card slots that keep every card in view. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "fan card slots"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3087.JPG",
+    "n": 3087,
+    "label": "Front",
+    "md5": "b31df9fc94"
+   },
+   {
+    "file": "Wallets/4K5A3091.JPG",
+    "n": 3091,
+    "label": "Open view",
+    "md5": "faee4f262c"
+   },
+   {
+    "file": "Wallets/4K5A3092.JPG",
+    "n": 3092,
+    "label": "Side view",
+    "md5": "5c0c419e81"
+   },
+   {
+    "file": "Wallets/4K5A3094.JPG",
+    "n": 3094,
+    "label": "Back",
+    "md5": "0cf2eb0bf0"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-009",
+  "slug": "ventaglio-bifold-wallet-ink",
+  "name": "Ventaglio Bifold Wallet — Ink",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 2490,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a smooth finish with fine grooves and fanned card slots.",
+  "description": "A men's bifold wallet cut from soft genuine leather in ink, with a smooth finish with fine grooves and fanned card slots. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "fan card slots"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3103.JPG",
+    "n": 3103,
+    "label": "Front",
+    "md5": "d0a86c9beb"
+   },
+   {
+    "file": "Wallets/4K5A3104.JPG",
+    "n": 3104,
+    "label": "Open view",
+    "md5": "ee6808d211"
+   },
+   {
+    "file": "Wallets/4K5A3106.JPG",
+    "n": 3106,
+    "label": "Side view",
+    "md5": "c4e7e9ef62"
+   },
+   {
+    "file": "Wallets/4K5A3109.JPG",
+    "n": 3109,
+    "label": "Back",
+    "md5": "e7ab4111f1"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-010",
+  "slug": "perla-bifold-wallet-ink",
+  "name": "Perla Bifold Wallet — Ink",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 2390,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a perforated dot-pattern panel across the front.",
+  "description": "A men's bifold wallet cut from soft genuine leather in ink, with a perforated dot-pattern panel across the front. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "textured"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3071.JPG",
+    "n": 3071,
+    "label": "Front",
+    "md5": "ca13eefa7f"
+   },
+   {
+    "file": "Wallets/4K5A3072.JPG",
+    "n": 3072,
+    "label": "Open view",
+    "md5": "5b2d631cb0"
+   },
+   {
+    "file": "Wallets/4K5A3073.JPG",
+    "n": 3073,
+    "label": "Side view",
+    "md5": "f6e75f917c"
+   },
+   {
+    "file": "Wallets/4K5A3074.JPG",
+    "n": 3074,
+    "label": "Back",
+    "md5": "57dd41bb2e"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-011",
+  "slug": "perla-bifold-wallet-tan",
+  "name": "Perla Bifold Wallet — Tan",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 2390,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a perforated dot-pattern upper panel above a smooth band.",
+  "description": "A men's bifold wallet cut from soft genuine leather in tan, with a perforated dot-pattern upper panel above a smooth band. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "textured"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3097.JPG",
+    "n": 3097,
+    "label": "Front",
+    "md5": "bc63153919"
+   },
+   {
+    "file": "Wallets/4K5A3098.JPG",
+    "n": 3098,
+    "label": "Open view",
+    "md5": "eeb770a82d"
+   },
+   {
+    "file": "Wallets/4K5A3099.JPG",
+    "n": 3099,
+    "label": "Side view",
+    "md5": "9cb03d6c6f"
+   },
+   {
+    "file": "Wallets/4K5A3101.JPG",
+    "n": 3101,
+    "label": "Back",
+    "md5": "1c53ecf5a6"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-012",
+  "slug": "puntino-bifold-wallet-espresso",
+  "name": "Puntino Bifold Wallet — Espresso",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 2390,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a pebbled body, a perforated base band and fanned card slots.",
+  "description": "A men's bifold wallet cut from soft genuine leather in espresso, with a pebbled body, a perforated base band and fanned card slots. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "textured",
+   "fan card slots"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3124.JPG",
+    "n": 3124,
+    "label": "Front",
+    "md5": "49c87cb668"
+   },
+   {
+    "file": "Wallets/4K5A3126.JPG",
+    "n": 3126,
+    "label": "Open view",
+    "md5": "1dddb51e95"
+   },
+   {
+    "file": "Wallets/4K5A3127.JPG",
+    "n": 3127,
+    "label": "Side view",
+    "md5": "99bff040fa"
+   },
+   {
+    "file": "Wallets/4K5A3128.JPG",
+    "n": 3128,
+    "label": "Back",
+    "md5": "f4540099a5"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-013",
+  "slug": "puntino-bifold-wallet-ink",
+  "name": "Puntino Bifold Wallet — Ink",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 2390,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a pebbled body with a perforated side panel and fanned card slots.",
+  "description": "A men's bifold wallet cut from soft genuine leather in ink, with a pebbled body with a perforated side panel and fanned card slots. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "textured",
+   "fan card slots"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3130.JPG",
+    "n": 3130,
+    "label": "Front",
+    "md5": "19f802b484"
+   },
+   {
+    "file": "Wallets/4K5A3132.JPG",
+    "n": 3132,
+    "label": "Open view",
+    "md5": "474fed2b90"
+   },
+   {
+    "file": "Wallets/4K5A3133.JPG",
+    "n": 3133,
+    "label": "Side view",
+    "md5": "8aeb76d520"
+   },
+   {
+    "file": "Wallets/4K5A3135.JPG",
+    "n": 3135,
+    "label": "Back",
+    "md5": "c3f9972e73"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-014",
+  "slug": "banda-bifold-wallet-navy",
+  "name": "Banda Bifold Wallet — Navy",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Navy"
+  ],
+  "priceInr": 2190,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a stitched band across the base.",
+  "description": "A men's bifold wallet cut from soft genuine leather in navy, with a stitched band across the base. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "stitched band"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3075.JPG",
+    "n": 3075,
+    "label": "Front",
+    "md5": "e32e81a514"
+   },
+   {
+    "file": "Wallets/4K5A3076.JPG",
+    "n": 3076,
+    "label": "Open view",
+    "md5": "2dbc37ed9e"
+   },
+   {
+    "file": "Wallets/4K5A3077.JPG",
+    "n": 3077,
+    "label": "Side view",
+    "md5": "85deb68848"
+   },
+   {
+    "file": "Wallets/4K5A3079.JPG",
+    "n": 3079,
+    "label": "Back",
+    "md5": "277bccde79"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-015",
+  "slug": "banda-bifold-wallet-tan",
+  "name": "Banda Bifold Wallet — Tan",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 2190,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a tan stitched band across the base.",
+  "description": "A men's bifold wallet cut from soft genuine leather in tan, with a tan stitched band across the base. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "stitched band"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3137.JPG",
+    "n": 3137,
+    "label": "Front",
+    "md5": "b14deabbbc"
+   },
+   {
+    "file": "Wallets/4K5A3138.JPG",
+    "n": 3138,
+    "label": "Open view",
+    "md5": "88b544eede"
+   },
+   {
+    "file": "Wallets/4K5A3139.JPG",
+    "n": 3139,
+    "label": "Side view",
+    "md5": "121f6bd2c4"
+   },
+   {
+    "file": "Wallets/4K5A3141.JPG",
+    "n": 3141,
+    "label": "Back",
+    "md5": "259640f9f3"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-016",
+  "slug": "banda-bifold-wallet-olive",
+  "name": "Banda Bifold Wallet — Olive",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Olive"
+  ],
+  "priceInr": 2190,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a pebbled body and a stitched band across the base.",
+  "description": "A men's bifold wallet cut from soft genuine leather in olive, with a pebbled body and a stitched band across the base. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "stitched band"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3142.JPG",
+    "n": 3142,
+    "label": "Front",
+    "md5": "f8be30f827"
+   },
+   {
+    "file": "Wallets/4K5A3143.JPG",
+    "n": 3143,
+    "label": "Open view",
+    "md5": "8616f50ea2"
+   },
+   {
+    "file": "Wallets/4K5A3144.JPG",
+    "n": 3144,
+    "label": "Side view",
+    "md5": "378684334b"
+   },
+   {
+    "file": "Wallets/4K5A3145.JPG",
+    "n": 3145,
+    "label": "Back",
+    "md5": "13fa1ee231"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-017",
+  "slug": "banda-bifold-wallet-espresso",
+  "name": "Banda Bifold Wallet — Espresso",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 2190,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a two-tone espresso finish with a stitched band.",
+  "description": "A men's bifold wallet cut from soft genuine leather in espresso, with a two-tone espresso finish with a stitched band. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "stitched band"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3146.JPG",
+    "n": 3146,
+    "label": "Front",
+    "md5": "0646836c21"
+   },
+   {
+    "file": "Wallets/4K5A3148.JPG",
+    "n": 3148,
+    "label": "Open view",
+    "md5": "690963e59d"
+   },
+   {
+    "file": "Wallets/4K5A3149.JPG",
+    "n": 3149,
+    "label": "Side view",
+    "md5": "c874a35eaf"
+   },
+   {
+    "file": "Wallets/4K5A3151.JPG",
+    "n": 3151,
+    "label": "Back",
+    "md5": "9948d44e88"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-018",
+  "slug": "vista-bifold-wallet-burnt-orange",
+  "name": "Vista Bifold Wallet — Burnt Orange",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 2690,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a bright, smooth finish and a see-through ID window.",
+  "description": "A men's bifold wallet cut from soft genuine leather in burnt orange, with a bright, smooth finish and a see-through ID window. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark. A clear ID window sits alongside the card slots.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "ID window"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3115.JPG",
+    "n": 3115,
+    "label": "Front",
+    "md5": "ad45cae4a0"
+   },
+   {
+    "file": "Wallets/4K5A3116.JPG",
+    "n": 3116,
+    "label": "Open view",
+    "md5": "dcf5a5fadf"
+   },
+   {
+    "file": "Wallets/4K5A3118.JPG",
+    "n": 3118,
+    "label": "Side view",
+    "md5": "693382d0d8"
+   },
+   {
+    "file": "Wallets/4K5A3119.JPG",
+    "n": 3119,
+    "label": "Back",
+    "md5": "0db128194d"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-WAL-019",
+  "slug": "vista-bifold-wallet-antique-oxblood",
+  "name": "Vista Bifold Wallet — Antique Oxblood",
+  "type": "Wallets",
+  "gender": "men",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 2790,
+  "material": "Genuine leather, leather lining",
+  "tagline": "A slim bifold in a hand-rubbed antique finish and a see-through ID window.",
+  "description": "A men's bifold wallet cut from soft genuine leather in antique oxblood, with a hand-rubbed antique finish and a see-through ID window. Inside: a coin pocket, several card slots and a full-length note section. Embossed with the LLI mark. The distressed finish develops character with use.",
+  "tags": [
+   "bifold",
+   "coin pocket",
+   "card slots",
+   "gift for him",
+   "ID window",
+   "antique finish"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 12,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Wallets",
+  "images": [
+   {
+    "file": "Wallets/4K5A3120.JPG",
+    "n": 3120,
+    "label": "Front",
+    "md5": "226d602254"
+   },
+   {
+    "file": "Wallets/4K5A3121.JPG",
+    "n": 3121,
+    "label": "Open view",
+    "md5": "b8f75c9604"
+   },
+   {
+    "file": "Wallets/4K5A3122.JPG",
+    "n": 3122,
+    "label": "Side view",
+    "md5": "21b9ee41e5"
+   },
+   {
+    "file": "Wallets/4K5A3123.JPG",
+    "n": 3123,
+    "label": "Back",
+    "md5": "eb85263a96"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-CRD-001",
+  "slug": "sable-card-wallet-hunter-brown",
+  "name": "Sable Card Wallet — Hunter Brown",
+  "type": "Card Cases",
+  "gender": "unisex",
+  "colours": [
+   "Hunter"
+  ],
+  "priceInr": 1490,
+  "material": "Hunter (crazy-horse style) leather",
+  "tagline": "A slim card wallet in rugged hunter leather.",
+  "description": "A vertical, slim card wallet in rugged hunter-brown leather with contrast stitching, an embossed horse and the LLI mark, and a leaf motif inside. Several card slots and a full-height centre pocket keep it flat in a pocket.",
+  "tags": [
+   "card wallet",
+   "slim",
+   "rugged",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 15,
+  "reorderLevel": 5,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Credit & Debit Card Holder",
+  "images": [
+   {
+    "file": "Credit & Debit Card Holder/4K5A3246.JPG",
+    "n": 3246,
+    "label": "Front",
+    "md5": "081461e5dc"
+   },
+   {
+    "file": "Credit & Debit Card Holder/4K5A3247.JPG",
+    "n": 3247,
+    "label": "Open view",
+    "md5": "19ead9fd00"
+   },
+   {
+    "file": "Credit & Debit Card Holder/4K5A3248.JPG",
+    "n": 3248,
+    "label": "Open view",
+    "md5": "a0e9126284"
+   },
+   {
+    "file": "Credit & Debit Card Holder/4K5A3253.JPG",
+    "n": 3253,
+    "label": "Open view",
+    "md5": "63767bff15"
+   },
+   {
+    "file": "Credit & Debit Card Holder/4K5A3252.JPG",
+    "n": 3252,
+    "label": "Back",
+    "md5": "a475914506"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-CRD-002",
+  "slug": "sable-id-card-case-hunter-brown",
+  "name": "Sable ID Card Case — Hunter Brown",
+  "type": "Card Cases",
+  "gender": "unisex",
+  "colours": [
+   "Hunter"
+  ],
+  "priceInr": 1290,
+  "material": "Hunter (crazy-horse style) leather",
+  "tagline": "A compact card case with a clear ID window.",
+  "description": "A compact card case in hunter-brown leather with a see-through ID window on the front and card slots behind it, stitched in a contrast thread.",
+  "tags": [
+   "card case",
+   "ID window",
+   "slim",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 15,
+  "reorderLevel": 5,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Credit & Debit Card Holder",
+  "images": [
+   {
+    "file": "Credit & Debit Card Holder/4K5A3250.JPG",
+    "n": 3250,
+    "label": "ID window",
+    "md5": "ea836c5841"
+   },
+   {
+    "file": "Credit & Debit Card Holder/4K5A3254.JPG",
+    "n": 3254,
+    "label": "ID window",
+    "md5": "e2d0fad598"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-PSP-001",
+  "slug": "voyage-passport-holder-tan",
+  "name": "Voyage Passport Holder — Tan",
+  "type": "Passport Holders",
+  "gender": "unisex",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 2490,
+  "material": "Vegetable-tanned leather",
+  "tagline": "Passport, cards and ID in one snap-closed fold.",
+  "description": "A tan leather passport holder that closes with a snap strap. Inside: a full-height passport pocket, card slots and a see-through ID window — everything for the check-in desk in one place.",
+  "tags": [
+   "passport",
+   "travel",
+   "snap strap",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 3,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Passport Wallet",
+  "images": [
+   {
+    "file": "Passport Wallet/4K5A3233.JPG",
+    "n": 3233,
+    "label": "Front",
+    "md5": "f2f3ca09fb"
+   },
+   {
+    "file": "Passport Wallet/4K5A3242.JPG",
+    "n": 3242,
+    "label": "Front",
+    "md5": "0456b7e236"
+   },
+   {
+    "file": "Passport Wallet/4K5A3235.JPG",
+    "n": 3235,
+    "label": "Open view",
+    "md5": "439787b336"
+   },
+   {
+    "file": "Passport Wallet/4K5A3237.JPG",
+    "n": 3237,
+    "label": "Open view",
+    "md5": "976dab07ad"
+   },
+   {
+    "file": "Passport Wallet/4K5A3236.JPG",
+    "n": 3236,
+    "label": "Side view",
+    "md5": "d5f64d11be"
+   },
+   {
+    "file": "Passport Wallet/4K5A3241.JPG",
+    "n": 3241,
+    "label": "Back",
+    "md5": "40986188aa"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-PSP-002",
+  "slug": "voyage-passport-holder-russet",
+  "name": "Voyage Passport Holder — Russet",
+  "type": "Passport Holders",
+  "gender": "unisex",
+  "colours": [
+   "Cognac"
+  ],
+  "priceInr": 2490,
+  "material": "Vegetable-tanned leather",
+  "tagline": "The Voyage in a deeper russet.",
+  "description": "The Voyage passport holder in a deeper russet leather, with a passport pocket, card slots and an ID window.",
+  "tags": [
+   "passport",
+   "travel",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 3,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Passport Wallet",
+  "images": [
+   {
+    "file": "Passport Wallet/4K5A3244.JPG",
+    "n": 3244,
+    "label": "Back",
+    "md5": "f9fb723348"
+   },
+   {
+    "file": "Passport Wallet/4K5A3245.JPG",
+    "n": 3245,
+    "label": "Side view",
+    "md5": "8488a4cafc"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-OPT-001",
+  "slug": "lumen-eyewear-case-smoke-brown",
+  "name": "Lumen Eyewear Case — Smoke Brown",
+  "type": "Eyewear Cases",
+  "gender": "unisex",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 1290,
+  "material": "Distressed leather, soft lining",
+  "tagline": "A snap-closed case that clips to a bag or belt.",
+  "description": "A structured eyewear case in distressed smoke-brown leather with a soft lining, a snap flap and a swivel clip to attach it to a bag, belt loop or keys. Embossed with the LLI mark.",
+  "tags": [
+   "spectacle case",
+   "sunglasses",
+   "clip",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 15,
+  "reorderLevel": 5,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Optics Cover/4K5A3198.JPG",
+    "n": 3198,
+    "label": "Open view",
+    "md5": "a6a2042954"
+   },
+   {
+    "file": "Accessories/Accessories - Optics Cover/4K5A3199.JPG",
+    "n": 3199,
+    "label": "Side view",
+    "md5": "571da5fae8"
+   },
+   {
+    "file": "Accessories/Accessories - Optics Cover/4K5A3200.JPG",
+    "n": 3200,
+    "label": "Back",
+    "md5": "86830a3b6f"
+   },
+   {
+    "file": "Accessories/Accessories - Optics Cover/4K5A3201.JPG",
+    "n": 3201,
+    "label": "Back",
+    "md5": "e3bdb954fa"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-OPT-002",
+  "slug": "lumen-eyewear-case-oxblood",
+  "name": "Lumen Eyewear Case — Oxblood",
+  "type": "Eyewear Cases",
+  "gender": "unisex",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 1290,
+  "material": "Leather, soft lining",
+  "tagline": "The Lumen in oxblood.",
+  "description": "A structured eyewear case in oxblood leather with a soft lining, snap flap and swivel clip.",
+  "tags": [
+   "spectacle case",
+   "sunglasses",
+   "clip",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 15,
+  "reorderLevel": 5,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Optics Cover/4K5A3202.JPG",
+    "n": 3202,
+    "label": "Front",
+    "md5": "50fa4baddb"
+   },
+   {
+    "file": "Accessories/Accessories - Optics Cover/4K5A3203.JPG",
+    "n": 3203,
+    "label": "Open view",
+    "md5": "2e2831b4dc"
+   },
+   {
+    "file": "Accessories/Accessories - Optics Cover/4K5A3205.JPG",
+    "n": 3205,
+    "label": "Open view",
+    "md5": "25e445f7ac"
+   },
+   {
+    "file": "Accessories/Accessories - Optics Cover/4K5A3204.JPG",
+    "n": 3204,
+    "label": "Back",
+    "md5": "33ff35f0df"
+   },
+   {
+    "file": "Accessories/Accessories - Optics Cover/4K5A3207.JPG",
+    "n": 3207,
+    "label": "Back",
+    "md5": "47287246a4"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-IDH-001",
+  "slug": "badge-id-card-holder-espresso",
+  "name": "Badge ID Card Holder — Espresso",
+  "type": "ID Card Holders",
+  "gender": "unisex",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 690,
+  "material": "Leather",
+  "tagline": "An office ID holder with a clip.",
+  "description": "A vertical ID card holder in espresso leather with a clear window, an embossed LLI mark and a swivel clip for a lanyard or bag.",
+  "tags": [
+   "ID holder",
+   "office",
+   "corporate gifting",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 30,
+  "reorderLevel": 10,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Employee Card Holder/4K5A3208.JPG",
+    "n": 3208,
+    "label": "Back",
+    "md5": "338714d2c9"
+   },
+   {
+    "file": "Accessories/Accessories - Employee Card Holder/4K5A3209.JPG",
+    "n": 3209,
+    "label": "Front",
+    "md5": "8b9900e981"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-IDH-002",
+  "slug": "badge-id-card-holder-tan-brown",
+  "name": "Badge ID Card Holder — Tan Brown",
+  "type": "ID Card Holders",
+  "gender": "unisex",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 690,
+  "material": "Leather",
+  "tagline": "An office ID holder with a clip.",
+  "description": "A vertical ID card holder in tan brown leather with a clear window, an embossed LLI mark and a swivel clip for a lanyard or bag.",
+  "tags": [
+   "ID holder",
+   "office",
+   "corporate gifting",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 30,
+  "reorderLevel": 10,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Employee Card Holder/4K5A3227.JPG",
+    "n": 3227,
+    "label": "Back",
+    "md5": "7c129543c8"
+   },
+   {
+    "file": "Accessories/Accessories - Employee Card Holder/4K5A3226.JPG",
+    "n": 3226,
+    "label": "Front",
+    "md5": "17ef3afeb8"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-IDH-003",
+  "slug": "badge-id-card-holder-oxblood",
+  "name": "Badge ID Card Holder — Oxblood",
+  "type": "ID Card Holders",
+  "gender": "unisex",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 690,
+  "material": "Leather",
+  "tagline": "An office ID holder with a clip.",
+  "description": "A vertical ID card holder in oxblood leather with a clear window, an embossed LLI mark and a swivel clip for a lanyard or bag.",
+  "tags": [
+   "ID holder",
+   "office",
+   "corporate gifting",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 30,
+  "reorderLevel": 10,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Employee Card Holder/4K5A3229.JPG",
+    "n": 3229,
+    "label": "Back",
+    "md5": "43fd4ffa85"
+   },
+   {
+    "file": "Accessories/Accessories - Employee Card Holder/4K5A3228.JPG",
+    "n": 3228,
+    "label": "Front",
+    "md5": "f6c3e4bdcf"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-IDH-004",
+  "slug": "badge-id-card-holder-ink",
+  "name": "Badge ID Card Holder — Ink",
+  "type": "ID Card Holders",
+  "gender": "unisex",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 690,
+  "material": "Leather",
+  "tagline": "An office ID holder with a clip.",
+  "description": "A vertical ID card holder in ink leather with a clear window, an embossed LLI mark and a swivel clip for a lanyard or bag.",
+  "tags": [
+   "ID holder",
+   "office",
+   "corporate gifting",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 30,
+  "reorderLevel": 10,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Employee Card Holder/4K5A3231.JPG",
+    "n": 3231,
+    "label": "Back",
+    "md5": "bd74fcec61"
+   },
+   {
+    "file": "Accessories/Accessories - Employee Card Holder/4K5A3230.JPG",
+    "n": 3230,
+    "label": "Front",
+    "md5": "3eede28faa"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-KEY-001",
+  "slug": "loop-key-strap-oxblood",
+  "name": "Loop Key Strap — Oxblood",
+  "type": "Key Accessories",
+  "gender": "unisex",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 490,
+  "material": "Leather, brass-tone rivet, nickel swivel clip",
+  "tagline": "A key strap you can loop around a wrist.",
+  "description": "A folded leather strap on a swivel clip, riveted in brass-tone — long enough to wear on the wrist.",
+  "tags": [
+   "key chain",
+   "gift",
+   "corporate gifting"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 40,
+  "reorderLevel": 10,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Key Chains/4K5A3210.JPG",
+    "n": 3210,
+    "label": "Front",
+    "md5": "8fc14cf41e",
+    "clean": 170
+   },
+   {
+    "file": "Accessories/Accessories - Key Chains/4K5A3211.JPG",
+    "n": 3211,
+    "label": "Detail",
+    "md5": "977e54b707",
+    "clean": 170
+   }
+  ]
+ },
+ {
+  "sku": "LLI-KEY-002",
+  "slug": "loop-key-strap-ink",
+  "name": "Loop Key Strap — Ink",
+  "type": "Key Accessories",
+  "gender": "unisex",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 490,
+  "material": "Leather, brass-tone rivet, nickel swivel clip",
+  "tagline": "A key strap you can loop around a wrist.",
+  "description": "A folded leather strap on a swivel clip, riveted in brass-tone — long enough to wear on the wrist.",
+  "tags": [
+   "key chain",
+   "gift",
+   "corporate gifting"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 40,
+  "reorderLevel": 10,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Key Chains/4K5A3212.JPG",
+    "n": 3212,
+    "label": "Front",
+    "md5": "5b41024e4b",
+    "clean": 170
+   },
+   {
+    "file": "Accessories/Accessories - Key Chains/4K5A3213.JPG",
+    "n": 3213,
+    "label": "Detail",
+    "md5": "74f431e037",
+    "clean": 170
+   }
+  ]
+ },
+ {
+  "sku": "LLI-KEY-003",
+  "slug": "loop-key-strap-espresso",
+  "name": "Loop Key Strap — Espresso",
+  "type": "Key Accessories",
+  "gender": "unisex",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 490,
+  "material": "Leather, brass-tone rivet, nickel swivel clip",
+  "tagline": "A key strap you can loop around a wrist.",
+  "description": "A folded leather strap on a swivel clip, riveted in brass-tone — long enough to wear on the wrist.",
+  "tags": [
+   "key chain",
+   "gift",
+   "corporate gifting"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 40,
+  "reorderLevel": 10,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Key Chains/4K5A3214.JPG",
+    "n": 3214,
+    "label": "Front",
+    "md5": "bb7245d2ad",
+    "clean": 170
+   },
+   {
+    "file": "Accessories/Accessories - Key Chains/4K5A3215.JPG",
+    "n": 3215,
+    "label": "Detail",
+    "md5": "00d590d962",
+    "clean": 170
+   }
+  ]
+ },
+ {
+  "sku": "LLI-KEY-004",
+  "slug": "drop-key-fob-ink",
+  "name": "Drop Key Fob — Ink",
+  "type": "Key Accessories",
+  "gender": "unisex",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 590,
+  "material": "Leather, brass-tone rivet, nickel swivel clip",
+  "tagline": "A teardrop key fob in smooth leather.",
+  "description": "A teardrop-shaped leather key fob with a brass-tone rivet, a split ring and a swivel clip. Embossed with the LLI mark.",
+  "tags": [
+   "key chain",
+   "gift",
+   "corporate gifting"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 40,
+  "reorderLevel": 10,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Key Chains/4K5A3223.JPG",
+    "n": 3223,
+    "label": "Front",
+    "md5": "8f40ffd75d"
+   },
+   {
+    "file": "Accessories/Accessories - Key Chains/4K5A3222.JPG",
+    "n": 3222,
+    "label": "Detail",
+    "md5": "2a1943b683",
+    "clean": 170
+   }
+  ]
+ },
+ {
+  "sku": "LLI-KEY-005",
+  "slug": "drop-key-fob-oxblood",
+  "name": "Drop Key Fob — Oxblood",
+  "type": "Key Accessories",
+  "gender": "unisex",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 590,
+  "material": "Leather, brass-tone rivet, nickel swivel clip",
+  "tagline": "A teardrop key fob in smooth leather.",
+  "description": "A teardrop-shaped leather key fob with a brass-tone rivet, a split ring and a swivel clip. Embossed with the LLI mark.",
+  "tags": [
+   "key chain",
+   "gift",
+   "corporate gifting"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 40,
+  "reorderLevel": 10,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Key Chains/4K5A3224.JPG",
+    "n": 3224,
+    "label": "Front",
+    "md5": "aff2064060",
+    "clean": 170
+   },
+   {
+    "file": "Accessories/Accessories - Key Chains/4K5A3225.JPG",
+    "n": 3225,
+    "label": "Detail",
+    "md5": "62083916f5"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-MOB-001",
+  "slug": "dock-mobile-holder-tan",
+  "name": "Dock Mobile Holder — Tan",
+  "type": "Mobile Holders",
+  "gender": "unisex",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 1190,
+  "material": "Leather",
+  "tagline": "A holster for a phone or power bank.",
+  "description": "A tan leather holder for a phone or a charging bank, with a clear window and a loop on the back for a belt.",
+  "tags": [
+   "phone holder",
+   "belt loop",
+   "gift"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 15,
+  "reorderLevel": 5,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Mobile Charging Holder/4K5A3216.JPG",
+    "n": 3216,
+    "label": "Front",
+    "md5": "2c6c127cb2",
+    "clean": 170
+   },
+   {
+    "file": "Accessories/Accessories - Mobile Charging Holder/4K5A3217.JPG",
+    "n": 3217,
+    "label": "Open view",
+    "md5": "1f3e453684"
+   },
+   {
+    "file": "Accessories/Accessories - Mobile Charging Holder/4K5A3219.JPG",
+    "n": 3219,
+    "label": "Open view",
+    "md5": "fd55d788e3",
+    "clean": 170
+   },
+   {
+    "file": "Accessories/Accessories - Mobile Charging Holder/4K5A3218.JPG",
+    "n": 3218,
+    "label": "Back",
+    "md5": "6e175f6206"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-DSK-001",
+  "slug": "croco-pen-pouch-ink",
+  "name": "Croco Pen Pouch — Ink",
+  "type": "Desk Accessories",
+  "gender": "unisex",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 990,
+  "material": "Crocodile-embossed leather",
+  "tagline": "A snap-closed pouch for pens.",
+  "description": "A pen pouch in crocodile-embossed ink leather with a snap closure and a contrast-stitched edge. Slips into a laptop bag or a desk drawer.",
+  "tags": [
+   "pen",
+   "stationery",
+   "gift",
+   "corporate gifting"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 15,
+  "reorderLevel": 5,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Accessories",
+  "images": [
+   {
+    "file": "Accessories/Accessories - Pen Stand/4K5A3221.JPG",
+    "n": 3221,
+    "label": "Front",
+    "md5": "66d65375f0"
+   },
+   {
+    "file": "Accessories/Accessories - Pen Stand/4K5A3220.JPG",
+    "n": 3220,
+    "label": "Open view",
+    "md5": "183eea24f9"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-001",
+  "slug": "regent-stitched-belt-navy",
+  "name": "Regent Stitched Belt — Navy",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Navy"
+  ],
+  "priceInr": 1990,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with double-stitched edges, a gunmetal-tone buckle and a snap keeper.",
+  "description": "A men's belt in genuine leather with double-stitched edges, a gunmetal-tone buckle and a snap keeper. The LLI mark is embossed on the tail.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4461.JPG",
+    "n": 4461,
+    "label": "Coiled",
+    "md5": "57ab09c976",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4468.JPG",
+    "n": 4468,
+    "label": "Coiled",
+    "md5": "ca7ab2368b"
+   },
+   {
+    "file": "Belts/4K5A4462.JPG",
+    "n": 4462,
+    "label": "Buckle",
+    "md5": "021097762b",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4463.JPG",
+    "n": 4463,
+    "label": "Buckle",
+    "md5": "7ee811279c",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4469.JPG",
+    "n": 4469,
+    "label": "Detail",
+    "md5": "ed453a4a70"
+   },
+   {
+    "file": "Belts/4K5A4470.JPG",
+    "n": 4470,
+    "label": "Detail",
+    "md5": "f3f9c61c59",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4464.JPG",
+    "n": 4464,
+    "label": "Loop",
+    "md5": "9236cf77a7"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-002",
+  "slug": "regent-stitched-belt-ink",
+  "name": "Regent Stitched Belt — Ink",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 1990,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with double-stitched edges, a gunmetal-tone buckle and a snap keeper.",
+  "description": "A men's belt in genuine leather with double-stitched edges, a gunmetal-tone buckle and a snap keeper. The LLI mark is embossed on the tail.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4686.JPG",
+    "n": 4686,
+    "label": "Buckle",
+    "md5": "dcdbfd365f",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4688.JPG",
+    "n": 4688,
+    "label": "Buckle",
+    "md5": "91493210c2"
+   },
+   {
+    "file": "Belts/4K5A4689.JPG",
+    "n": 4689,
+    "label": "Detail",
+    "md5": "2c28c0764d"
+   },
+   {
+    "file": "Belts/4K5A4690.JPG",
+    "n": 4690,
+    "label": "Coiled",
+    "md5": "22478c5f85"
+   },
+   {
+    "file": "Belts/4K5A4687.JPG",
+    "n": 4687,
+    "label": "Buckle",
+    "md5": "51799c3210",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4691.JPG",
+    "n": 4691,
+    "label": "Flat",
+    "md5": "85a3e215ce"
+   },
+   {
+    "file": "Belts/4K5A4692.JPG",
+    "n": 4692,
+    "label": "Flat",
+    "md5": "4def550c6c"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-003",
+  "slug": "pebble-belt-navy",
+  "name": "Pebble Belt — Navy",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Navy"
+  ],
+  "priceInr": 2190,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with a pebbled grain, a square gunmetal-tone buckle and a snap keeper.",
+  "description": "A men's belt in genuine leather with a pebbled grain, a square gunmetal-tone buckle and a snap keeper.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4655.JPG",
+    "n": 4655,
+    "label": "Coiled",
+    "md5": "1e78199062"
+   },
+   {
+    "file": "Belts/4K5A4656.JPG",
+    "n": 4656,
+    "label": "Coiled",
+    "md5": "60f407e881"
+   },
+   {
+    "file": "Belts/4K5A4657.JPG",
+    "n": 4657,
+    "label": "Buckle",
+    "md5": "9b55a52129"
+   },
+   {
+    "file": "Belts/4K5A4653.JPG",
+    "n": 4653,
+    "label": "Coiled",
+    "md5": "92654c5ba6"
+   },
+   {
+    "file": "Belts/4K5A4654.JPG",
+    "n": 4654,
+    "label": "Coiled",
+    "md5": "263bd4b6b4"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-004",
+  "slug": "groove-belt-brown",
+  "name": "Groove Belt — Brown",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 1990,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with twin grooved lines along the length.",
+  "description": "A men's belt in genuine leather with twin grooved lines along the length. The inside is stamped 100% genuine leather.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4649.JPG",
+    "n": 4649,
+    "label": "Coiled",
+    "md5": "254d28351f"
+   },
+   {
+    "file": "Belts/4K5A4650.JPG",
+    "n": 4650,
+    "label": "Coiled",
+    "md5": "bcdb5eed0d",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4651.JPG",
+    "n": 4651,
+    "label": "Coiled",
+    "md5": "8123e16dc0"
+   },
+   {
+    "file": "Belts/4K5A4652.JPG",
+    "n": 4652,
+    "label": "Buckle",
+    "md5": "cf8867f1d4",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4647.JPG",
+    "n": 4647,
+    "label": "Inside",
+    "md5": "6cb29a8f52",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4648.JPG",
+    "n": 4648,
+    "label": "Inside",
+    "md5": "8124a54eb3"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-005",
+  "slug": "heritage-belt-espresso",
+  "name": "Heritage Belt — Espresso",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 1990,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with a plain espresso face, an embossed tail and a snap keeper.",
+  "description": "A men's belt in genuine leather with a plain espresso face, an embossed tail and a snap keeper.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4661.JPG",
+    "n": 4661,
+    "label": "Buckle",
+    "md5": "e8787f4a2a",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4662.JPG",
+    "n": 4662,
+    "label": "Coiled",
+    "md5": "4799d0da3b",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4659.JPG",
+    "n": 4659,
+    "label": "Tail",
+    "md5": "9bfcb32f03"
+   },
+   {
+    "file": "Belts/4K5A4660.JPG",
+    "n": 4660,
+    "label": "Tail",
+    "md5": "14be6dd1e6"
+   },
+   {
+    "file": "Belts/4K5A4663.JPG",
+    "n": 4663,
+    "label": "Buckle",
+    "md5": "b48ed1a7ab"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-006",
+  "slug": "textura-belt-ink",
+  "name": "Textura Belt — Ink",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 2290,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with a woven-texture grain and a brushed buckle.",
+  "description": "A men's belt in genuine leather with a woven-texture grain and a brushed buckle.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4666.JPG",
+    "n": 4666,
+    "label": "Buckle",
+    "md5": "c4645bf552"
+   },
+   {
+    "file": "Belts/4K5A4667.JPG",
+    "n": 4667,
+    "label": "Coiled",
+    "md5": "7acb237c5e"
+   },
+   {
+    "file": "Belts/4K5A4668.JPG",
+    "n": 4668,
+    "label": "Coiled",
+    "md5": "33aa8e5c0b"
+   },
+   {
+    "file": "Belts/4K5A4669.JPG",
+    "n": 4669,
+    "label": "Flat",
+    "md5": "55b195ebab"
+   },
+   {
+    "file": "Belts/4K5A4670.JPG",
+    "n": 4670,
+    "label": "Flat",
+    "md5": "b46a0ebd79"
+   },
+   {
+    "file": "Belts/4K5A4671.JPG",
+    "n": 4671,
+    "label": "Flat",
+    "md5": "7dbf8e3841"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-007",
+  "slug": "croco-belt-ink",
+  "name": "Croco Belt — Ink",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 2490,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with a crocodile-embossed grain and a brushed buckle.",
+  "description": "A men's belt in genuine leather with a crocodile-embossed grain and a brushed buckle.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4676.JPG",
+    "n": 4676,
+    "label": "Coiled",
+    "md5": "4fd3c54fea"
+   },
+   {
+    "file": "Belts/4K5A4677.JPG",
+    "n": 4677,
+    "label": "Coiled",
+    "md5": "dc20e14954"
+   },
+   {
+    "file": "Belts/4K5A4672.JPG",
+    "n": 4672,
+    "label": "Buckle",
+    "md5": "23ac8bd3e6"
+   },
+   {
+    "file": "Belts/4K5A4673.JPG",
+    "n": 4673,
+    "label": "Buckle",
+    "md5": "aca5e64a77"
+   },
+   {
+    "file": "Belts/4K5A4674.JPG",
+    "n": 4674,
+    "label": "Coiled",
+    "md5": "2340992347"
+   },
+   {
+    "file": "Belts/4K5A4675.JPG",
+    "n": 4675,
+    "label": "Coiled",
+    "md5": "100282eb12"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-008",
+  "slug": "burgundy-gloss-belt-oxblood",
+  "name": "Burgundy Gloss Belt — Oxblood",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 2190,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with a high-gloss burgundy finish and a brushed buckle.",
+  "description": "A men's belt in genuine leather with a high-gloss burgundy finish and a brushed buckle.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4696.JPG",
+    "n": 4696,
+    "label": "Coiled",
+    "md5": "4df34d4beb",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4693.JPG",
+    "n": 4693,
+    "label": "Buckle",
+    "md5": "cfcb1672d5",
+    "clean": 170
+   },
+   {
+    "file": "Belts/4K5A4698.JPG",
+    "n": 4698,
+    "label": "Flat",
+    "md5": "3e14ccb039"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-009",
+  "slug": "slim-coil-belt-ink",
+  "name": "Slim Coil Belt — Ink",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 1790,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with a slim profile in smooth ink leather.",
+  "description": "A men's belt in genuine leather with a slim profile in smooth ink leather.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4472.JPG",
+    "n": 4472,
+    "label": "Coiled",
+    "md5": "2a48d60832"
+   },
+   {
+    "file": "Belts/4K5A4473.JPG",
+    "n": 4473,
+    "label": "Coiled",
+    "md5": "15ca664bc2"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-010",
+  "slug": "slim-dress-belt-ink",
+  "name": "Slim Dress Belt — Ink",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 1790,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with a slim profile and a brushed buckle.",
+  "description": "A men's belt in genuine leather with a slim profile and a brushed buckle.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4658.JPG",
+    "n": 4658,
+    "label": "Flat",
+    "md5": "b5b134c257"
+   },
+   {
+    "file": "Belts/4K5A4684.JPG",
+    "n": 4684,
+    "label": "Flat",
+    "md5": "4067f22d51"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-011",
+  "slug": "slim-dress-belt-espresso",
+  "name": "Slim Dress Belt — Espresso",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 1790,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with a slim profile and a brushed buckle.",
+  "description": "A men's belt in genuine leather with a slim profile and a brushed buckle.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4664.JPG",
+    "n": 4664,
+    "label": "Flat",
+    "md5": "97c6218867"
+   },
+   {
+    "file": "Belts/4K5A4665.JPG",
+    "n": 4665,
+    "label": "Flat",
+    "md5": "9bdf40765b"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-BLT-012",
+  "slug": "gloss-dress-belt-ink",
+  "name": "Gloss Dress Belt — Ink",
+  "type": "Belts",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 1890,
+  "material": "100% genuine leather, gunmetal-tone buckle",
+  "tagline": "A men's belt with a glossy ink finish and a brushed buckle.",
+  "description": "A men's belt in genuine leather with a glossy ink finish and a brushed buckle.",
+  "tags": [
+   "belt",
+   "formal",
+   "gift for him"
+  ],
+  "sizes": [
+   "80",
+   "85",
+   "90",
+   "95",
+   "100",
+   "105"
+  ],
+  "dimensions": "",
+  "stockQty": 10,
+  "reorderLevel": 4,
+  "active": false,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Belts",
+  "images": [
+   {
+    "file": "Belts/4K5A4685.JPG",
+    "n": 4685,
+    "label": "Flat",
+    "md5": "5da8d89ea6"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-LAP-001",
+  "slug": "sleeve-laptop-bag-ink",
+  "name": "Sleeve Laptop Bag — Ink",
+  "type": "Laptop & Work",
+  "gender": "unisex",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 6990,
+  "material": "Pebbled leather, soft lining, brass-tone hardware",
+  "tagline": "A slim zip sleeve with top handles and a shoulder strap.",
+  "description": "A slim, zip-around laptop bag in soft pebbled ink leather with two top handles, a detachable shoulder strap on brass-tone clips and a padded back. Carries a laptop and papers without the bulk of a briefcase.",
+  "tags": [
+   "laptop",
+   "slim",
+   "work",
+   "shoulder strap"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Laptop Bags",
+  "images": [
+   {
+    "file": "Laptop Bags/4K5A4423.JPG",
+    "n": 4423,
+    "label": "Front",
+    "md5": "91c9751110"
+   },
+   {
+    "file": "Laptop Bags/4K5A4424.JPG",
+    "n": 4424,
+    "label": "Front",
+    "md5": "185e6e9794"
+   },
+   {
+    "file": "Laptop Bags/4K5A4433.JPG",
+    "n": 4433,
+    "label": "Front",
+    "md5": "b0dddacbb3"
+   },
+   {
+    "file": "Laptop Bags/4K5A4434.JPG",
+    "n": 4434,
+    "label": "Angled",
+    "md5": "40d1d4c520"
+   },
+   {
+    "file": "Laptop Bags/4K5A4435.JPG",
+    "n": 4435,
+    "label": "Angled",
+    "md5": "3728a3d54f"
+   },
+   {
+    "file": "Laptop Bags/4K5A4436.JPG",
+    "n": 4436,
+    "label": "Back",
+    "md5": "ca79f51c39",
+    "clean": 170
+   },
+   {
+    "file": "Laptop Bags/4K5A4437.JPG",
+    "n": 4437,
+    "label": "Back",
+    "md5": "d0015b7494"
+   },
+   {
+    "file": "Laptop Bags/4K5A4421.JPG",
+    "n": 4421,
+    "label": "Front",
+    "md5": "cd1296b7aa"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-LAP-002",
+  "slug": "counsel-briefcase-ink",
+  "name": "Counsel Briefcase — Ink",
+  "type": "Laptop & Work",
+  "gender": "men",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 9990,
+  "material": "Pebbled leather, soft lining, brass-tone hardware",
+  "tagline": "A briefcase with a front zip pocket and a shoulder strap.",
+  "description": "A structured men's briefcase in pebbled ink leather with a zipped front pocket, two top handles, a padded laptop compartment and a detachable shoulder strap.",
+  "tags": [
+   "briefcase",
+   "laptop",
+   "work",
+   "shoulder strap"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Laptop Bags",
+  "images": [
+   {
+    "file": "Laptop Bags/4K5A4446.JPG",
+    "n": 4446,
+    "label": "Angled",
+    "md5": "8c6bcf15c6"
+   },
+   {
+    "file": "Laptop Bags/4K5A4438.JPG",
+    "n": 4438,
+    "label": "Angled",
+    "md5": "ff0808c50e"
+   },
+   {
+    "file": "Laptop Bags/4K5A4439.JPG",
+    "n": 4439,
+    "label": "Angled",
+    "md5": "ae2f6e299e"
+   },
+   {
+    "file": "Laptop Bags/4K5A4440.JPG",
+    "n": 4440,
+    "label": "Angled",
+    "md5": "cf575820a3"
+   },
+   {
+    "file": "Laptop Bags/4K5A4443.JPG",
+    "n": 4443,
+    "label": "Angled",
+    "md5": "a86ca6c899"
+   },
+   {
+    "file": "Laptop Bags/4K5A4448.JPG",
+    "n": 4448,
+    "label": "Side view",
+    "md5": "1690ff7c0c"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-LAP-003",
+  "slug": "counsel-briefcase-croc-oxblood",
+  "name": "Counsel Briefcase — Croc Oxblood",
+  "type": "Laptop & Work",
+  "gender": "men",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 12490,
+  "material": "Crocodile-embossed leather, soft lining, brass-tone hardware",
+  "tagline": "The Counsel in crocodile-embossed oxblood.",
+  "description": "The Counsel briefcase in crocodile-embossed oxblood leather, with a zipped front pocket, a pair of top handles, a laptop compartment and a detachable shoulder strap.",
+  "tags": [
+   "briefcase",
+   "laptop",
+   "work",
+   "croc"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 5,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Laptop Bags",
+  "images": [
+   {
+    "file": "Laptop Bags/4K5A4459.JPG",
+    "n": 4459,
+    "label": "Front",
+    "md5": "a79a63e527"
+   },
+   {
+    "file": "Laptop Bags/4K5A4460.JPG",
+    "n": 4460,
+    "label": "Front",
+    "md5": "1e3859d030"
+   },
+   {
+    "file": "Laptop Bags/4K5A4450.JPG",
+    "n": 4450,
+    "label": "Angled",
+    "md5": "b9b27c3cbb"
+   },
+   {
+    "file": "Laptop Bags/4K5A4457.JPG",
+    "n": 4457,
+    "label": "Angled",
+    "md5": "b26c1a6472"
+   },
+   {
+    "file": "Laptop Bags/4K5A4458.JPG",
+    "n": 4458,
+    "label": "Angled",
+    "md5": "5f7a9a3b14"
+   },
+   {
+    "file": "Laptop Bags/4K5A4452.JPG",
+    "n": 4452,
+    "label": "Top view",
+    "md5": "3b2928e821"
+   },
+   {
+    "file": "Laptop Bags/4K5A4453.JPG",
+    "n": 4453,
+    "label": "Side view",
+    "md5": "d7fe097ab6"
+   },
+   {
+    "file": "Laptop Bags/4K5A4454.JPG",
+    "n": 4454,
+    "label": "Side view",
+    "md5": "d544556387"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-CLT-001",
+  "slug": "rete-clutch-wallet-ink",
+  "name": "Rete Clutch Wallet — Ink",
+  "type": "Clutches",
+  "gender": "women",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 2490,
+  "material": "Textured leather, card slots, zip pocket",
+  "tagline": "A long clutch wallet with a zipped back pocket.",
+  "description": "A long ladies' clutch wallet in ink leather with a fine horizontal texture. It opens to card slots, a note section and a zipped pocket, with snap closures. Fits a phone.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "clutch wallet",
+   "evening"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3261.JPG",
+    "n": 3261,
+    "label": "Front",
+    "md5": "f10482494b"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3262.JPG",
+    "n": 3262,
+    "label": "Front",
+    "md5": "237ae87a7d"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3368.JPG",
+    "n": 3368,
+    "label": "Front",
+    "md5": "2e38a411bb"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3372.JPG",
+    "n": 3372,
+    "label": "Back",
+    "md5": "3db27b3d98"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3371.JPG",
+    "n": 3371,
+    "label": "Open view",
+    "md5": "e1defa982b"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-CLT-002",
+  "slug": "lustro-clutch-wallet-ink",
+  "name": "Lustro Clutch Wallet — Ink",
+  "type": "Clutches",
+  "gender": "women",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 2290,
+  "material": "Glossy leather",
+  "tagline": "A sleek, glossy clutch wallet.",
+  "description": "A long ladies' clutch wallet in glossy ink leather with a zipped back pocket.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "clutch wallet"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": false,
+  "needsReview": true,
+  "isNew": true,
+  "gift": true,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3269.JPG",
+    "n": 3269,
+    "label": "Front",
+    "md5": "149b97303c"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3270.JPG",
+    "n": 3270,
+    "label": "Back",
+    "md5": "b66407f34c"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-CLT-003",
+  "slug": "gala-frame-clutch-tan",
+  "name": "Gala Frame Clutch — Tan",
+  "type": "Clutches",
+  "gender": "women",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 3990,
+  "material": "Pebbled leather, gold-tone metal frame",
+  "tagline": "A frame clutch with a crystal clasp and a chain.",
+  "description": "A hard-frame evening clutch in tan leather with a gold-tone frame, a crystal clasp, a slim top handle and a detachable chain strap. The lining is patterned.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "evening",
+   "party",
+   "chain strap"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3376.JPG",
+    "n": 3376,
+    "label": "Front",
+    "md5": "fbe06927c7"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3375.JPG",
+    "n": 3375,
+    "label": "Front",
+    "md5": "495f0586c6"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3377.JPG",
+    "n": 3377,
+    "label": "Angled",
+    "md5": "27fdf6ef40"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3373.JPG",
+    "n": 3373,
+    "label": "Front",
+    "md5": "e1c4562c3a"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3434.JPG",
+    "n": 3434,
+    "label": "Open view",
+    "md5": "8546c7c9b9"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-CLT-004",
+  "slug": "gala-frame-clutch-forest",
+  "name": "Gala Frame Clutch — Forest",
+  "type": "Clutches",
+  "gender": "women",
+  "colours": [
+   "Forest"
+  ],
+  "priceInr": 4490,
+  "material": "Pebbled leather, gold-tone metal frame",
+  "tagline": "A gathered-front frame clutch in forest green.",
+  "description": "A hard-frame evening clutch in forest-green leather with a softly gathered front, a gold-tone frame, a crystal clasp and a detachable chain strap.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "evening",
+   "party",
+   "chain strap"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3421.JPG",
+    "n": 3421,
+    "label": "Front",
+    "md5": "c6e44fd0a4"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3420.JPG",
+    "n": 3420,
+    "label": "Front",
+    "md5": "a4b501fc81"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3423.JPG",
+    "n": 3423,
+    "label": "Angled",
+    "md5": "872fcb0bd8"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3424.JPG",
+    "n": 3424,
+    "label": "Angled",
+    "md5": "69ff1a1a61"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3422.JPG",
+    "n": 3422,
+    "label": "Back",
+    "md5": "92f6e80154"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3440.JPG",
+    "n": 3440,
+    "label": "Open view",
+    "md5": "72c58cc017"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3441.JPG",
+    "n": 3441,
+    "label": "Open view",
+    "md5": "fbd38bdcda"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SAT-001",
+  "slug": "aurelia-satchel-crimson",
+  "name": "Aurelia Satchel — Crimson",
+  "type": "Satchels",
+  "gender": "women",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 8990,
+  "material": "Leather with a crocodile-embossed panel, gold-tone metal handle bars",
+  "tagline": "A structured satchel with a crocodile-embossed front panel.",
+  "description": "A structured top-handle satchel in deep crimson leather. One face carries a crocodile-embossed panel; the other, a zipped oval pocket. Gold-tone handle bars, a detachable shoulder strap and a multi-compartment interior.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "top handle",
+   "structured",
+   "work"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3257.JPG",
+    "n": 3257,
+    "label": "Front",
+    "md5": "feececb202",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3301.JPG",
+    "n": 3301,
+    "label": "Front",
+    "md5": "42873da279"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3255.JPG",
+    "n": 3255,
+    "label": "Back",
+    "md5": "61cd301dcc"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3302.JPG",
+    "n": 3302,
+    "label": "Back",
+    "md5": "b4be9c2c25",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3303.JPG",
+    "n": 3303,
+    "label": "Side view",
+    "md5": "b60c39b8f1"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3304.JPG",
+    "n": 3304,
+    "label": "Side view",
+    "md5": "1627217f9d"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3466.JPG",
+    "n": 3466,
+    "label": "Top view",
+    "md5": "e4315df240"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3467.JPG",
+    "n": 3467,
+    "label": "Top view",
+    "md5": "a5831dc2e0"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SAT-002",
+  "slug": "maren-satchel-tan",
+  "name": "Maren Satchel — Tan",
+  "type": "Satchels",
+  "gender": "women",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 7490,
+  "material": "Smooth leather, gold-tone metal handle bar",
+  "tagline": "A smooth tan satchel with a zipped back pocket.",
+  "description": "A top-handle satchel in smooth tan leather with a gold-tone handle bar, a zipped pocket on the back, a detachable strap and a roomy, compartmented interior.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "top handle",
+   "work"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3312.JPG",
+    "n": 3312,
+    "label": "Front",
+    "md5": "2c87c5b3da"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3315.JPG",
+    "n": 3315,
+    "label": "Back",
+    "md5": "32ee1560da",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3316.JPG",
+    "n": 3316,
+    "label": "Side view",
+    "md5": "52cf5b6e03"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3464.JPG",
+    "n": 3464,
+    "label": "Top view",
+    "md5": "a9736908da"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3465.JPG",
+    "n": 3465,
+    "label": "Top view",
+    "md5": "4e7b46f519"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SAT-003",
+  "slug": "lotus-flap-satchel-tan",
+  "name": "Lotus Flap Satchel — Tan",
+  "type": "Satchels",
+  "gender": "women",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 7990,
+  "material": "Smooth pebbled leather, gold-tone hardware",
+  "tagline": "A flap satchel with a round clasp.",
+  "description": "A flap-over satchel in warm tan leather with a round disc clasp, a slim top handle, a zipped back pocket and a detachable shoulder strap. Opens to separate compartments.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "flap",
+   "top handle",
+   "shoulder strap"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3317.JPG",
+    "n": 3317,
+    "label": "Front",
+    "md5": "61c3da3d44",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3318.JPG",
+    "n": 3318,
+    "label": "Front",
+    "md5": "1f59b69d04",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3320.JPG",
+    "n": 3320,
+    "label": "Side view",
+    "md5": "2c201cebbc",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3319.JPG",
+    "n": 3319,
+    "label": "Back",
+    "md5": "c652a8b505",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3453.JPG",
+    "n": 3453,
+    "label": "Open view",
+    "md5": "2d8a6cd19f"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3454.JPG",
+    "n": 3454,
+    "label": "Open view",
+    "md5": "a4e4c6cf59"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SAT-004",
+  "slug": "lotus-flap-satchel-oxblood",
+  "name": "Lotus Flap Satchel — Oxblood",
+  "type": "Satchels",
+  "gender": "women",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 7990,
+  "material": "Smooth pebbled leather, brass-tone hardware",
+  "tagline": "The Lotus flap satchel in oxblood.",
+  "description": "A flap-over satchel in oxblood leather with a round clasp, a top handle, a zipped back pocket and a detachable shoulder strap. The flap opens to zipped compartments.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "flap",
+   "top handle",
+   "shoulder strap"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3410.JPG",
+    "n": 3410,
+    "label": "Front",
+    "md5": "af12aac7b1"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3411.JPG",
+    "n": 3411,
+    "label": "Front",
+    "md5": "b7880ae3c4"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3414.JPG",
+    "n": 3414,
+    "label": "Side view",
+    "md5": "9a69fde809"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3409.JPG",
+    "n": 3409,
+    "label": "Back",
+    "md5": "9ff2f4ee31"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3412.JPG",
+    "n": 3412,
+    "label": "Open view",
+    "md5": "367a0b6b0b"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3413.JPG",
+    "n": 3413,
+    "label": "Open view",
+    "md5": "9e19971eba"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3427.JPG",
+    "n": 3427,
+    "label": "Open view",
+    "md5": "d7264ec769"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SAT-005",
+  "slug": "lotus-croc-flap-cognac",
+  "name": "Lotus Croc Flap — Cognac",
+  "type": "Satchels",
+  "gender": "women",
+  "colours": [
+   "Cognac"
+  ],
+  "priceInr": 8990,
+  "material": "Crocodile-embossed leather, push-lock closure",
+  "tagline": "A crocodile-embossed flap bag with a push-lock.",
+  "description": "A top-handle flap bag in crocodile-embossed cognac leather with a push-lock closure, a zipped back pocket and a detachable shoulder strap.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "croc",
+   "flap",
+   "top handle"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3415.JPG",
+    "n": 3415,
+    "label": "Front",
+    "md5": "d2af042adc"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3416.JPG",
+    "n": 3416,
+    "label": "Back",
+    "md5": "86ed0ac1db"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3417.JPG",
+    "n": 3417,
+    "label": "Open view",
+    "md5": "02210356b2"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3418.JPG",
+    "n": 3418,
+    "label": "Open view",
+    "md5": "37b3bed515"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3430.JPG",
+    "n": 3430,
+    "label": "Open view",
+    "md5": "fe147a7702"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3431.JPG",
+    "n": 3431,
+    "label": "Open view",
+    "md5": "f1889f201b"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SAT-006",
+  "slug": "dolce-handbag-espresso",
+  "name": "Dolce Handbag — Espresso",
+  "type": "Satchels",
+  "gender": "women",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 6990,
+  "material": "Pebbled leather",
+  "tagline": "A rounded flap handbag with an oval clasp.",
+  "description": "A softly rounded flap handbag in espresso leather with an oval clasp, a top handle, a zipped back pocket and a long shoulder strap.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "flap",
+   "top handle"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3379.JPG",
+    "n": 3379,
+    "label": "Front",
+    "md5": "b6fe9f9352"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3380.JPG",
+    "n": 3380,
+    "label": "Back",
+    "md5": "82a530a712"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3381.JPG",
+    "n": 3381,
+    "label": "Side view",
+    "md5": "4e844c9d38"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SAT-007",
+  "slug": "azur-handbag-slate-blue-croc",
+  "name": "Azur Handbag — Slate Blue Croc",
+  "type": "Satchels",
+  "gender": "women",
+  "colours": [
+   "Slate"
+  ],
+  "priceInr": 7490,
+  "material": "Crocodile-embossed leather, metal frame handle",
+  "tagline": "A slate-blue croc-embossed handbag.",
+  "description": "A structured double-handle handbag in slate-blue crocodile-embossed leather with a zipped pocket on the front, a detachable strap and a framed top.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "croc",
+   "structured",
+   "double handle"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3284.JPG",
+    "n": 3284,
+    "label": "Front",
+    "md5": "649bf3049d"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3291.JPG",
+    "n": 3291,
+    "label": "Angled",
+    "md5": "f88a2074fc"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3292.JPG",
+    "n": 3292,
+    "label": "Side view",
+    "md5": "4133f63e65"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3294.JPG",
+    "n": 3294,
+    "label": "Angled",
+    "md5": "5028b2701a"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3468.JPG",
+    "n": 3468,
+    "label": "Top view",
+    "md5": "cabcfa0775",
+    "clean": 170
+   }
+  ]
+ },
+ {
+  "sku": "LLI-HND-001",
+  "slug": "catena-chain-bag-cognac-croc",
+  "name": "Catena Chain Bag — Cognac Croc",
+  "type": "Handbags",
+  "gender": "women",
+  "colours": [
+   "Cognac"
+  ],
+  "priceInr": 9490,
+  "material": "Crocodile-embossed leather, chain straps",
+  "tagline": "A crocodile-embossed shoulder bag with chain straps.",
+  "description": "A rounded shoulder bag in crocodile-embossed cognac leather with gunmetal chain-and-leather straps, a zipped back pocket and a roomy interior.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "croc",
+   "chain strap",
+   "shoulder bag"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3305.JPG",
+    "n": 3305,
+    "label": "Front",
+    "md5": "c69f5083d7"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3307.JPG",
+    "n": 3307,
+    "label": "Back",
+    "md5": "ac17835dd4"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3310.JPG",
+    "n": 3310,
+    "label": "Side view",
+    "md5": "3621c641ca"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3460.JPG",
+    "n": 3460,
+    "label": "Top view",
+    "md5": "52b4f80bc1"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-HND-002",
+  "slug": "boxy-handbag-espresso",
+  "name": "Boxy Handbag — Espresso",
+  "type": "Handbags",
+  "gender": "women",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 6490,
+  "material": "Pebbled leather",
+  "tagline": "A boxy double-handle handbag with a front zip pocket.",
+  "description": "A boxy double-handle handbag in espresso leather with a zipped front pocket and a compartmented interior.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "double handle",
+   "work"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3390.JPG",
+    "n": 3390,
+    "label": "Front",
+    "md5": "3f16a899e4"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3391.JPG",
+    "n": 3391,
+    "label": "Back",
+    "md5": "69cffcdccd"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3392.JPG",
+    "n": 3392,
+    "label": "Side view",
+    "md5": "0dc159312e"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3446.JPG",
+    "n": 3446,
+    "label": "Top view",
+    "md5": "2d540e5b0a"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3449.JPG",
+    "n": 3449,
+    "label": "Top view",
+    "md5": "7bd137816a"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3450.JPG",
+    "n": 3450,
+    "label": "Top view",
+    "md5": "4012cb9fb4"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-HND-003",
+  "slug": "ring-handbag-forest",
+  "name": "Ring Handbag — Forest",
+  "type": "Handbags",
+  "gender": "women",
+  "colours": [
+   "Forest"
+  ],
+  "priceInr": 7490,
+  "material": "Pebbled leather, metal ring handles",
+  "tagline": "A forest-green handbag with metal ring handles.",
+  "description": "A handbag in forest-green leather with sculpted ring handles, a zipped back pocket, a detachable strap and a compartmented interior.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "ring handle",
+   "structured"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3394.JPG",
+    "n": 3394,
+    "label": "Front",
+    "md5": "eb77df8b87"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3393.JPG",
+    "n": 3393,
+    "label": "Back",
+    "md5": "91039fa5bb"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3395.JPG",
+    "n": 3395,
+    "label": "Side view",
+    "md5": "2b84fb6066"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3451.JPG",
+    "n": 3451,
+    "label": "Top view",
+    "md5": "3322d0fdd5"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3452.JPG",
+    "n": 3452,
+    "label": "Top view",
+    "md5": "a395bb40eb"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-HND-004",
+  "slug": "twist-tote-ink",
+  "name": "Twist Tote — Ink",
+  "type": "Handbags",
+  "gender": "women",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 7990,
+  "material": "Leather, crocodile-embossed lock tab, gold-tone twist lock",
+  "tagline": "A work tote with a gold twist lock.",
+  "description": "A structured work tote in ink leather with a gold-tone twist lock, a crocodile-embossed tab, a zipped back pocket and a roomy, compartmented interior.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "work",
+   "tote",
+   "twist lock"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3385.JPG",
+    "n": 3385,
+    "label": "Front",
+    "md5": "e47814ac64"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3386.JPG",
+    "n": 3386,
+    "label": "Front",
+    "md5": "8a801f2822"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3389.JPG",
+    "n": 3389,
+    "label": "Side view",
+    "md5": "10dd128784"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3387.JPG",
+    "n": 3387,
+    "label": "Back",
+    "md5": "1bfc06b72d",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3388.JPG",
+    "n": 3388,
+    "label": "Back",
+    "md5": "50d8e7e0bd",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3447.JPG",
+    "n": 3447,
+    "label": "Top view",
+    "md5": "8c90bb2089"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3448.JPG",
+    "n": 3448,
+    "label": "Top view",
+    "md5": "d4487e8a35"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-TOT-001",
+  "slug": "bastion-tote-cognac-croc",
+  "name": "Bastion Tote — Cognac Croc",
+  "type": "Totes",
+  "gender": "women",
+  "colours": [
+   "Cognac"
+  ],
+  "priceInr": 10990,
+  "material": "Crocodile-embossed leather",
+  "tagline": "A large crocodile-embossed tote with a two-tone panel.",
+  "description": "A large work tote in crocodile-embossed cognac leather with a two-tone front panel, long shoulder handles and a roomy, open interior.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "tote",
+   "work",
+   "croc",
+   "large"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3329.JPG",
+    "n": 3329,
+    "label": "Front",
+    "md5": "e463d43de3",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3330.JPG",
+    "n": 3330,
+    "label": "Front",
+    "md5": "424ece6387",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3331.JPG",
+    "n": 3331,
+    "label": "Front",
+    "md5": "c94f56c631",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3332.JPG",
+    "n": 3332,
+    "label": "Front",
+    "md5": "313cd29351",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3334.JPG",
+    "n": 3334,
+    "label": "Side view",
+    "md5": "b9f1b2d314"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3335.JPG",
+    "n": 3335,
+    "label": "Side view",
+    "md5": "fc30709e19"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3462.JPG",
+    "n": 3462,
+    "label": "Top view",
+    "md5": "1579f83a20"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-TOT-002",
+  "slug": "mocha-tote-tan-croc",
+  "name": "Mocha Tote — Tan Croc",
+  "type": "Totes",
+  "gender": "women",
+  "colours": [
+   "Tan"
+  ],
+  "priceInr": 7490,
+  "material": "Crocodile-embossed leather",
+  "tagline": "A tan crocodile-embossed work bag.",
+  "description": "A work bag in tan crocodile-embossed leather with twin shoulder handles, a zipped back pocket and a framed top.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "tote",
+   "work",
+   "croc"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3343.JPG",
+    "n": 3343,
+    "label": "Front",
+    "md5": "9c14756ee2",
+    "crop": [
+     0.5,
+     0.12,
+     0.9,
+     0.8
+    ],
+    "erase": [
+     [
+      0.745,
+      0.285,
+      0.775,
+      0.34
+     ],
+     [
+      0.65,
+      0.186,
+      0.665,
+      0.21
+     ],
+     [
+      0.762,
+      0.264,
+      0.773,
+      0.282
+     ]
+    ]
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3342.JPG",
+    "n": 3342,
+    "label": "Front",
+    "md5": "21a9046341",
+    "crop": [
+     0.5,
+     0.12,
+     0.9,
+     0.8
+    ],
+    "erase": [
+     [
+      0.74,
+      0.31,
+      0.762,
+      0.34
+     ],
+     [
+      0.668,
+      0.152,
+      0.68,
+      0.168
+     ]
+    ]
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3344.JPG",
+    "n": 3344,
+    "label": "Back",
+    "md5": "dda6274d18",
+    "erase": [
+     [
+      0.52,
+      0.05,
+      0.56,
+      0.108
+     ],
+     [
+      0.528,
+      0.128,
+      0.56,
+      0.175
+     ]
+    ]
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3345.JPG",
+    "n": 3345,
+    "label": "Back",
+    "md5": "b8c326859f",
+    "crop": [
+     0.48,
+     0.28,
+     0.95,
+     1.0
+    ],
+    "erase": [
+     [
+      0.615,
+      0.485,
+      0.635,
+      0.505
+     ]
+    ]
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3348.JPG",
+    "n": 3348,
+    "label": "Side view",
+    "md5": "6baef78aff",
+    "crop": [
+     0.55,
+     0.05,
+     0.92,
+     0.98
+    ]
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SLG-001",
+  "slug": "verde-shoulder-bag-forest-croc",
+  "name": "Verde Shoulder Bag — Forest Croc",
+  "type": "Sling Bags",
+  "gender": "women",
+  "colours": [
+   "Forest"
+  ],
+  "priceInr": 6990,
+  "material": "Crocodile-embossed leather",
+  "tagline": "A forest-green shoulder bag with a zipped front pocket.",
+  "description": "A slouchy shoulder bag in forest-green crocodile-embossed leather with a zipped front pocket, a wide detachable strap and a compartmented interior.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "croc",
+   "shoulder bag"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3321.JPG",
+    "n": 3321,
+    "label": "Front",
+    "md5": "2fb389e64b"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3322.JPG",
+    "n": 3322,
+    "label": "Front",
+    "md5": "7dfbf6b4d9"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3323.JPG",
+    "n": 3323,
+    "label": "Back",
+    "md5": "54ce2b5da1"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3324.JPG",
+    "n": 3324,
+    "label": "Back",
+    "md5": "eda891a981"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3325.JPG",
+    "n": 3325,
+    "label": "Back",
+    "md5": "efd0c3c805"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3455.JPG",
+    "n": 3455,
+    "label": "Top view",
+    "md5": "35393d837c"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3456.JPG",
+    "n": 3456,
+    "label": "Top view",
+    "md5": "81d3202413"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SLG-002",
+  "slug": "cargo-sling-espresso",
+  "name": "Cargo Sling — Espresso",
+  "type": "Sling Bags",
+  "gender": "women",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 5990,
+  "material": "Leather",
+  "tagline": "A multi-zip sling that carries like a small briefcase.",
+  "description": "A multi-zip sling bag in espresso leather with several zipped compartments, top handles and a long detachable strap.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "multi-zip",
+   "sling"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3336.JPG",
+    "n": 3336,
+    "label": "Front",
+    "md5": "f113c81f9e"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3337.JPG",
+    "n": 3337,
+    "label": "Front",
+    "md5": "a4e77de642"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3341.JPG",
+    "n": 3341,
+    "label": "Side view",
+    "md5": "b5040c0471"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3438.JPG",
+    "n": 3438,
+    "label": "Top view",
+    "md5": "947c752fad"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3439.JPG",
+    "n": 3439,
+    "label": "Top view",
+    "md5": "11e7053786"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SLG-003",
+  "slug": "envelope-sling-navy",
+  "name": "Envelope Sling — Navy",
+  "type": "Sling Bags",
+  "gender": "women",
+  "colours": [
+   "Navy"
+  ],
+  "priceInr": 4990,
+  "material": "Pebbled leather, gold-tone clip hardware",
+  "tagline": "A navy envelope-flap sling with zipped compartments.",
+  "description": "A flap-over sling bag in navy pebbled leather with a snap closure, gold-tone clips and a zipped back pocket. Opens to zipped compartments.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "envelope",
+   "flap",
+   "sling"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3358.JPG",
+    "n": 3358,
+    "label": "Front",
+    "md5": "6d40c9cfce"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3359.JPG",
+    "n": 3359,
+    "label": "Back",
+    "md5": "4de080425a"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3361.JPG",
+    "n": 3361,
+    "label": "Side view",
+    "md5": "137dd0b762"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3362.JPG",
+    "n": 3362,
+    "label": "Side view",
+    "md5": "b1821553e3"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3435.JPG",
+    "n": 3435,
+    "label": "Open view",
+    "md5": "b1d1806f4e"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3436.JPG",
+    "n": 3436,
+    "label": "Open view",
+    "md5": "25ac0607ea"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3437.JPG",
+    "n": 3437,
+    "label": "Open view",
+    "md5": "25f934d94a"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SLG-004",
+  "slug": "messenger-sling-ink",
+  "name": "Messenger Sling — Ink",
+  "type": "Sling Bags",
+  "gender": "unisex",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 4490,
+  "material": "Pebbled leather, brass-tone zips",
+  "tagline": "A compact messenger with front and rear zip pockets.",
+  "description": "A compact messenger sling in ink pebbled leather with zipped front and back pockets and an adjustable strap. Cut small enough for every day.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "messenger",
+   "sling",
+   "everyday"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 8,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3363.JPG",
+    "n": 3363,
+    "label": "Front",
+    "md5": "78cd6e4367"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3365.JPG",
+    "n": 3365,
+    "label": "Back",
+    "md5": "b9c2306a69"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3366.JPG",
+    "n": 3366,
+    "label": "Side view",
+    "md5": "d49f2d16ed"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SLG-005",
+  "slug": "petite-sling-oxblood",
+  "name": "Petite Sling — Oxblood",
+  "type": "Sling Bags",
+  "gender": "women",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 4490,
+  "material": "Glazed leather",
+  "tagline": "A small oxblood sling with a rear zip pocket.",
+  "description": "A small sling bag in glazed oxblood leather with a buckled flap and a zipped rear pocket.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "sling",
+   "everyday"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3382.JPG",
+    "n": 3382,
+    "label": "Front",
+    "md5": "9789061507"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3384.JPG",
+    "n": 3384,
+    "label": "Back",
+    "md5": "8ddff49252"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3443.JPG",
+    "n": 3443,
+    "label": "Top view",
+    "md5": "f339432061"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SLG-006",
+  "slug": "flap-sling-oxblood-croc",
+  "name": "Flap Sling — Oxblood Croc",
+  "type": "Sling Bags",
+  "gender": "women",
+  "colours": [
+   "Oxblood"
+  ],
+  "priceInr": 6490,
+  "material": "Crocodile-embossed leather, brass-tone studs",
+  "tagline": "A crocodile-embossed flap sling.",
+  "description": "A flap sling bag in crocodile-embossed oxblood leather with brass-tone stud closures, a zipped back pocket and a long adjustable strap.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "croc",
+   "flap",
+   "sling"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3397.JPG",
+    "n": 3397,
+    "label": "Front",
+    "md5": "b99333e5a3"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3396.JPG",
+    "n": 3396,
+    "label": "Front",
+    "md5": "3ad65e18d0"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3401.JPG",
+    "n": 3401,
+    "label": "Side view",
+    "md5": "d00b2ffa7a"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3398.JPG",
+    "n": 3398,
+    "label": "Back",
+    "md5": "189a0058e7"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3399.JPG",
+    "n": 3399,
+    "label": "Open view",
+    "md5": "f69cbcac8b",
+    "clean": 170
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3400.JPG",
+    "n": 3400,
+    "label": "Open view",
+    "md5": "57a32a5f9f",
+    "clean": 170
+   }
+  ]
+ },
+ {
+  "sku": "LLI-SLG-007",
+  "slug": "croc-shoulder-bag-espresso",
+  "name": "Croc Shoulder Bag — Espresso",
+  "type": "Sling Bags",
+  "gender": "women",
+  "colours": [
+   "Espresso"
+  ],
+  "priceInr": 6990,
+  "material": "Crocodile-embossed leather",
+  "tagline": "A crocodile-flap shoulder bag with a magnetic closure.",
+  "description": "A shoulder bag in espresso crocodile-embossed leather with a flap and magnetic closure, a zipped back pocket and a roomy interior.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "croc",
+   "flap",
+   "shoulder bag"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": true,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3404.JPG",
+    "n": 3404,
+    "label": "Front",
+    "md5": "c2b5c8af9b",
+    "clean": 135
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3403.JPG",
+    "n": 3403,
+    "label": "Back",
+    "md5": "13e3207f99"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3405.JPG",
+    "n": 3405,
+    "label": "Side view",
+    "md5": "332217f918"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3406.JPG",
+    "n": 3406,
+    "label": "Open view",
+    "md5": "68fe4689c3",
+    "erase": [
+     [
+      0.23,
+      0.05,
+      0.485,
+      0.178
+     ],
+     [
+      0.735,
+      0.17,
+      0.768,
+      0.206
+     ]
+    ]
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3407.JPG",
+    "n": 3407,
+    "label": "Open view",
+    "md5": "1f4457438e"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3408.JPG",
+    "n": 3408,
+    "label": "Open view",
+    "md5": "9a51806f32"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3428.JPG",
+    "n": 3428,
+    "label": "Open view",
+    "md5": "1e4f5d5fcf"
+   },
+   {
+    "file": "Ladies Bags/All Bags/4K5A3429.JPG",
+    "n": 3429,
+    "label": "Open view",
+    "md5": "6134b19ae7"
+   }
+  ]
+ },
+ {
+  "sku": "LLI-TOT-003",
+  "slug": "work-tote-ink",
+  "name": "Work Tote — Ink",
+  "type": "Totes",
+  "gender": "women",
+  "colours": [
+   "Ink"
+  ],
+  "priceInr": 7490,
+  "material": "Leather",
+  "tagline": "A black ladies' work tote.",
+  "description": "A black leather work tote with a zipped top. Only one clean photo exists, so it stays hidden until it is re-shot.",
+  "tags": [
+   "ladies bag",
+   "gift for her",
+   "tote",
+   "work"
+  ],
+  "sizes": null,
+  "dimensions": "",
+  "stockQty": 6,
+  "reorderLevel": 2,
+  "active": false,
+  "needsReview": true,
+  "isNew": true,
+  "gift": false,
+  "bestseller": false,
+  "sourceFolder": "Ladies Bags",
+  "images": [
+   {
+    "file": "Ladies Bags/All Bags/4K5A3353.JPG",
+    "n": 3353,
+    "label": "Front",
+    "md5": "943e2f9d0a",
+    "clean": 170
+   }
+  ]
+ }
+]

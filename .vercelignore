@@ -1,0 +1,3 @@
+# The API (server/) is deployed to its own server (server/deploy/README.md), never to Vercel.
+# This keeps its code, .env and photos out of any `vercel` CLI upload.
+server
