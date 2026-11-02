@@ -177,7 +177,16 @@
 @keyframes fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 /* Only the start is given, so the image fades up to whatever opacity its own classes (e.g. hover) say. */
 @keyframes img-in { from { opacity: 0; } }
-.anim-hero-img { animation: hero-zoom 2.4s var(--ease-lux) both; }
+/* Live hero (src/lib/hero-motion.ts): after the entrance zoom the photo keeps drifting, and a soft band of light crosses it every few seconds. */
+@keyframes hero-drift { from { transform: scale(1); } to { transform: scale(1.07) translate3d(-1.2%, -0.8%, 0); } }
+@keyframes hero-sheen { 0% { transform: translate3d(-130%, 0, 0) skewX(-18deg); } 45%, 100% { transform: translate3d(330%, 0, 0) skewX(-18deg); } }
+.anim-hero-img { animation: hero-zoom 2.4s var(--ease-lux) both, hero-drift 34s ease-in-out 2.4s infinite alternate; }
+.anim-hero-sheen { animation: hero-sheen 12s ease-in-out 3.5s infinite; }
+.is-paused .anim-hero-img, .is-paused .anim-hero-sheen { animation-play-state: paused; }
+.hero-sheen { background: linear-gradient(100deg, transparent 0%, oklch(0.98 0.02 80 / 0.16) 50%, transparent 100%); mix-blend-mode: soft-light; will-change: transform; }
+/* The warm light that follows a mouse pointer. Only drawn where there is a mouse. */
+.hero-glow { background: radial-gradient(closest-side, oklch(0.93 0.06 70 / 0.65), oklch(0.82 0.09 55 / 0.22) 48%, transparent 75%); mix-blend-mode: soft-light; will-change: transform, opacity; }
+@media (hover: none), (pointer: coarse) { .hero-glow { display: none; } }
 .anim-rise { animation: rise 1.1s var(--ease-lux) both; }
 .anim-fade { animation: fade-in 0.4s var(--ease-lux) both; }
 .anim-img-in { animation: img-in 0.7s var(--ease-lux) backwards; }
@@ -198,7 +207,8 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .anim-marquee { animation: none !important; } /* an endless loop at 0.001ms would flicker, not rest */
+  .anim-marquee, .anim-hero-img, .anim-hero-sheen { animation: none !important; } /* an endless loop at 0.001ms would flicker, not rest */
+  .hero-glow, .hero-sheen { display: none; }
   .reveal { opacity: 1; transform: none; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }

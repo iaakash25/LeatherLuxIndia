@@ -9,6 +9,7 @@ import { Img, Reveal } from "@/components/site/Reveal";
 import { Newsletter, Reassurance } from "@/components/site/Footer";
 import { brandFromMatches, brandTitle } from "@/lib/brand";
 import { absoluteUrl, jsonLd, SITE_ORIGIN } from "@/lib/seo";
+import { useHeroMotion } from "@/lib/hero-motion";
 
 export const Route = createFileRoute("/")({
   head: ({ matches }) => {
@@ -89,6 +90,7 @@ function SectionHead({ eyebrow, title, link, slug }: { eyebrow: string; title: R
 
 function Home() {
   const craftImg = useParallax<HTMLImageElement>(0.08);
+  const hero = useHeroMotion();
   const { products } = useCatalog();
   const signature = products.filter((p) => p.isNew).slice(0, 4);
   const best = products.filter((p) => p.bestseller).slice(0, 8);
@@ -97,11 +99,17 @@ function Home() {
   return (
     <>
       {/* HERO */}
-      <section className="relative h-[calc(100svh-100px)] lg:h-[calc(100svh-156px)] min-h-[560px] overflow-hidden bg-ink text-chalk lg:min-h-[680px]">
-        <img src={images.hero} alt="The Aria Top-Handle in oxblood on a concrete plinth" width={1920} height={1088} fetchPriority="high"
-          className="anim-hero-img absolute inset-0 h-full w-full object-cover object-[65%_center]" />
+      <section ref={hero.host} className="relative h-[calc(100svh-100px)] lg:h-[calc(100svh-156px)] min-h-[560px] overflow-hidden bg-ink text-chalk lg:min-h-[680px]">
+        {/* Live hero (src/lib/hero-motion.ts): the photo drifts, light crosses it, and with a mouse it follows the pointer. The frame is a little
+            larger than the hero so that movement never shows an edge. */}
+        <div ref={hero.media} className="absolute -inset-[3%] will-change-transform">
+          <img src={images.hero} alt="The Aria Top-Handle in oxblood on a concrete plinth" width={1920} height={1088} fetchPriority="high"
+            className="anim-hero-img h-full w-full object-cover object-[65%_center]" />
+        </div>
+        <div ref={hero.glow} aria-hidden="true" className="hero-glow pointer-events-none absolute left-0 top-0 h-[720px] w-[720px] rounded-full opacity-0" />
+        <div aria-hidden="true" className="hero-sheen anim-hero-sheen pointer-events-none absolute inset-y-0 left-0 w-[38%]" />
         <div className="absolute inset-0 scrim-hero max-lg:hidden" /><div className="absolute inset-0 scrim-bottom lg:hidden" />
-        <div className="relative mx-auto flex h-full max-w-[1600px] flex-col justify-end px-5 pb-12 lg:justify-center lg:px-10 lg:pb-0">
+        <div ref={hero.copy} className="relative mx-auto flex h-full max-w-[1600px] flex-col justify-end px-5 pb-12 lg:justify-center lg:px-10 lg:pb-0">
           <p className="anim-rise eyebrow text-brass" style={{ animationDelay: "200ms" }}>Autumn / Winter 2026</p>
           <h1 className="anim-rise font-display mt-5 max-w-[11ch] text-[56px] leading-[0.92] tracking-[-0.01em] sm:text-[80px] lg:text-[120px]" style={{ animationDelay: "350ms" }}>
             Form, <em className="font-normal">held</em> close.
