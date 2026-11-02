@@ -224,7 +224,7 @@ function ProductView({ p, slug }: { p: Product; slug: string }) {
             <p className="mt-8 max-w-md text-[15px] leading-relaxed text-chalk/75">The {p.name} began as a single line — the curve of a handle, the fall of a flap. Prototypes were carried, adjusted and carried again until the proportions settled. Editable sample copy.</p>
           </Reveal>
         </div>
-        <div className={cn("relative aspect-square overflow-hidden lg:aspect-auto lg:min-h-[640px]", photographed && "bg-paper")}><Img src={p.images[1] ?? p.images[0]!} alt="" className={cn("absolute inset-0 h-full w-full", photographed ? "object-contain" : "object-cover")} /></div>
+        <div className={cn("relative aspect-square overflow-hidden lg:aspect-auto lg:min-h-[640px]", photographed && "bg-chalk")}><Img src={p.images[1] ?? p.images[0]!} alt="" className={cn("absolute inset-0 h-full w-full", photographed ? "object-contain" : "object-cover")} /></div>
       </section>
 
       {/* Specs + Reviews */}

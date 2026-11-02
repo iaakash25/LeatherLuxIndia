@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp, { type OutputInfo } from "sharp";
 import { env } from "../config/env.js";
+import { parseColour, STUDIO_BACKGROUND, tintBackdrop, type Rgb } from "../lib/photo-background.js";
 import { cleanHaze, type Raw } from "../lib/photo-haze.js";
 import { closePool, getPool } from "./pool.js";
 
@@ -17,13 +18,20 @@ import { closePool, getPool } from "./pool.js";
  *   npm run products:import -- --force-images  re-process photos that already exist
  *   npm run products:import -- --prune      also delete image files in MEDIA_DIR that no product or library entry uses any more
  *   npm run products:import -- --overwrite-details  also reset names/descriptions/tags/colours from the data file
+ *   npm run products:import -- --background=none   keep the white studio backdrop (the default is the storefront's off-white, STUDIO_BACKGROUND)
+ *   npm run products:import -- --images-only       make the photo files and stop: no database change (send the files live first, then run --repoint-photos)
+ *   npm run products:import -- --repoint-photos    make the photo files if needed, then only swap each product's photo paths for the new files
+ *                                                  (keeps whatever order and selection of photos the admin console has set; touches nothing else)
  *
  * Prices, stock levels and the active flag of products that already exist are NEVER overwritten: those belong to
- * the admin console. Data: server/data/catalogue/*.json. Photos: PRODUCT_PHOTOS_DIR (default below).
+ * the admin console. The backdrop colour is applied to products still awaiting review and to the photo library; a product someone has
+ * marked reviewed keeps the photos as they approved them. Data: server/data/catalogue/*.json. Photos: PRODUCT_PHOTOS_DIR (default below).
  */
 const PHOTOS_DIR = process.env["PRODUCT_PHOTOS_DIR"] ?? "D:\\Leather Lux India\\DSLR Images\\New Products";
 const DATA_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../data/catalogue");
 const flags = new Set(process.argv.slice(2).filter((a) => a.startsWith("--")));
+const backgroundFlag = [...flags].find((f) => f.startsWith("--background="))?.slice("--background=".length) ?? STUDIO_BACKGROUND;
+const BACKGROUND: Rgb | null = backgroundFlag === "none" ? null : parseColour(backgroundFlag);
 
 type Rect = [number, number, number, number]; // x0, y0, x1, y1 as fractions of the frame
 /** `clean`: whiten the pale film the cut-out left behind (see lib/photo-haze.ts); the number is the brightness limit, 170 unless the film is darker. */
@@ -69,8 +77,9 @@ async function decode(input: string, crop: Shot["crop"], erase: Shot["erase"], c
  * Where a photo is stored. The name holds the camera number and a hash of the source photo, plus a short tag for how it was edited
  * (crop, erase, clean). Browsers keep these files for a year, so changing an edit must change the name: they then fetch the new version.
  */
-const photoRel = (dir: string, s: Pick<Shot, "n" | "md5" | "crop" | "erase" | "clean">) => {
-  const edits = s.crop || s.erase?.length || s.clean ? `-${crypto.createHash("sha1").update(JSON.stringify([s.crop ?? null, s.erase ?? null, s.clean ?? null])).digest("hex").slice(0, 6)}` : "";
+const photoRel = (dir: string, s: Pick<Shot, "n" | "md5" | "crop" | "erase" | "clean">, bg: Rgb | null = null) => {
+  // The backdrop colour is part of the tag, so photos made with a different backdrop never overwrite each other; without one the name is what it always was.
+  const edits = s.crop || s.erase?.length || s.clean || bg ? `-${crypto.createHash("sha1").update(JSON.stringify([s.crop ?? null, s.erase ?? null, s.clean ?? null, ...(bg ? [bg] : [])])).digest("hex").slice(0, 6)}` : "";
   return `${dir}/${s.n}-${s.md5}${edits}`;
 };
 
@@ -92,12 +101,14 @@ function writeAtomic(file: string, data: Buffer) {
   fs.renameSync(tmp, file);
 }
 
-async function makeImage(shot: Shot, rel: string): Promise<{ web: string; thumb: string; made: boolean }> {
+async function makeImage(shot: Shot, rel: string, bg: Rgb | null): Promise<{ web: string; thumb: string; made: boolean }> {
   const web = `/media/${rel}.webp`, thumb = `/media/${rel}-sm.webp`;
   const outLg = path.join(mediaRoot, `${rel}.webp`), outSm = path.join(mediaRoot, `${rel}-sm.webp`);
   if (!flags.has("--force-images") && fs.existsSync(outLg) && fs.existsSync(outSm)) return { web, thumb, made: false };
   fs.mkdirSync(path.dirname(outLg), { recursive: true });
-  const lg = await canvas(await decode(path.join(PHOTOS_DIR, shot.file), shot.crop, shot.erase, shot.clean), SIZES.lg);
+  const onWhite = await canvas(await decode(path.join(PHOTOS_DIR, shot.file), shot.crop, shot.erase, shot.clean), SIZES.lg);
+  // Photos whose openings were cleaned to white (handles, buckles, key-ring eyes) get those openings recoloured too; wallets and card cases never do.
+  const lg = bg ? tintBackdrop(onWhite, bg, { holes: !!shot.clean }) : onWhite;
   writeAtomic(outLg, await fromRaw(lg).webp({ quality: SIZES.lg.q, effort: 4 }).toBuffer());
   writeAtomic(outSm, await fromRaw(lg).resize(SIZES.sm.w, SIZES.sm.h).webp({ quality: SIZES.sm.q, effort: 4 }).toBuffer());
   return { web, thumb, made: true };
@@ -125,15 +136,23 @@ async function main() {
   if (flags.has("--dry-run")) { console.log("dry run: all photo files found, data valid. Nothing changed."); return; }
 
   // 1. photos -> optimised files. Every photo that belongs on a product, or waits in the library, has a fixed place.
-  const jobs: { shot: Shot; rel: string; key: number }[] = [];
-  for (const p of products) for (const s of p.images) jobs.push({ shot: s, rel: photoRel(`products/${p.slug}`, s), key: s.n });
-  for (const m of media.filter((x) => x.status === "spare")) jobs.push({ shot: { file: m.file, n: m.n, label: "", md5: m.md5 }, rel: photoRel("library", { n: m.n, md5: m.md5 }), key: m.n });
+  const reviewed = new Set((await getPool().query<{ slug: string }>("SELECT slug FROM products WHERE NOT needs_review")).rows.map((r) => r.slug));
+  const backdropFor = (slug: string | null) => (slug && reviewed.has(slug) ? null : BACKGROUND);
+  const jobs: { shot: Shot; rel: string; key: number; bg: Rgb | null; was: string }[] = [];
+  for (const p of products) {
+    const bg = backdropFor(p.slug);
+    for (const s of p.images) jobs.push({ shot: s, rel: photoRel(`products/${p.slug}`, s, bg), was: photoRel(`products/${p.slug}`, s), bg, key: s.n });
+  }
+  for (const m of media.filter((x) => x.status === "spare")) {
+    const bg = backdropFor(null), shot = { file: m.file, n: m.n, label: "", md5: m.md5 };
+    jobs.push({ shot, rel: photoRel("library", shot, bg), was: photoRel("library", shot), bg, key: m.n });
+  }
   const webPaths = new Map(jobs.map((j) => [j.key, { web: `/media/${j.rel}.webp`, thumb: `/media/${j.rel}-sm.webp` }]));
   let made = 0, reused = 0;
   if (!flags.has("--skip-images")) {
     let done = 0;
     await pool(jobs, 4, async (j) => {
-      (await makeImage(j.shot, j.rel)).made ? made++ : reused++;
+      (await makeImage(j.shot, j.rel, j.bg)).made ? made++ : reused++;
       if (++done % 25 === 0 || done === jobs.length) process.stdout.write(`\r  photos ${done}/${jobs.length}`);
     });
     process.stdout.write("\n");
@@ -154,6 +173,36 @@ async function main() {
       walk(path.join(mediaRoot, dir));
     }
     console.log(`pruned ${removed} unreferenced image file(s)`);
+  }
+
+  if (flags.has("--images-only")) {
+    console.log(`photos: ${made} processed, ${reused} already done. Database not touched. Send the files live, then run with --repoint-photos.`);
+    return;
+  }
+
+  if (flags.has("--repoint-photos")) {
+    // Swap each photo's old file name for the new one, wherever it is used. Order, selection, prices, stock: all as the admin console left them.
+    const swaps = jobs.filter((j) => j.rel !== j.was);
+    const client = await getPool().connect();
+    let products = 0, library = 0;
+    try {
+      await client.query("BEGIN");
+      for (const j of swaps) {
+        const slug = j.rel.startsWith("products/") ? j.rel.split("/")[1]! : null;
+        const [oldWeb, oldThumb, web, thumb] = [`/media/${j.was}.webp`, `/media/${j.was}-sm.webp`, `/media/${j.rel}.webp`, `/media/${j.rel}-sm.webp`];
+        if (slug) products += (await client.query("UPDATE products SET images = array_replace(images, $2, $3), updated_at = now() WHERE slug = $1 AND $2 = ANY(images)", [slug, oldWeb, web])).rowCount ?? 0;
+        library += (await client.query("UPDATE media_assets SET web_path = $3, thumb_path = $4, updated_at = now() WHERE web_path = $1 AND thumb_path = $2", [oldWeb, oldThumb, web, thumb])).rowCount ?? 0;
+      }
+      await client.query("COMMIT");
+    } catch (err) {
+      await client.query("ROLLBACK").catch(() => undefined);
+      throw err;
+    } finally {
+      client.release();
+    }
+    console.log(`photos: ${made} processed, ${reused} already done | repointed ${products} product photos and ${library} library photos to the new files (nothing else changed)`);
+    console.log("If the API is running, clear its cache so it shows immediately: POST /api/admin/cache/purge (or wait up to a minute).");
+    return;
   }
 
   // 2. products
