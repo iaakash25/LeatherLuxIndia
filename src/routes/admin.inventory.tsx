@@ -15,7 +15,9 @@ export const Route = createFileRoute("/admin/inventory")({ component: Inventory 
 type Status = "all" | "active" | "hidden" | "inactive" | "coming_soon" | "low" | "out" | "review";
 type Sort = "rank" | "name" | "price-asc" | "price-desc" | "stock-asc" | "updated";
 const SORTS: [Sort, string][] = [["rank", "Shop order"], ["name", "Name"], ["price-asc", "Price: low to high"], ["price-desc", "Price: high to low"], ["stock-asc", "Stock: lowest first"], ["updated", "Recently changed"]];
-const COLUMNS = "lg:grid-cols-[3.25rem_minmax(0,1fr)_6.5rem_6.5rem_5rem_5.5rem_11rem]";
+const COLUMNS = "lg:grid-cols-[3.25rem_minmax(0,1fr)_6.5rem_6.5rem_3.5rem_6rem_11rem]";
+/** The most the API accepts for one product (STOCK_MAX in server/src/lib/inventory.ts). */
+const STOCK_MAX = 100_000;
 
 function Inventory() {
   const [q, setQ] = useState("");
@@ -58,7 +60,7 @@ function Inventory() {
 
       <Section
         title="Inventory"
-        hint="Edit a price, cost or margin right in the row, and choose what shoppers see. Open a product to change its details, count or adjust its stock, and manage its photos."
+        hint="Edit a price, cost or stock count right in the row, and choose what shoppers see. Open a product to change its details, adjust its stock with a reason, and manage its photos."
         action={!adding && <button type="button" className="btn-ink" onClick={() => setAdding(true)}>Add product</button>}
       >
         {adding && <AddProduct types={types} onClose={() => setAdding(false)} onCreated={() => { setAdding(false); void reload(); }} />}
@@ -151,6 +153,20 @@ function Row({ p, types, open, onToggle, onSaved }: RowProps) {
     finally { setBusy(false); }
   };
 
+  /** Sets the count through the stock history (as a correction), never by overwriting the number silently. */
+  const setStock = async (qty: number): Promise<boolean> => {
+    setBusy(true);
+    try {
+      const r = await api<{ product: InvProduct; change: { changed: boolean; before: number; after: number } }>(`/admin/inventory/${p.slug}/stock`, {
+        method: "POST", body: { mode: "set", qty, reason: "correction", note: "Edited in the inventory list" },
+      });
+      onSaved(r.product);
+      toast.success(r.change.changed ? `Stock ${r.change.before} → ${r.change.after}` : "Stock already matches", { description: p.name });
+      return true;
+    } catch (e) { toast.error(errorMessage(e), { description: p.name }); return false; }
+    finally { setBusy(false); }
+  };
+
   return (
     <li>
       <div className={cn("grid grid-cols-[3.25rem_minmax(0,1fr)] items-center gap-x-4 gap-y-3 py-4", COLUMNS)}>
@@ -173,12 +189,11 @@ function Row({ p, types, open, onToggle, onSaved }: RowProps) {
         <div className="col-span-2 grid grid-cols-3 items-end gap-3 lg:contents">
           <MoneyCell label="Price ₹" value={p.priceInr} min={1} onCommit={(v) => patch({ priceInr: v }, "Price saved")} />
           <MoneyCell label="Cost ₹" value={p.costInr} min={0} nullable onCommit={(v) => patch({ costInr: v }, "Cost saved")} />
-          <MarginCell p={p} onCommit={(price, margin) => patch({ priceInr: price }, `Price set to ${formatINR(price)} for a ${margin}% margin`)} />
-          <p className="col-span-3 flex items-center gap-2 text-sm tabular-nums lg:col-span-1">
-            <span className="eyebrow text-[10px] text-muted-foreground lg:hidden">Stock</span>
-            <span>{p.stockQty}</span>
-            {p.stockStatus === "out" ? <Pill tone="bad">Out</Pill> : p.stockStatus === "low" ? <Pill tone="warn">Low</Pill> : null}
+          <p className="text-sm tabular-nums" title="Worked out from the price and the cost">
+            <span className="eyebrow mb-1 block text-[10px] text-muted-foreground lg:hidden">Margin</span>
+            {p.marginPct == null ? <span className="text-muted-foreground">—</span> : <span className={p.marginPct < 30 ? "text-oxblood" : undefined}>{p.marginPct}%</span>}
           </p>
+          <StockCell p={p} onCommit={setStock} />
           <div className="col-span-3 space-y-2 lg:col-span-1">
             <select
               className="field h-9 w-full px-1.5 text-xs" aria-label={`What shoppers see for ${p.name}`} title={STATUS_OPTIONS.find((o) => o.value === statusOf(p))?.hint}
@@ -200,36 +215,35 @@ function Row({ p, types, open, onToggle, onSaved }: RowProps) {
 }
 
 /**
- * The margin, editable like the price and cost. Typing a margin sets the SELLING PRICE from the cost (price = cost ÷ (1 − margin)), because
- * the cost is what you paid. Without a cost there is nothing to work from, so it asks for the cost first.
+ * The stock count, editable in the row like the price and cost. The change is a "set to this count" that is written to the stock history as a
+ * correction; open the product to give another reason (stock received, damaged, a physical count) or to add or remove units.
  */
-function MarginCell({ p, onCommit }: { p: InvProduct; onCommit: (price: number, margin: number) => Promise<boolean> }) {
-  const show = () => (p.marginPct == null ? "" : String(p.marginPct));
-  const [text, setText] = useState(show());
-  useEffect(() => setText(show()), [p.marginPct, p.priceInr, p.costInr]); // eslint-disable-line react-hooks/exhaustive-deps
+function StockCell({ p, onCommit }: { p: InvProduct; onCommit: (qty: number) => Promise<boolean> }) {
+  const [text, setText] = useState(String(p.stockQty));
+  useEffect(() => setText(String(p.stockQty)), [p.stockQty]);
   const commit = async () => {
     const t = text.trim();
-    if (t === show()) return;
-    if (p.costInr == null) { toast.error("Add the cost price first", { description: "The margin sets the selling price from the cost, so it needs a cost to start from." }); setText(show()); return; }
-    const m = Number(t);
-    if (t === "" || !Number.isFinite(m) || m < 0 || m > 95) { toast.error("Enter a margin from 0 to 95 percent."); setText(show()); return; }
-    const price = Math.max(1, Math.round(p.costInr / (1 - m / 100)));
-    if (price === p.priceInr) { setText(show()); return; }
-    if (!(await onCommit(price, m))) setText(show());
+    if (t === String(p.stockQty)) return;
+    const next = Number(t);
+    if (t === "" || !Number.isInteger(next) || next < 0 || next > STOCK_MAX) {
+      toast.error(`Enter a whole number from 0 to ${STOCK_MAX.toLocaleString("en-IN")}.`);
+      setText(String(p.stockQty));
+      return;
+    }
+    if (!(await onCommit(next))) setText(String(p.stockQty));
   };
   return (
-    <label className="block">
-      <span className="eyebrow mb-1 block text-[10px] text-muted-foreground lg:sr-only">Margin %</span>
-      <span className="flex items-center gap-1">
+    <div className="col-span-3 lg:col-span-1">
+      <label className="block max-w-40 lg:max-w-none">
+        <span className="eyebrow mb-1 block text-[10px] text-muted-foreground lg:sr-only">Stock</span>
         <input
-          className={cn("field h-10 w-full px-2 text-sm tabular-nums", p.marginPct != null && p.marginPct < 30 && "text-oxblood")} inputMode="decimal" value={text} placeholder="—"
-          aria-label={`Margin percent for ${p.name}`} title={p.costInr == null ? "Add a cost price first" : "Type a margin to set the price"}
-          onChange={(e) => setText(e.target.value.replace(/[^\d.]/g, ""))} onBlur={() => void commit()}
-          onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); if (e.key === "Escape") { setText(show()); e.currentTarget.blur(); } }}
+          className="field h-10 w-full px-2 text-sm tabular-nums" inputMode="numeric" value={text} aria-label={`Stock count for ${p.name}`}
+          onChange={(e) => setText(e.target.value.replace(/\D/g, ""))} onBlur={() => void commit()}
+          onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); if (e.key === "Escape") { setText(String(p.stockQty)); e.currentTarget.blur(); } }}
         />
-        <span className="text-xs text-muted-foreground" aria-hidden="true">%</span>
-      </span>
-    </label>
+      </label>
+      {p.stockStatus === "out" ? <span className="mt-1 inline-block"><Pill tone="bad">Out</Pill></span> : p.stockStatus === "low" ? <span className="mt-1 inline-block"><Pill tone="warn">Low</Pill></span> : null}
+    </div>
   );
 }
 
