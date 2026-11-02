@@ -21,6 +21,7 @@
     "admin:create": "tsx src/db/create-admin.ts",
     "admin:add": "tsx src/db/add-admin.ts",
     "products:import": "tsx src/db/import-products.ts",
+    "images:rollback": "tsx src/db/images-rollback.ts",
     "gen:secret": "node -e \"console.log(require('node:crypto').randomBytes(48).toString('base64url'))\""
   },
   "dependencies": {
