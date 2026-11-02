@@ -187,6 +187,7 @@ export function MobileMenu() {
   const { panel, setPanel } = useStore();
   const close = () => setPanel(null);
   const [sub, setSub] = useState<string | null>(null);
+  const hasComingSoon = useCatalog().products.some((p) => p.availability === "coming_soon");
   return (
     <Drawer open={panel === "menu"} side="left" label="Menu" onClose={close}>
       <DrawerHead title="Menu" onClose={close} />
@@ -211,6 +212,7 @@ export function MobileMenu() {
               </div>
             </li>
           ))}
+          {hasComingSoon && <li className="border-b border-hairline"><Link to="/collections/$slug" params={{ slug: "coming-soon" }} onClick={close} className="block py-4 font-display text-2xl">Coming Soon</Link></li>}
           <li className="border-b border-hairline"><Link to="/" hash="house" onClick={close} className="block py-4 font-display text-2xl">The House</Link></li>
         </ul>
         <div className="mt-8 space-y-3 text-sm">

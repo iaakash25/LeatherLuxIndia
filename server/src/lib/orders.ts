@@ -95,14 +95,17 @@ async function placeOrderTx(userId: string, address: Address, idempotencyKey: st
       if (prior) return { replay: true, order: (await hydrate([prior], db))[0]! };
     }
 
-    const lines = (await db.query<{ product_slug: string; colour: string; size: string; qty: number; name: string; price_inr: number }>(
-      `SELECT c.product_slug, c.colour, c.size, c.qty, p.name, p.price_inr
+    const lines = (await db.query<{ product_slug: string; colour: string; size: string; qty: number; name: string; price_inr: number; availability: string }>(
+      `SELECT c.product_slug, c.colour, c.size, c.qty, p.name, p.price_inr, p.availability
          FROM cart_items c JOIN products p ON p.slug = c.product_slug
         WHERE c.user_id = $1 AND p.active
         ORDER BY c.product_slug, c.colour, c.size`,
       [userId],
     )).rows;
     if (!lines.length) throw badRequest("Your bag is empty");
+    // Inactive and coming-soon pieces stay in a bag but cannot be ordered, whatever their stock count.
+    const blocked = lines.find((l) => l.availability !== "active");
+    if (blocked) throw conflict(`"${blocked.name}" is not available to order right now. Remove it from your bag to continue.`, "unavailable");
 
     // Decrement per product in slug order (consistent lock order → no deadlocks); the WHERE guard prevents overselling.
     const perProduct = new Map<string, number>();

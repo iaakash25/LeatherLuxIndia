@@ -28,8 +28,8 @@ export async function loadCart(userId: string, db?: Queryable) {
     lineTotal: r.price_inr * r.qty,
     image: r.images[0] ?? null,
     thumb: r.images[0] ? thumbOf(r.images[0]) : null,
-    stock: stockStatus(r.stock_qty, r.reorder_level),
-    available: r.stock_qty >= r.qty,
+    stock: r.availability === "active" ? stockStatus(r.stock_qty, r.reorder_level) : "out",
+    available: r.availability === "active" && r.stock_qty >= r.qty,
   }));
   const count = items.reduce((a, i) => a + i.qty, 0);
   const subtotal = items.reduce((a, i) => a + i.lineTotal, 0);
@@ -53,7 +53,8 @@ export function validateVariant(p: Pick<ProductRow, "colours" | "sizes" | "stock
 export async function addCartItem(userId: string, slug: string, colour: string, size: string | undefined, qty: number, db?: Queryable) {
   const p = (await query<ProductRow>("SELECT * FROM products WHERE slug = $1 AND active", [slug], db)).rows[0];
   if (!p) throw badRequest("Unknown product");
-  if (p.stock_qty <= 0) throw badRequest("This piece is currently unavailable");
+  if (p.availability === "coming_soon") throw badRequest("This piece is coming soon and cannot be ordered yet");
+  if (p.availability !== "active" || p.stock_qty <= 0) throw badRequest("This piece is currently unavailable");
   const sizeKey = validateVariant(p, colour, size);
   const { rows } = await query<{ n: string }>("SELECT count(*) AS n FROM cart_items WHERE user_id = $1", [userId], db);
   const exists = (await query("SELECT 1 FROM cart_items WHERE user_id=$1 AND product_slug=$2 AND colour=$3 AND size=$4", [userId, slug, colour, sizeKey], db)).rowCount;

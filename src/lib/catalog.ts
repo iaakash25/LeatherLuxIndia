@@ -51,7 +51,12 @@ export type Product = {
   isNew?: boolean | undefined;
   bestseller?: boolean;
   gift?: boolean;
+  /** "out" also for an inactive or coming-soon product: the server reports those as out of stock, so nothing can be bought. */
   stock: "in" | "low" | "out";
+  /** "inactive" shows as out of stock; "coming_soon" is labelled and cannot be ordered yet. Absent means active. */
+  availability?: "active" | "inactive" | "coming_soon" | undefined;
+  /** What the product card does on hover. Absent means "swap" (show the second photo). */
+  hoverEffect?: "swap" | "slide" | "zoom" | "none" | undefined;
   tagline: string;
   /** A paragraph for the product page; empty for the original sample products. */
   description?: string | undefined;
@@ -114,6 +119,7 @@ export const COLLECTIONS: Collection[] = [
   { slug: "small-leather-goods", title: "Small Leather Goods", eyebrow: "Everyday objects", intro: "Wallets, card cases, belts and pouches. Considered gifts start at ₹490.", image: slg, filter: (p) => slgTypes.includes(p.type) },
   { slug: "work-travel", title: "Work & Travel", eyebrow: "In transit", intro: "Laptop bags, backpacks, duffles and wash bags built for movement.", image: travel, filter: (p) => ["Laptop & Work", "Travel", "Backpacks"].includes(p.type) },
   { slug: "gifts", title: "The Gift Edit", eyebrow: "Under ₹6,000", intro: "Small objects, well made. Pieces chosen for giving.", image: slg, filter: (p) => !!p.gift },
+  { slug: "coming-soon", title: "Coming Soon", eyebrow: "On the way", intro: "Pieces we are finishing now. Save one to your wishlist and it will be waiting for you.", image: texture, filter: (p) => p.availability === "coming_soon" },
 ];
 
 export const ALL_TYPES: ProductType[] = [...slgTypes, ...bagTypes];

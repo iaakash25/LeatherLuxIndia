@@ -4,7 +4,7 @@ import { useState } from "react";
 import { COLOURS, formatINR, productThumb, type Product } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import { Img } from "./Reveal";
+import { HoverImage } from "./HoverImage";
 
 export function ProductCard({ p, className, tone = "paper" }: { p: Product; className?: string; tone?: "paper" | "chalk" }) {
   const { wishlist, toggleWish, addToCart } = useStore();
@@ -14,13 +14,14 @@ export function ProductCard({ p, className, tone = "paper" }: { p: Product; clas
     <article className={cn("group relative", className)}>
       <div className={cn("relative aspect-[4/5] overflow-hidden", tone === "paper" ? "bg-paper" : "bg-chalk")}>
         <Link to="/products/$slug" params={{ slug: p.slug }} aria-label={p.name} className="absolute inset-0 block">
-          <Img src={productThumb(p)} alt={p.name} width={1024} height={1280} className="absolute inset-0 h-full w-full object-cover transition-[transform,opacity] duration-[900ms] ease-lux group-hover:scale-[1.03] group-hover:opacity-0" />
-          <Img src={productThumb(p, p.images.length > 1 ? 1 : 0)} alt="" width={1024} height={1280} className="absolute inset-0 h-full w-full scale-[1.03] object-cover opacity-0 transition-[transform,opacity] duration-[900ms] ease-lux group-hover:scale-100 group-hover:opacity-100" />
+          <HoverImage src={productThumb(p)} hoverSrc={p.images.length > 1 ? productThumb(p, 1) : undefined} effect={p.hoverEffect} alt={p.name} />
         </Link>
         <div className="pointer-events-none absolute left-3 top-3 flex gap-1.5">
           {p.isNew && <span className="eyebrow bg-paper/90 px-2 py-1 text-[10px] text-ink">New</span>}
           {p.stock === "low" && <span className="eyebrow bg-oxblood px-2 py-1 text-[10px] text-chalk">Few left</span>}
-          {p.stock === "out" && <span className="eyebrow bg-ink px-2 py-1 text-[10px] text-chalk">Sold out</span>}
+          {p.availability === "coming_soon"
+            ? <span className="eyebrow bg-brass px-2 py-1 text-[10px] text-ink">Coming soon</span>
+            : p.stock === "out" && <span className="eyebrow bg-ink px-2 py-1 text-[10px] text-chalk">Sold out</span>}
         </div>
         <button
           type="button"
@@ -38,7 +39,7 @@ export function ProductCard({ p, className, tone = "paper" }: { p: Product; clas
           className="absolute inset-x-0 bottom-0 flex h-12 items-center justify-center gap-2 bg-ink text-chalk eyebrow transition-[transform,background-color,color] duration-500 ease-lux hover:bg-oxblood disabled:bg-muted disabled:text-muted-foreground lg:translate-y-full lg:group-hover:translate-y-0 lg:group-focus-within:translate-y-0 max-lg:right-auto max-lg:w-12 max-lg:bg-paper/90 max-lg:text-ink"
           aria-label={`Quick add ${p.name} in ${colour}`}
         >
-          <Plus className="h-4 w-4 stroke-[1.5]" /><span className="max-lg:hidden">{p.stock === "out" ? "Sold out" : "Quick add"}</span>
+          <Plus className="h-4 w-4 stroke-[1.5]" /><span className="max-lg:hidden">{p.availability === "coming_soon" ? "Coming soon" : p.stock === "out" ? "Sold out" : "Quick add"}</span>
         </button>
       </div>
       <div className="flex items-start justify-between gap-3 pt-4">

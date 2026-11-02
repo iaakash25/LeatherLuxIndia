@@ -78,6 +78,7 @@ function ProductView({ p, slug }: { p: Product; slug: string }) {
 
   const wished = wishlist.includes(p.slug);
   const out = p.stock === "out";
+  const soon = p.availability === "coming_soon";
   const needsSize = !!p.sizes && !size;
   const related = products.filter((x) => x.slug !== p.slug && (x.type === p.type || x.gender === p.gender)).slice(0, 4);
   // The sample products have three photos and get a zoomed crop as a fourth view; photographed products show their real angles.
@@ -177,7 +178,7 @@ function ProductView({ p, slug }: { p: Product; slug: string }) {
 
             <div className="mt-6 flex items-center gap-3 text-sm">
               <span className={cn("h-1.5 w-1.5 rounded-full", out ? "bg-muted-foreground" : p.stock === "low" ? "bg-brass" : "bg-oxblood")} />
-              {out ? "Currently unavailable (sample status)" : p.stock === "low" ? "Only a few left (sample status)" : "In stock (sample status)"}
+              {soon ? "Coming soon: not available to order yet" : out ? "Currently unavailable (sample status)" : p.stock === "low" ? "Only a few left (sample status)" : "In stock (sample status)"}
             </div>
 
             <div className="mt-6 flex gap-3">
@@ -186,7 +187,7 @@ function ProductView({ p, slug }: { p: Product; slug: string }) {
                 <span className="w-6 text-center tabular-nums" aria-live="polite">{qty}</span>
                 <button aria-label="Increase quantity" onClick={() => setQty((q) => Math.min(10, q + 1))} disabled={qty >= 10} className="grid h-full w-11 place-items-center disabled:opacity-30"><Plus className="h-3.5 w-3.5" /></button>
               </div>
-              <button onClick={() => add()} disabled={out} className="btn-ink flex-1">{out ? "Sold out" : "Add to bag"}</button>
+              <button onClick={() => add()} disabled={out} className="btn-ink flex-1">{soon ? "Coming soon" : out ? "Sold out" : "Add to bag"}</button>
               <button onClick={() => toggleWish(p.slug)} aria-pressed={wished} aria-label={wished ? "Remove from wishlist" : "Save to wishlist"} className="grid h-[52px] w-[52px] place-items-center border border-input hover:border-ink"><Heart className={cn("h-[18px] w-[18px] stroke-[1.3]", wished && "fill-oxblood text-oxblood")} /></button>
             </div>
             {ordersOpen
@@ -270,7 +271,7 @@ function ProductView({ p, slug }: { p: Product; slug: string }) {
       {/* Mobile sticky bar */}
       <div className="fixed inset-x-0 bottom-0 z-30 flex items-center gap-3 border-t border-hairline bg-chalk/95 px-4 py-3 lg:hidden">
         <div className="min-w-0 flex-1"><p className="truncate text-sm">{p.name}</p><p className="text-xs tabular-nums text-muted-foreground">{formatINR(p.price)} · {colour}</p></div>
-        <button onClick={() => add()} disabled={out} className="btn-ink h-12 px-6">{out ? "Sold out" : "Add to bag"}</button>
+        <button onClick={() => add()} disabled={out} className="btn-ink h-12 px-6">{soon ? "Coming soon" : out ? "Sold out" : "Add to bag"}</button>
       </div>
       <div className="h-20 lg:hidden" />
     </>

@@ -15,6 +15,7 @@ import { brandingRouter } from "./routes/branding.js";
 import { cartRouter } from "./routes/cart.js";
 import { catalogRouter } from "./routes/catalog.js";
 import { healthRouter, miscRouter } from "./routes/misc.js";
+import { photosRouter } from "./routes/photos.js";
 import { ordersRouter } from "./routes/orders.js";
 import { visitsRouter } from "./routes/visits.js";
 import { wishlistRouter } from "./routes/wishlist.js";
@@ -68,6 +69,9 @@ export function createApp() {
     index: false, dotfiles: "ignore", redirect: false, immutable: true, maxAge: "365d",
     setHeaders: (res) => { res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"); },
   }), (_req, res) => { res.status(404).type("text/plain").send("Not found"); });
+
+  // Photos uploaded in the admin console: public, immutable, cached for a year (the route sets its own headers).
+  app.use("/api/photos", photosRouter);
 
   // Authenticated responses must never be cached by browsers or proxies; catalogue routes opt back in.
   app.use((_req, res, next) => { res.set("Cache-Control", "no-store"); next(); });

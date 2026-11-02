@@ -3,8 +3,10 @@ import { toast } from "sonner";
 import { api, errorMessage } from "@/lib/api";
 import { imageUrl } from "@/lib/catalog-live";
 import { cn } from "@/lib/utils";
+import { PHOTO_ACCEPT, PhotoError, preparePhoto, uploadPhoto } from "@/lib/photo-upload";
 import { Check, Field, fieldErrors, numOrNull, Pill } from "./ui";
-import { GENDER_LABEL, REASON_LABEL, type Gender, type InvProduct, type MediaAsset, type Movement } from "./inventory-types";
+import { HoverPicker } from "./HoverPicker";
+import { GENDER_LABEL, REASON_LABEL, STATUS_OPTIONS, statusOf, statusPatch, type Gender, type InvProduct, type MediaAsset, type Movement, type ShopStatus } from "./inventory-types";
 
 type Props = { product: InvProduct; types: string[]; onChange: (p: InvProduct) => void };
 
@@ -28,7 +30,7 @@ function DetailsForm({ product: p, types, onChange }: Props) {
   const [f, setF] = useState({
     name: p.name, type: p.type, gender: p.gender, tagline: p.tagline, material: p.material, dimensions: p.dimensions, description: p.description,
     colours: p.colours.join(", "), sizes: (p.sizes ?? []).join(", "), tags: p.tags.join(", "), reorderLevel: String(p.reorderLevel), costInr: p.costInr == null ? "" : String(p.costInr),
-    active: p.active, isNew: p.isNew, bestseller: p.bestseller, gift: p.gift, needsReview: p.needsReview,
+    status: statusOf(p), hoverEffect: p.hoverEffect, isNew: p.isNew, bestseller: p.bestseller, gift: p.gift, needsReview: p.needsReview,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState("");
@@ -46,7 +48,7 @@ function DetailsForm({ product: p, types, onChange }: Props) {
         body: {
           name: f.name, type: f.type, gender: f.gender, tagline: f.tagline, material: f.material, dimensions: f.dimensions, description: f.description,
           colours: list(f.colours), sizes: sizes.length ? sizes : null, tags: list(f.tags), reorderLevel: Number(f.reorderLevel || 0), costInr: numOrNull(f.costInr),
-          active: f.active, isNew: f.isNew, bestseller: f.bestseller, gift: f.gift, needsReview: f.needsReview,
+          ...statusPatch(f.status), hoverEffect: f.hoverEffect, isNew: f.isNew, bestseller: f.bestseller, gift: f.gift, needsReview: f.needsReview,
         },
       });
       onChange(r.product);
@@ -72,6 +74,11 @@ function DetailsForm({ product: p, types, onChange }: Props) {
         <Field id={id("gender")} label="For" error={errors["gender"]}>
           <select id={id("gender")} className="field" value={f.gender} onChange={(e) => set("gender", e.target.value as Gender)}>
             {(Object.keys(GENDER_LABEL) as Gender[]).map((g) => <option key={g} value={g}>{GENDER_LABEL[g]}</option>)}
+          </select>
+        </Field>
+        <Field id={id("status")} label="Shown in the shop as" error={errors["active"] ?? errors["availability"]} hint={STATUS_OPTIONS.find((o) => o.value === f.status)?.hint}>
+          <select id={id("status")} className="field" value={f.status} onChange={(e) => set("status", e.target.value as ShopStatus)}>
+            {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
         </Field>
         <Field id={id("tagline")} label="Tagline" error={errors["tagline"]} hint="One line, shown under the name." className="sm:col-span-2">
@@ -103,11 +110,13 @@ function DetailsForm({ product: p, types, onChange }: Props) {
         </Field>
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        <Check id={id("active")} checked={f.active} onChange={(v) => set("active", v)} label="Visible in the shop" hint="Untick to hide it without deleting it." />
         <Check id={id("needsReview")} checked={f.needsReview} onChange={(v) => set("needsReview", v)} label="Needs review" hint="Price or stock still to be confirmed." />
         <Check id={id("isNew")} checked={f.isNew} onChange={(v) => set("isNew", v)} label="New arrival" />
         <Check id={id("bestseller")} checked={f.bestseller} onChange={(v) => set("bestseller", v)} label="Bestseller" />
         <Check id={id("gift")} checked={f.gift} onChange={(v) => set("gift", v)} label="In the Gift Edit" />
+      </div>
+      <div className="mt-8">
+        <HoverPicker id={id("hover")} value={f.hoverEffect} onChange={(v) => set("hoverEffect", v)} photos={p.images.map((r) => imageUrl(r, "small")).filter((u): u is string => !!u)} />
       </div>
       <p className="mt-5 min-h-5 text-sm text-destructive" role="alert" aria-live="polite">{formError}</p>
       <div className="mt-2 flex items-center gap-4">
@@ -223,6 +232,9 @@ function PhotosPanel({ product: p, onChange }: Pick<Props, "product" | "onChange
   const [picking, setPicking] = useState(false);
   const [spare, setSpare] = useState<MediaAsset[] | null>(null);
   const [label, setLabel] = useState("");
+  const [match, setMatch] = useState(true);
+  const [holes, setHoles] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const run = async (path: string, init: { method: "POST" | "DELETE"; body?: unknown }, done: string) => {
     if (busy) return;
@@ -230,6 +242,17 @@ function PhotosPanel({ product: p, onChange }: Pick<Props, "product" | "onChange
     try { const r = await api<{ product: InvProduct }>(path, init); onChange(r.product); toast.success(done, { description: p.name }); return true; }
     catch (e) { toast.error(errorMessage(e)); return false; }
     finally { setBusy(false); }
+  };
+
+  const upload = async (file: File | undefined) => {
+    if (!file || uploading) return;
+    setUploading(true);
+    try {
+      const uploaded = await uploadPhoto(await preparePhoto(file, { matchBackdrop: match, holes: match && holes }));
+      await run(`/admin/inventory/${p.slug}/images`, { method: "POST", body: { photoId: uploaded.id, ...(label.trim() ? { label: label.trim() } : {}) } }, "Photo added");
+      setLabel("");
+    } catch (e) { toast.error(e instanceof PhotoError ? e.message : errorMessage(e)); }
+    finally { setUploading(false); }
   };
 
   const openPicker = async () => {
@@ -246,9 +269,24 @@ function PhotosPanel({ product: p, onChange }: Pick<Props, "product" | "onChange
     <section aria-label="Photos">
       <div className="flex items-baseline justify-between gap-4">
         <h3 className="eyebrow">Photos ({p.images.length})</h3>
-        <button type="button" className="text-xs underline underline-offset-4 hover:text-oxblood" onClick={() => (picking ? setPicking(false) : void openPicker())}>
-          {picking ? "Close spare photos" : "Add a spare photo"}
-        </button>
+        <span className="flex flex-wrap items-baseline justify-end gap-x-4 gap-y-1">
+          <label className={cn("cursor-pointer text-xs underline underline-offset-4 hover:text-oxblood", uploading && "pointer-events-none opacity-50")}>
+            {uploading ? "Uploading…" : "Upload a photo"}
+            <input type="file" accept={PHOTO_ACCEPT} className="sr-only" disabled={uploading || busy} onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
+          </label>
+          <button type="button" className="text-xs underline underline-offset-4 hover:text-oxblood" onClick={() => (picking ? setPicking(false) : void openPicker())}>
+            {picking ? "Close spare photos" : "Add a spare photo"}
+          </button>
+        </span>
+      </div>
+      <div className="mt-3 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+        <Field id={`${p.slug}-upload-label`} label="Label for a photo you add" hint="What it shows, e.g. Inside, Detail, Side view.">
+          <input id={`${p.slug}-upload-label`} className="field h-10" value={label} maxLength={40} placeholder="e.g. Inside" onChange={(e) => setLabel(e.target.value)} />
+        </Field>
+        <div className="space-y-1.5 pb-3 text-xs text-muted-foreground">
+          <label className="flex cursor-pointer items-center gap-2"><input type="checkbox" className="h-4 w-4 accent-ink" checked={match} onChange={(e) => setMatch(e.target.checked)} />Match the shop's off-white backdrop</label>
+          {match && <label className="flex cursor-pointer items-center gap-2"><input type="checkbox" className="h-4 w-4 accent-ink" checked={holes} onChange={(e) => setHoles(e.target.checked)} />Also recolour white inside handles and buckles</label>}
+        </div>
       </div>
       <ul className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4 xl:grid-cols-3">
         {p.images.map((ref, i) => (

@@ -16,9 +16,12 @@ const ASSETS: Record<string, string> = images;
 const PAGE_SIZE = 100; // the API's maximum page size
 
 export const isMediaPath = (ref: string) => ref.startsWith("/media/");
+/** A photo uploaded in the admin console, served by the API as /api/photos/<id> (and /api/photos/<id>/thumb). */
+export const isPhotoPath = (ref: string) => ref.startsWith("/api/photos/");
 /** The URL to show for a stored photo reference; undefined for a bundled key we don't have. */
 export function imageUrl(ref: string, size: "full" | "small" = "full"): string | undefined {
   if (isMediaPath(ref)) return apiUrl(size === "small" ? ref.replace(/\.webp$/, "-sm.webp") : ref);
+  if (isPhotoPath(ref)) return apiUrl(size === "small" && !ref.endsWith("/thumb") ? `${ref}/thumb` : ref);
   return ASSETS[ref];
 }
 

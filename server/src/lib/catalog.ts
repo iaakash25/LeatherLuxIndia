@@ -9,16 +9,25 @@ export type ProductRow = {
   stock_qty: number; tagline: string; material: string; dimensions: string; sizes: string[] | null; rank: number;
   sku: string | null; description: string; tags: string[]; image_labels: string[]; cost_inr: number | null;
   reorder_level: number; needs_review: boolean; source_folder: string | null; active: boolean; created_at: Date; updated_at: Date;
+  availability: Availability; hover_effect: HoverEffect;
 };
+
+/** active: for sale as its stock says. inactive: stays visible but shows as out of stock. coming_soon: stays visible, labelled, not for sale yet. (`active` on the row hides a product altogether.) */
+export const AVAILABILITIES = ["active", "inactive", "coming_soon"] as const;
+export type Availability = (typeof AVAILABILITIES)[number];
+/** What a product card does on hover: show the second photo (swap), slide it in, zoom the first, or nothing. */
+export const HOVER_EFFECTS = ["swap", "slide", "zoom", "none"] as const;
+export type HoverEffect = (typeof HOVER_EFFECTS)[number];
 
 /** "low" at or below the product's reorder level, which the shop sets per product (default 3). */
 export const stockStatus = (qty: number, reorderLevel = 3): "in" | "low" | "out" => (qty <= 0 ? "out" : qty <= reorderLevel ? "low" : "in");
 
 /**
- * An entry of `products.images` is either a storefront asset key (the original sample products) or a path under /media/
- * (photographed products), which also has a small version next to it for cards and thumbnails.
+ * An entry of `products.images` is a storefront asset key (the original sample products), a path under /media/ (photographed products)
+ * or /api/photos/<id> (uploaded in the admin console). The last two also have a small version for cards and thumbnails.
  */
-export const thumbOf = (image: string) => (image.startsWith("/media/") ? image.replace(/\.webp$/, "-sm.webp") : image);
+export const thumbOf = (image: string) =>
+  image.startsWith("/media/") ? image.replace(/\.webp$/, "-sm.webp") : image.startsWith("/api/photos/") ? `${image}/thumb` : image;
 
 /** Shape consumed by the storefront (mirrors `Product` in src/lib/catalog.ts). */
 export function toProduct(p: ProductRow) {
@@ -26,7 +35,8 @@ export function toProduct(p: ProductRow) {
     slug: p.slug, sku: p.sku ?? undefined, name: p.name, type: p.type, gender: p.gender, price: p.price_inr,
     colours: p.colours, images: p.images, thumbs: p.images.map(thumbOf), imageLabels: p.image_labels,
     isNew: p.is_new, bestseller: p.bestseller, gift: p.gift,
-    stock: stockStatus(p.stock_qty, p.reorder_level), tagline: p.tagline, material: p.material, dimensions: p.dimensions,
+    // A product that is not "active" (inactive, coming soon) shows as out of stock whatever its count, so nothing downstream can sell it.
+    stock: p.availability === "active" ? stockStatus(p.stock_qty, p.reorder_level) : "out", availability: p.availability, hoverEffect: p.hover_effect, tagline: p.tagline, material: p.material, dimensions: p.dimensions,
     description: p.description, tags: p.tags, sizes: p.sizes ?? undefined, rank: p.rank,
   };
 }
@@ -46,6 +56,7 @@ export const COLLECTIONS: CollectionDef[] = [
   { slug: "small-leather-goods", title: "Small Leather Goods", eyebrow: "Everyday objects", intro: "Wallets, card cases, belts and pouches. Considered gifts start at ₹490.", image: "slg", where: "type = ANY(@)", params: [SLG_TYPES] },
   { slug: "work-travel", title: "Work & Travel", eyebrow: "In transit", intro: "Laptop bags, backpacks, duffles and wash bags built for movement.", image: "travel", where: "type = ANY(@)", params: [["Laptop & Work", "Travel", "Backpacks"]] },
   { slug: "gifts", title: "The Gift Edit", eyebrow: "Under ₹6,000", intro: "Small objects, well made. Pieces chosen for giving.", image: "slg", where: "gift", params: [] },
+  { slug: "coming-soon", title: "Coming Soon", eyebrow: "On the way", intro: "Pieces we are finishing now. Save one to your wishlist and it will be waiting for you.", image: "texture", where: "availability = 'coming_soon'", params: [] },
 ];
 
 export const collectionMeta = ({ slug, title, eyebrow, intro, image }: CollectionDef) => ({ slug, title, eyebrow, intro, image });
@@ -79,7 +90,7 @@ export async function listProducts(o: ListOptions) {
   if (o.colours.length) where.push(`colours && ${add(o.colours)}::text[]`);
   where.push(`price_inr >= ${add(o.min)}`);
   if (o.max < PRICE_MAX) where.push(`price_inr <= ${add(o.max)}`); // the UI's top of range means "no upper limit"
-  if (o.inStock) where.push("stock_qty > 0");
+  if (o.inStock) where.push("stock_qty > 0 AND availability = 'active'");
   for (const w of (o.q ?? "").toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8)) {
     where.push(`lower(name || ' ' || type || ' ' || gender || ' ' || array_to_string(colours, ' ') || ' ' || tagline || ' ' || array_to_string(tags, ' ') || ' ' || coalesce(sku, '')) LIKE ${add(`%${escapeLike(w)}%`)}`);
   }

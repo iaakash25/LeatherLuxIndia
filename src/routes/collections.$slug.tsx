@@ -94,7 +94,8 @@ function CollectionPage() {
       {/* Sub-collections */}
       <div className="no-scrollbar overflow-x-auto border-b border-hairline">
         <ul className="mx-auto flex max-w-[1600px] gap-7 px-5 lg:px-10">
-          {COLLECTIONS.map((x) => (
+          {/* The Coming Soon tab only appears while something is coming soon (or when you are on it). */}
+          {COLLECTIONS.filter((x) => x.slug !== "coming-soon" || slug === "coming-soon" || products.some((p) => p.availability === "coming_soon")).map((x) => (
             <li key={x.slug}><Link to="/collections/$slug" params={{ slug: x.slug }} className={cn("block whitespace-nowrap border-b py-4 text-[13px] transition-colors", x.slug === slug ? "border-ink" : "border-transparent text-muted-foreground hover:text-ink")}>{x.title}</Link></li>
           ))}
         </ul>

@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Heart, Menu, Search, ShoppingBag, User, ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useBrand, brandTitle } from "@/lib/brand";
+import { useCatalog } from "@/lib/catalog-live";
 import { images } from "@/lib/catalog";
 import { LAUNCH } from "@/lib/launch";
 import { useStore } from "@/lib/store";
@@ -28,6 +29,7 @@ export function Header() {
     on(); window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
   }, []);
+  const hasComingSoon = useCatalog().products.some((p) => p.availability === "coming_soon");
   const active = NAV.find((n) => n.slug === open);
   // Keep showing the last menu while it fades out, instead of an empty box.
   const lastActive = useRef(active);
@@ -90,6 +92,7 @@ export function Header() {
                     aria-expanded={open === n.slug}>{n.label}</Link>
                 </li>
               ))}
+              {hasComingSoon && <li onMouseEnter={() => setOpen(null)}><Link to="/collections/$slug" params={{ slug: "coming-soon" }} className="text-[12.5px] tracking-[0.04em] hover:text-oxblood whitespace-nowrap">Coming Soon</Link></li>}
               <li onMouseEnter={() => setOpen(null)}><Link to="/" hash="house" className="text-[12.5px] tracking-[0.04em] hover:text-oxblood whitespace-nowrap">The House</Link></li>
             </ul>
           </nav>

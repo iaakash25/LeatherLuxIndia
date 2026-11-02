@@ -4,6 +4,7 @@ import { dbStats, query, withTx } from "../db/pool.js";
 import { COLLECTIONS } from "../lib/catalog.js";
 import { allCaches, invalidateBranding, purgeAll } from "../lib/caches.js";
 import { AppError, badRequest, conflict, notFound } from "../lib/errors.js";
+import { IMAGE_TYPES, sniffImage } from "../lib/image-type.js";
 import { audit } from "../lib/session.js";
 import { me } from "../middleware/auth.js";
 
@@ -64,14 +65,7 @@ adminConfigRouter.put("/branding", async (req, res) => {
   res.json({ branding: brandShape((await query<BrandRow>(brandSql)).rows[0]!) });
 });
 
-const LOGO_TYPES = ["image/png", "image/jpeg", "image/webp"] as const;
-/** The file's real type, from its first bytes — never trust the Content-Type header alone. */
-function sniffImage(b: Buffer): (typeof LOGO_TYPES)[number] | null {
-  if (b.length > 12 && b.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return "image/png";
-  if (b.length > 3 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff) return "image/jpeg";
-  if (b.length > 12 && b.toString("ascii", 0, 4) === "RIFF" && b.toString("ascii", 8, 12) === "WEBP") return "image/webp";
-  return null;
-}
+const LOGO_TYPES = IMAGE_TYPES;
 
 // Raw bytes, PNG/JPEG/WebP only, 1 MB max. SVG is deliberately not accepted: it can carry scripts.
 adminConfigRouter.put("/branding/logo", express.raw({ type: [...LOGO_TYPES], limit: "1mb" }), async (req, res) => {

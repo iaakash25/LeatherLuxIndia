@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { GENDER_LABEL, type Gender, type InvList, type InvProduct, type InvSummary } from "@/components/admin/inventory-types";
+import { AddProduct } from "@/components/admin/AddProduct";
+import { GENDER_LABEL, STATUS_LABEL, STATUS_OPTIONS, statusOf, statusPatch, type Gender, type InvList, type InvProduct, type InvSummary, type ShopStatus } from "@/components/admin/inventory-types";
 import { ProductEditor } from "@/components/admin/ProductEditor";
 import { LoadState, Pill, Section, useLoad } from "@/components/admin/ui";
 import { api, errorMessage } from "@/lib/api";
@@ -11,10 +12,10 @@ import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/inventory")({ component: Inventory });
 
-type Status = "all" | "active" | "hidden" | "low" | "out" | "review";
+type Status = "all" | "active" | "hidden" | "inactive" | "coming_soon" | "low" | "out" | "review";
 type Sort = "rank" | "name" | "price-asc" | "price-desc" | "stock-asc" | "updated";
 const SORTS: [Sort, string][] = [["rank", "Shop order"], ["name", "Name"], ["price-asc", "Price: low to high"], ["price-desc", "Price: high to low"], ["stock-asc", "Stock: lowest first"], ["updated", "Recently changed"]];
-const COLUMNS = "lg:grid-cols-[3.25rem_minmax(0,1fr)_6.5rem_6.5rem_3.5rem_5.5rem_9rem]";
+const COLUMNS = "lg:grid-cols-[3.25rem_minmax(0,1fr)_6.5rem_6.5rem_5rem_5.5rem_11rem]";
 
 function Inventory() {
   const [q, setQ] = useState("");
@@ -24,6 +25,7 @@ function Inventory() {
   const [gender, setGender] = useState<"" | Gender>("");
   const [sort, setSort] = useState<Sort>("rank");
   const [open, setOpen] = useState<string | null>(null);
+  const [adding, setAdding] = useState(false);
 
   useEffect(() => { const t = setTimeout(() => setSearch(q.trim()), 250); return () => clearTimeout(t); }, [q]);
   const path = useMemo(() => {
@@ -54,7 +56,12 @@ function Inventory() {
         </p>
       )}
 
-      <Section title="Inventory" hint="Edit a price or cost right in the row. Open a product to change its details, count or adjust its stock, and manage its photos.">
+      <Section
+        title="Inventory"
+        hint="Edit a price, cost or margin right in the row, and choose what shoppers see. Open a product to change its details, count or adjust its stock, and manage its photos."
+        action={!adding && <button type="button" className="btn-ink" onClick={() => setAdding(true)}>Add product</button>}
+      >
+        {adding && <AddProduct types={types} onClose={() => setAdding(false)} onCreated={() => { setAdding(false); void reload(); }} />}
         <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))]">
           <input className="field" type="search" placeholder="Search name, style no., tag…" aria-label="Search products" value={q} onChange={(e) => setQ(e.target.value)} />
           <select className="field" aria-label="Category" value={type} onChange={(e) => setType(e.target.value)}>
@@ -107,9 +114,11 @@ function Totals({ s, status, onStatus }: { s: InvSummary; status: Status; onStat
     </button>
   );
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-8">
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
       {filterTile("active", "In the shop", `${s.active}`)}
       {filterTile("hidden", "Hidden", s.hidden)}
+      {filterTile("inactive", "Inactive", s.inactive)}
+      {filterTile("coming_soon", "Coming soon", s.comingSoon)}
       {filterTile("low", "Low stock", s.lowStock, "warn")}
       {filterTile("out", "Out of stock", s.outOfStock, "bad")}
       {filterTile("review", "Need review", s.needsReview, "warn")}
@@ -154,7 +163,7 @@ function Row({ p, types, open, onToggle, onSaved }: RowProps) {
             {p.active
               ? <Link to="/products/$slug" params={{ slug: p.slug }} target="_blank" rel="noopener" className="link-line truncate text-sm">{p.name}</Link>
               : <span className="truncate text-sm">{p.name}</span>}
-            {!p.active && <Pill>Hidden</Pill>}
+            {!p.active ? <Pill>Hidden</Pill> : p.availability === "inactive" ? <Pill tone="bad">Inactive</Pill> : p.availability === "coming_soon" ? <Pill tone="warn">Coming soon</Pill> : null}
             {p.needsReview && <Pill tone="warn">Review</Pill>}
             {p.isNew && <Pill tone="live">New</Pill>}
           </div>
@@ -164,24 +173,63 @@ function Row({ p, types, open, onToggle, onSaved }: RowProps) {
         <div className="col-span-2 grid grid-cols-3 items-end gap-3 lg:contents">
           <MoneyCell label="Price ₹" value={p.priceInr} min={1} onCommit={(v) => patch({ priceInr: v }, "Price saved")} />
           <MoneyCell label="Cost ₹" value={p.costInr} min={0} nullable onCommit={(v) => patch({ costInr: v }, "Cost saved")} />
-          <p className="text-sm tabular-nums">
-            <span className="eyebrow mb-1 block text-[10px] text-muted-foreground lg:hidden">Margin</span>
-            {p.marginPct == null ? <span className="text-muted-foreground">—</span> : <span className={p.marginPct < 30 ? "text-oxblood" : undefined}>{p.marginPct}%</span>}
-          </p>
+          <MarginCell p={p} onCommit={(price, margin) => patch({ priceInr: price }, `Price set to ${formatINR(price)} for a ${margin}% margin`)} />
           <p className="col-span-3 flex items-center gap-2 text-sm tabular-nums lg:col-span-1">
             <span className="eyebrow text-[10px] text-muted-foreground lg:hidden">Stock</span>
             <span>{p.stockQty}</span>
             {p.stockStatus === "out" ? <Pill tone="bad">Out</Pill> : p.stockStatus === "low" ? <Pill tone="warn">Low</Pill> : null}
           </p>
-          <p className="col-span-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs lg:col-span-1">
-            <button type="button" onClick={onToggle} aria-expanded={open} className="underline underline-offset-4 hover:text-oxblood">{open ? "Close" : "Open"}</button>
-            {p.needsReview && <button type="button" disabled={busy} onClick={() => void patch({ needsReview: false }, "Marked as reviewed")} className="underline underline-offset-4 hover:text-oxblood">Reviewed</button>}
-            <button type="button" disabled={busy} onClick={() => void patch({ active: !p.active }, p.active ? "Hidden from the shop" : "Now in the shop")} className="text-muted-foreground underline underline-offset-4 hover:text-oxblood">{p.active ? "Hide" : "Show"}</button>
-          </p>
+          <div className="col-span-3 space-y-2 lg:col-span-1">
+            <select
+              className="field h-9 w-full px-1.5 text-xs" aria-label={`What shoppers see for ${p.name}`} title={STATUS_OPTIONS.find((o) => o.value === statusOf(p))?.hint}
+              value={statusOf(p)} disabled={busy}
+              onChange={(e) => { const v = e.target.value as ShopStatus; void patch(statusPatch(v), `${STATUS_LABEL[v]}: ${STATUS_OPTIONS.find((o) => o.value === v)!.hint}`); }}
+            >
+              {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{STATUS_LABEL[o.value]}</option>)}
+            </select>
+            <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+              <button type="button" onClick={onToggle} aria-expanded={open} className="underline underline-offset-4 hover:text-oxblood">{open ? "Close" : "Open"}</button>
+              {p.needsReview && <button type="button" disabled={busy} onClick={() => void patch({ needsReview: false }, "Marked as reviewed")} className="underline underline-offset-4 hover:text-oxblood">Reviewed</button>}
+            </p>
+          </div>
         </div>
       </div>
       {open && <ProductEditor product={p} types={types} onChange={onSaved} />}
     </li>
+  );
+}
+
+/**
+ * The margin, editable like the price and cost. Typing a margin sets the SELLING PRICE from the cost (price = cost ÷ (1 − margin)), because
+ * the cost is what you paid. Without a cost there is nothing to work from, so it asks for the cost first.
+ */
+function MarginCell({ p, onCommit }: { p: InvProduct; onCommit: (price: number, margin: number) => Promise<boolean> }) {
+  const show = () => (p.marginPct == null ? "" : String(p.marginPct));
+  const [text, setText] = useState(show());
+  useEffect(() => setText(show()), [p.marginPct, p.priceInr, p.costInr]); // eslint-disable-line react-hooks/exhaustive-deps
+  const commit = async () => {
+    const t = text.trim();
+    if (t === show()) return;
+    if (p.costInr == null) { toast.error("Add the cost price first", { description: "The margin sets the selling price from the cost, so it needs a cost to start from." }); setText(show()); return; }
+    const m = Number(t);
+    if (t === "" || !Number.isFinite(m) || m < 0 || m > 95) { toast.error("Enter a margin from 0 to 95 percent."); setText(show()); return; }
+    const price = Math.max(1, Math.round(p.costInr / (1 - m / 100)));
+    if (price === p.priceInr) { setText(show()); return; }
+    if (!(await onCommit(price, m))) setText(show());
+  };
+  return (
+    <label className="block">
+      <span className="eyebrow mb-1 block text-[10px] text-muted-foreground lg:sr-only">Margin %</span>
+      <span className="flex items-center gap-1">
+        <input
+          className={cn("field h-10 w-full px-2 text-sm tabular-nums", p.marginPct != null && p.marginPct < 30 && "text-oxblood")} inputMode="decimal" value={text} placeholder="—"
+          aria-label={`Margin percent for ${p.name}`} title={p.costInr == null ? "Add a cost price first" : "Type a margin to set the price"}
+          onChange={(e) => setText(e.target.value.replace(/[^\d.]/g, ""))} onBlur={() => void commit()}
+          onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); if (e.key === "Escape") { setText(show()); e.currentTarget.blur(); } }}
+        />
+        <span className="text-xs text-muted-foreground" aria-hidden="true">%</span>
+      </span>
+    </label>
   );
 }
 
