@@ -6,6 +6,7 @@ import { images, ALL_TYPES, applyFilters, COLLECTIONS, COLOURS, formatINR, getCo
 import { useCatalog } from "@/lib/catalog-live";
 import { Drawer } from "@/components/site/Drawer";
 import { ProductCard } from "@/components/site/ProductCard";
+import { LiveHero } from "@/components/site/LiveHero";
 import { Img, Reveal } from "@/components/site/Reveal";
 import { brandFromMatches, brandTitle } from "@/lib/brand";
 import { cn } from "@/lib/utils";
@@ -76,19 +77,19 @@ function CollectionPage() {
   return (
     <>
       {/* Banner */}
-      <section className="relative overflow-hidden bg-ink text-chalk">
-        <Img src={c.image} alt="" eager className="absolute inset-0 h-full w-full object-cover opacity-70" />
-        <div className="absolute inset-0 scrim-hero" />
-        <div className="relative mx-auto flex min-h-[340px] max-w-[1600px] flex-col justify-end px-5 py-10 lg:min-h-[440px] lg:px-10 lg:py-14">
-          <nav aria-label="Breadcrumb" className="text-xs text-chalk/60"><Link to="/" className="hover:text-chalk">Home</Link> <span className="mx-2">/</span> <span className="text-chalk">{c.title}</span></nav>
-          <p className="anim-rise eyebrow mt-8 text-brass">{c.eyebrow}</p>
-          <h1 className="anim-rise font-display mt-3 text-[52px] leading-[0.95] lg:text-[96px]">{c.title}</h1>
-          <div className="mt-5 flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
-            <p className="max-w-md text-sm text-chalk/75">{c.intro}</p>
-            <p className="text-xs tracking-[0.14em] uppercase text-chalk/60" aria-live="polite">{results.length} {results.length === 1 ? "piece" : "pieces"}</p>
-          </div>
+      <LiveHero
+        copyClassName="relative mx-auto flex min-h-[340px] max-w-[1600px] flex-col justify-end px-5 py-10 lg:min-h-[440px] lg:px-10 lg:py-14"
+        media={<Img src={c.image} alt="" eager className="h-full w-full object-cover opacity-70" />}
+        scrim={<div className="absolute inset-0 scrim-hero" />}
+      >
+        <nav aria-label="Breadcrumb" className="text-xs text-chalk/60"><Link to="/" className="hover:text-chalk">Home</Link> <span className="mx-2">/</span> <span className="text-chalk">{c.title}</span></nav>
+        <p className="anim-rise eyebrow mt-8 text-brass">{c.eyebrow}</p>
+        <h1 className="anim-rise font-display mt-3 text-[52px] leading-[0.95] lg:text-[96px]">{c.title}</h1>
+        <div className="mt-5 flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
+          <p className="max-w-md text-sm text-chalk/75">{c.intro}</p>
+          <p className="text-xs tracking-[0.14em] uppercase text-chalk/60" aria-live="polite">{results.length} {results.length === 1 ? "piece" : "pieces"}</p>
         </div>
-      </section>
+      </LiveHero>
 
       {/* Sub-collections */}
       <div className="no-scrollbar overflow-x-auto border-b border-hairline">
