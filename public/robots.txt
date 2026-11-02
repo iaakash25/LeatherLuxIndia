@@ -1,14 +1,11 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# Every crawler follows this one group (a crawler named in its own group would ignore the rules below).
 User-agent: *
 Allow: /
+# Private pages and the API. The logo stays reachable: Google reads it for the site's search listing.
+Disallow: /admin
+Disallow: /checkout
+Disallow: /orders
+Disallow: /api/
+Allow: /api/branding/logo
+
+Sitemap: https://leatherluxindia.com/sitemap.xml

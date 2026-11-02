@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { BrandProvider, brandTitle, DEFAULT_BRAND, loadBrand } from "@/lib/brand";
+import { canonicalUrl } from "@/lib/seo";
 import { StoreProvider } from "@/lib/store";
 import { Header } from "@/components/site/Header";
 import { AccountDrawer, CartDrawer, MobileMenu, SearchOverlay, WishlistDrawer } from "@/components/site/Panels";
@@ -82,8 +83,10 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   loader: async () => ({ brand: await loadBrand() }),
   staleTime: 30_000,
-  head: ({ loaderData }) => {
+  head: ({ loaderData, matches }) => {
     const brand = loaderData?.brand ?? DEFAULT_BRAND;
+    // The last match is the page itself, so its path is the address being served.
+    const canonical = canonicalUrl(matches[matches.length - 1]?.pathname ?? "/");
     return {
     meta: [
       { charSet: "utf-8" },
@@ -91,9 +94,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: `${brandTitle(brand)} — Contemporary Leather House` },
       { name: "description", content: "Bags, wallets, belts and small leather goods from a contemporary leather house." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: brandTitle(brand) },
+      { property: "og:url", content: canonical },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      { rel: "canonical", href: canonical },
       {
         rel: "stylesheet",
         href: appCss,

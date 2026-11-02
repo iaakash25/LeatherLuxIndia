@@ -8,16 +8,34 @@ import { ProductCard } from "@/components/site/ProductCard";
 import { Img, Reveal } from "@/components/site/Reveal";
 import { Newsletter, Reassurance } from "@/components/site/Footer";
 import { brandFromMatches, brandTitle } from "@/lib/brand";
+import { absoluteUrl, jsonLd, SITE_ORIGIN } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: ({ matches }) => {
-    const site = brandTitle(brandFromMatches(matches));
+    const brand = brandFromMatches(matches);
+    const site = brandTitle(brand);
     return {
     meta: [
       { title: `${site} — Bags, Wallets & Small Leather Goods` },
       { name: "description", content: "A contemporary leather house. Shop sculpted handbags, totes, briefcases, weekenders, wallets and belts, from ₹590." },
       { property: "og:title", content: `${site} — The Autumn Collection` },
       { property: "og:description", content: "Sculpted handbags, work bags, travel pieces and small leather goods." },
+    ],
+    // Tells Google the shop's name and logo, which is what a search for the brand name is matched against.
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: jsonLd([
+          { "@context": "https://schema.org", "@type": "WebSite", name: site, url: `${SITE_ORIGIN}/` },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: site,
+            url: `${SITE_ORIGIN}/`,
+            ...(brand.logoUrl ? { logo: absoluteUrl(brand.logoUrl) } : {}),
+          },
+        ]),
+      },
     ],
     };
   },
