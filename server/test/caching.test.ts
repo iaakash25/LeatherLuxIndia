@@ -128,7 +128,7 @@ describe("what clears the catalogue cache", () => {
       const shopper = await signUp("cache-shopper@example.com");
       const colour = (await get(`/api/products/${slug}`)).body.product.colours[0] as string;
       expect((await shopper.post("/api/cart/items").send({ slug, colour, qty: 2 })).status).toBe(201);
-      const address = { name: "A B", phone: "9876543210", line1: "1 Road", city: "Pune", state: "Maharashtra", pincode: "411001" };
+      const address = { name: "A B", phone: "9845012367", line1: "1 Road", city: "Pune", state: "Maharashtra", pincode: "411001" };
       const order = await shopper.post("/api/orders").send({ shippingAddress: address });
       expect(order.status).toBe(201);
       expect(await stock()).toBe("out"); // placing the order cleared the cache

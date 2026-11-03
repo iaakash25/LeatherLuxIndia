@@ -2,7 +2,9 @@ import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-ro
 import { Heart, Minus, Plus, Star, Truck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { api, apiEnabled, errorMessage } from "@/lib/api";
+import { api, ApiError, apiEnabled, errorMessage } from "@/lib/api";
+import type { PincodeInfo } from "@/lib/pincode";
+import { validatePincode } from "@/lib/validation";
 import { COLOURS, formatINR, type Product } from "@/lib/catalog";
 import { brandFromMatches, brandTitle } from "@/lib/brand";
 import { loadCatalog, useCatalog } from "@/lib/catalog-live";
@@ -104,10 +106,15 @@ function ProductView({ p, slug }: { p: Product; slug: string }) {
   };
   const checkPin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!/^[1-9]\d{5}$/.test(pin)) { setPinMsg({ ok: false, m: "Enter a valid 6-digit pincode." }); return; }
+    const v = validatePincode(pin);
+    if (!v.ok) { setPinMsg({ ok: false, m: v.message }); return; }
     try {
-      const r = await api<{ minDays: number; maxDays: number }>(`/delivery/estimate?pincode=${pin}`);
-      setPinMsg({ ok: true, m: `Sample estimate: delivery in ${r.minDays}–${r.maxDays} working days.` });
+      // Which place is it? "No such pincode" is refused; if the lookup is down the estimate is still given, without the place.
+      let place: PincodeInfo | null | undefined;
+      try { place = await api<PincodeInfo>(`/pincode/${v.value}`); } catch (e) { place = e instanceof ApiError && e.status === 404 ? null : undefined; }
+      if (place === null) { setPinMsg({ ok: false, m: "We couldn't find this pincode. Please check it." }); return; }
+      const r = await api<{ minDays: number; maxDays: number }>(`/delivery/estimate?pincode=${v.value}`);
+      setPinMsg({ ok: true, m: `${place ? `Delivering to ${place.city}${place.state ? `, ${place.state}` : ""}. ` : ""}Sample estimate: delivery in ${r.minDays}–${r.maxDays} working days.` });
     } catch (error) {
       setPinMsg({ ok: false, m: errorMessage(error) });
     }

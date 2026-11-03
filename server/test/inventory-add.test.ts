@@ -9,7 +9,7 @@ import { purgeAll } from "../src/lib/caches.js";
 const ORIGIN = "https://shop.example.com";
 const PASSWORD = "a-long-test-passphrase";
 const app = createApp();
-const address = { name: "Asha Rao", phone: "9876543210", line1: "12 MG Road", city: "Bengaluru", state: "Karnataka", pincode: "560001" };
+const address = { name: "Asha Rao", phone: "9845012367", line1: "12 MG Road", city: "Bengaluru", state: "Karnataka", pincode: "560001" };
 
 function client() {
   const agent = request.agent(app);
@@ -55,7 +55,8 @@ beforeAll(async () => {
 
 // The test database is shared with the other test files, so everything this file adds is removed again.
 afterAll(async () => {
-  await query("DELETE FROM products WHERE slug LIKE 'zz-added-%'");
+  // Everything made through the Add product API has an automatic style number (LLI-NEW-…), whatever its name.
+  await query("DELETE FROM products WHERE slug LIKE 'zz-added-%' OR sku LIKE 'LLI-NEW-%'");
   await query("DELETE FROM product_photos");
   purgeAll();
 });

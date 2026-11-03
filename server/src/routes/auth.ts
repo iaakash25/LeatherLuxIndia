@@ -7,6 +7,7 @@ import { fakeVerify, hashPassword, verifyPassword } from "../lib/passwords.js";
 import { audit, clearSession, issueSession } from "../lib/session.js";
 import { invalidateUser } from "../lib/caches.js";
 import { hashToken } from "../lib/tokens.js";
+import { validatePersonName } from "../lib/validation.js";
 import { me, REFRESH_COOKIE, requireAuth } from "../middleware/auth.js";
 import { authLimiter } from "../middleware/rate-limit.js";
 
@@ -25,7 +26,12 @@ const newPassword = z.string().min(10, "Use at least 10 characters").max(128, "U
   .refine((p) => !COMMON.has(p.toLowerCase()), "That password is too common");
 
 const registerSchema = z.object({
-  name: z.string().trim().min(1).max(80),
+  name: z.string().transform((raw, ctx) => {
+    const r = validatePersonName(raw);
+    if (r.ok) return r.value;
+    ctx.addIssue({ code: "custom", message: r.message });
+    return z.NEVER;
+  }),
   email,
   password: newPassword,
 }).refine((v) => v.password.toLowerCase() !== v.email, { path: ["password"], message: "Password must not be your email" });

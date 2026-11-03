@@ -12,7 +12,7 @@ import { purgeAll } from "../src/lib/caches.js";
 const ORIGIN = "https://shop.example.com";
 const PASSWORD = "a-long-test-passphrase";
 const app = createApp();
-const address = { name: "Asha Rao", phone: "9876543210", line1: "12 MG Road", city: "Bengaluru", state: "Karnataka", pincode: "560001" };
+const address = { name: "Asha Rao", phone: "9845012367", line1: "12 MG Road", city: "Bengaluru", state: "Karnataka", pincode: "560001" };
 
 function client() {
   const agent = request.agent(app);

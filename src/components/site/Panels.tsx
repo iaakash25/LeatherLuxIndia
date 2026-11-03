@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { apiEnabled, errorMessage } from "@/lib/api";
 import { formatINR, productThumb, searchProducts, type Product } from "@/lib/catalog";
 import { useCatalog } from "@/lib/catalog-live";
+import { validateEmail, validatePersonName } from "@/lib/validation";
 import { useOrdersOpen } from "@/lib/store-status";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -146,7 +147,7 @@ export function SearchOverlay() {
           onSubmit={(e) => { e.preventDefault(); if (!q.trim()) return; close(); navigate({ to: "/collections/$slug", params: { slug: "all" }, search: { q: q.trim() } }); }}>
           <Search className="h-5 w-5 shrink-0 stroke-[1.3]" />
           <label htmlFor="site-search" className="sr-only">Search the collection</label>
-          <input id="site-search" ref={ref} value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search bags, wallets, colours…" className="font-display w-full bg-transparent text-2xl outline-none placeholder:text-muted-foreground/60 lg:text-4xl" />
+          <input id="site-search" ref={ref} value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search bags, wallets, colours…" maxLength={100} className="font-display w-full bg-transparent text-2xl outline-none placeholder:text-muted-foreground/60 lg:text-4xl" />
           <button type="button" onClick={close} aria-label="Close search" className="grid h-10 w-10 shrink-0 place-items-center hover:text-oxblood"><X className="h-5 w-5 stroke-[1.3]" /></button>
         </form>
         {!q.trim() ? (
@@ -241,13 +242,17 @@ export function AccountDrawer() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (busy) return;
-    if (mode === "up" && !name.trim()) { setErr("Please enter your name."); return; }
-    if (mode === "in" ? !email.trim() : !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) { setErr(mode === "in" ? "Please enter your email or username." : "Please enter a valid email address."); return; }
+    // Sign-up is judged by the shared rules (the server enforces the same ones); sign-in takes an email or a username, so only "not empty".
+    const who = mode === "up" ? validatePersonName(name) : null;
+    if (who && !who.ok) { setErr(who.message); return; }
+    const mail = mode === "up" ? validateEmail(email) : null;
+    if (mode === "in" ? !email.trim() : mail && !mail.ok) { setErr(mode === "in" ? "Please enter your email or username." : mail && !mail.ok ? mail.message : ""); return; }
     if (mode === "up" && password.length < 10) { setErr("Use at least 10 characters for your password."); return; }
+    if (mode === "up" && password.toLowerCase() === email.trim().toLowerCase()) { setErr("Your password must not be your email address."); return; }
     if (!password) { setErr("Please enter your password."); return; }
     setErr(""); setBusy(true);
     try {
-      const u = mode === "in" ? await signIn(email.trim(), password) : await signUp(name.trim(), email.trim(), password);
+      const u = mode === "in" ? await signIn(email.trim(), password) : await signUp(who && who.ok ? who.value : name.trim(), mail && mail.ok ? mail.value : email.trim(), password);
       setPassword("");
       if (!u.mustChangePassword) close(); // a default password has to be replaced first, so stay open for that
     } catch (error) {

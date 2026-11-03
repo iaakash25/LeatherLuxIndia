@@ -5,6 +5,7 @@ import { env } from "../config/env.js";
 import { query, withTx, type Queryable } from "../db/pool.js";
 import { invalidateCatalog } from "./caches.js";
 import { badRequest, conflict, notFound } from "./errors.js";
+import { validateAddressLine, validateCity, validateMobile, validatePersonName, validatePincode, validateState, type Check } from "./validation.js";
 import { logMovement } from "./inventory.js";
 
 export const ORDER_STATUSES = ["pending", "confirmed", "shipped", "delivered", "cancelled"] as const;
@@ -19,14 +20,22 @@ export const TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
   cancelled: [],
 };
 
+/** A string field judged by one of the shared rules in validation.ts; what is stored is the cleaned value (trimmed, phone as 10 digits). */
+const rule = (check: (raw: string) => Check) => z.string().transform((raw, ctx) => {
+  const r = check(raw);
+  if (r.ok) return r.value;
+  ctx.addIssue({ code: "custom", message: r.message });
+  return z.NEVER;
+});
+
 export const addressSchema = z.object({
-  name: z.string().trim().min(1).max(100),
-  phone: z.string().trim().regex(/^(\+91[\s-]?)?[6-9]\d{9}$/, "Enter a valid 10-digit Indian mobile number"),
-  line1: z.string().trim().min(1).max(150),
-  line2: z.string().trim().max(150).optional(),
-  city: z.string().trim().min(1).max(80),
-  state: z.string().trim().min(1).max(80),
-  pincode: z.string().trim().regex(/^[1-9]\d{5}$/, "Enter a valid 6-digit pincode"),
+  name: rule(validatePersonName),
+  phone: rule(validateMobile),
+  line1: rule((s) => validateAddressLine(s, { required: true })),
+  line2: rule((s) => validateAddressLine(s, { required: false })).optional().transform((v) => v || undefined),
+  city: rule(validateCity),
+  state: rule(validateState),
+  pincode: rule(validatePincode),
 });
 export type Address = z.infer<typeof addressSchema>;
 

@@ -2,7 +2,10 @@ import { Router } from "express";
 import { z } from "zod";
 import { env } from "../config/env.js";
 import { query } from "../db/pool.js";
+import { AppError } from "../lib/errors.js";
 import { logger } from "../lib/logger.js";
+import { lookupPincode } from "../lib/pincode.js";
+import { validatePincode } from "../lib/validation.js";
 import { newsletterLimiter } from "../middleware/rate-limit.js";
 
 export const miscRouter = Router();
@@ -20,9 +23,27 @@ miscRouter.get("/store-status", (_req, res) => {
   res.json({ ordersOpen: env().ORDERS_OPEN });
 });
 
+/**
+ * The city and state a pincode belongs to, so the checkout form can fill them in. A pincode's place never changes, so the answer is cached for
+ * a day by this server, the CDN and the browser. 404: no such pincode. 503: the lookup service is down (the shopper types the place instead).
+ */
+miscRouter.get("/pincode/:pin", async (req, res) => {
+  const v = validatePincode(String(req.params["pin"] ?? ""));
+  if (!v.ok) throw new AppError(400, "invalid_pincode", v.message);
+  const info = await lookupPincode(v.value);
+  if (!info) throw new AppError(404, "pincode_not_found", "We couldn't find that pincode. Please check it.");
+  res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
+  res.json(info);
+});
+
 /** Same sample estimate the storefront shows today: metro-style first digits are faster. */
 miscRouter.get("/delivery/estimate", (req, res) => {
-  const { pincode } = z.object({ pincode: z.string().regex(/^[1-9]\d{5}$/, "Enter a valid 6-digit pincode") }).parse(req.query);
+  const { pincode } = z.object({ pincode: z.string().transform((raw, ctx) => {
+    const r = validatePincode(raw);
+    if (r.ok) return r.value;
+    ctx.addIssue({ code: "custom", message: r.message });
+    return z.NEVER;
+  }) }).parse(req.query);
   const metro = ["1", "4", "5", "6"].includes(pincode[0]!);
   res.json({ pincode, minDays: metro ? 2 : 4, maxDays: metro ? 4 : 7, sample: true });
 });

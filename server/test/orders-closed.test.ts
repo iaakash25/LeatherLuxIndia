@@ -7,7 +7,7 @@ import { migrate } from "../src/db/migrate.js";
 import { seed } from "../src/db/seed.js";
 
 const ORIGIN = "https://shop.example.com";
-const address = { name: "Asha Rao", phone: "9876543210", line1: "12 MG Road", city: "Bengaluru", state: "Karnataka", pincode: "560001" };
+const address = { name: "Asha Rao", phone: "9845012367", line1: "12 MG Road", city: "Bengaluru", state: "Karnataka", pincode: "560001" };
 const app = createApp();
 
 /** Opens or closes ordering for the requests that follow (the setting is read per request). */

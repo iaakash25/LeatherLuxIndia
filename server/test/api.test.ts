@@ -23,7 +23,7 @@ async function signUp(email: string, name = "Test Person") {
   return c;
 }
 
-const address = { name: "Asha Rao", phone: "9876543210", line1: "12 MG Road", city: "Bengaluru", state: "Karnataka", pincode: "560001" };
+const address = { name: "Asha Rao", phone: "9845012367", line1: "12 MG Road", city: "Bengaluru", state: "Karnataka", pincode: "560001" };
 const cookieHeader = (res: request.Response, name: string) => (res.headers["set-cookie"] as unknown as string[] | undefined)?.find((c) => c.startsWith(`${name}=`));
 
 beforeAll(async () => {

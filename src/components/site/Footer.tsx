@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { api, errorMessage } from "@/lib/api";
 import { brandTitle, useBrand } from "@/lib/brand";
+import { validateEmail } from "@/lib/validation";
 import { VisitorCount } from "./VisitorCount";
 
 export function Reassurance() {
@@ -34,10 +35,11 @@ export function Newsletter() {
   const [busy, setBusy] = useState(false);
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) { setErr("Please enter a valid email address."); return; }
+    const mail = validateEmail(email);
+    if (!mail.ok) { setErr(mail.message); return; }
     setErr(""); setBusy(true);
     try {
-      await api("/newsletter", { method: "POST", body: { email: email.trim() } });
+      await api("/newsletter", { method: "POST", body: { email: mail.value } });
       setDone(true);
       toast.success("You're on the list");
     } catch (error) {
@@ -61,7 +63,7 @@ export function Newsletter() {
             <form onSubmit={submit} noValidate className="mt-8 max-w-lg">
               <label htmlFor="nl-email" className="sr-only">Email address</label>
               <div className="flex border-b border-chalk/50 focus-within:border-chalk">
-                <input id="nl-email" type="email" value={email} onChange={(e) => { setEmail(e.target.value); setErr(""); }} placeholder="Your email address" aria-invalid={!!err} aria-describedby="nl-err" className="h-14 flex-1 bg-transparent text-base outline-none placeholder:text-chalk/50" />
+                <input id="nl-email" type="email" maxLength={254} value={email} onChange={(e) => { setEmail(e.target.value); setErr(""); }} placeholder="Your email address" aria-invalid={!!err} aria-describedby="nl-err" className="h-14 flex-1 bg-transparent text-base outline-none placeholder:text-chalk/50" />
                 <button type="submit" disabled={busy} className="flex items-center gap-2 eyebrow hover:text-brass disabled:opacity-50">{busy ? "Sending…" : "Subscribe"} <ArrowRight className="h-4 w-4" /></button>
               </div>
               <p id="nl-err" className="mt-3 min-h-5 text-xs text-brass" aria-live="polite">{err}</p>
