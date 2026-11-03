@@ -5,6 +5,9 @@ Each script below is copied word for word from the project (`server/...` paths a
 a database administrator as it is. Nothing here contains a secret: passwords are placeholders, and the database password, JWT secret
 and pepper live only in `server/.env` and in Vercel's Environment Variables.
 
+Up to date as of migration 007 (applied to the live database on 2026-11-03). When a migration or one of these scripts changes, this file is
+regenerated from the project files rather than edited by hand.
+
 **This deployment:** Postgres on an EC2 server, database `LLI`, application role `llx_app`. The API needs Postgres 13 or newer
 (`gen_random_uuid()` is built in; no extensions are required).
 
@@ -12,8 +15,8 @@ and pepper live only in `server/.env` and in Vercel's Environment Variables.
 
 1. Order of use
 2. One-time server setup (role, database, hardening, network)
-3. Schema migrations 001 to 006 (all the tables)
-4. Scripts that run the migrations, seed data, create admins and import products
+3. Schema migrations 001 to 007 (all the tables)
+4. Scripts that run the migrations, seed data, create admins, import products and roll photos back
 5. Connection, certificate and rate-limit code that talks to the database
 6. Backup and restore
 7. Everyday SQL
@@ -31,11 +34,12 @@ and pepper live only in `server/.env` and in Vercel's Environment Variables.
 | 4 | Check the connection | `npm run db:check` |
 | 5 | Load the 22 starter products | `npm run db:seed` |
 | 6 | Create the first admin | `npm run admin:create` (own password) or `npm run admin:add -- <email>` (default password, changed at first sign-in) |
-| 7 | Import the 76 photographed products | `npm run products:import -- --dry-run`, then `npm run products:import` |
+| 7 | Import the 76 photographed products | `npm run products:import -- --dry-run`, then `npm run products:import` (flags: `--background=none`, `--images-only`, `--repoint-photos`, see 4.5) |
+| 7b | Save or go back to a rollback point for the product photos | `npm run images:rollback -- save <name>` / `restore <name> [--dry-run]` (4.6) |
 | 8 | Print the certificate settings for Vercel | `npm run db:ca` |
 | 9 | Nightly backup | `deploy/backup-db.sh` from cron on the database server |
 
-Migration 006 (rate limits) is the one needed by the Vercel deployment; it is already applied to the live database.
+Migrations 006 (rate limits, needed by the Vercel deployment) and 007 (availability, hover effect and photos uploaded in the admin console) are already applied to the live database.
 
 ---
 
@@ -456,6 +460,36 @@ CREATE UNLOGGED TABLE rate_limits (
 CREATE INDEX rate_limits_reset_idx ON rate_limits (reset_at);
 ````
 
+### 007_availability_hover_photos.sql
+
+`server/src/db/migrations/007_availability_hover_photos.sql` — Active / inactive / coming soon, the card hover effect, photos uploaded in the admin console
+
+````sql
+-- Availability ("active" / "inactive" / "coming soon"), the hover effect of a product card, and photos uploaded from the admin console.
+--
+-- availability is separate from `active` (which hides a product from the shop altogether):
+--   active       the product is for sale, as its stock says
+--   inactive     the product stays visible but shows as out of stock and cannot be bought, whatever its stock count
+--   coming_soon  the product stays visible with a "Coming soon" label and cannot be bought yet
+ALTER TABLE products
+  ADD COLUMN availability  text NOT NULL DEFAULT 'active' CHECK (availability IN ('active', 'inactive', 'coming_soon')),
+  ADD COLUMN hover_effect  text NOT NULL DEFAULT 'swap'   CHECK (hover_effect IN ('swap', 'slide', 'zoom', 'none'));
+CREATE INDEX products_availability_idx ON products (availability) WHERE availability <> 'active';
+
+-- A photo uploaded in the admin console, already resized by the browser: a full-size version and a small one for cards. The picture is
+-- kept here (like the logo) because the server's disk is read-only on Vercel. A product refers to it as /api/photos/<id> in products.images.
+-- The content never changes once saved, so it is served with a one-year cache.
+CREATE TABLE product_photos (
+  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  content_type  text NOT NULL CHECK (content_type IN ('image/webp', 'image/jpeg', 'image/png')),
+  full_data     bytea NOT NULL CHECK (octet_length(full_data) BETWEEN 1 AND 1048576),
+  thumb_data    bytea NOT NULL CHECK (octet_length(thumb_data) BETWEEN 1 AND 262144),
+  created_by    uuid REFERENCES users (id) ON DELETE SET NULL,
+  created_at    timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX product_photos_created_idx ON product_photos (created_at);
+````
+
 The runner also creates its own bookkeeping table the first time it runs (shown in 4.1):
 
 ````sql
@@ -699,6 +733,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp, { type OutputInfo } from "sharp";
 import { env } from "../config/env.js";
+import { parseColour, STUDIO_BACKGROUND, tintBackdrop, type Rgb } from "../lib/photo-background.js";
 import { cleanHaze, type Raw } from "../lib/photo-haze.js";
 import { closePool, getPool } from "./pool.js";
 
@@ -712,13 +747,20 @@ import { closePool, getPool } from "./pool.js";
  *   npm run products:import -- --force-images  re-process photos that already exist
  *   npm run products:import -- --prune      also delete image files in MEDIA_DIR that no product or library entry uses any more
  *   npm run products:import -- --overwrite-details  also reset names/descriptions/tags/colours from the data file
+ *   npm run products:import -- --background=none   keep the white studio backdrop (the default is the storefront's off-white, STUDIO_BACKGROUND)
+ *   npm run products:import -- --images-only       make the photo files and stop: no database change (send the files live first, then run --repoint-photos)
+ *   npm run products:import -- --repoint-photos    make the photo files if needed, then only swap each product's photo paths for the new files
+ *                                                  (keeps whatever order and selection of photos the admin console has set; touches nothing else)
  *
  * Prices, stock levels and the active flag of products that already exist are NEVER overwritten: those belong to
- * the admin console. Data: server/data/catalogue/*.json. Photos: PRODUCT_PHOTOS_DIR (default below).
+ * the admin console. The backdrop colour is applied to products still awaiting review and to the photo library; a product someone has
+ * marked reviewed keeps the photos as they approved them. Data: server/data/catalogue/*.json. Photos: PRODUCT_PHOTOS_DIR (default below).
  */
 const PHOTOS_DIR = process.env["PRODUCT_PHOTOS_DIR"] ?? "D:\\Leather Lux India\\DSLR Images\\New Products";
 const DATA_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../data/catalogue");
 const flags = new Set(process.argv.slice(2).filter((a) => a.startsWith("--")));
+const backgroundFlag = [...flags].find((f) => f.startsWith("--background="))?.slice("--background=".length) ?? STUDIO_BACKGROUND;
+const BACKGROUND: Rgb | null = backgroundFlag === "none" ? null : parseColour(backgroundFlag);
 
 type Rect = [number, number, number, number]; // x0, y0, x1, y1 as fractions of the frame
 /** `clean`: whiten the pale film the cut-out left behind (see lib/photo-haze.ts); the number is the brightness limit, 170 unless the film is darker. */
@@ -764,8 +806,9 @@ async function decode(input: string, crop: Shot["crop"], erase: Shot["erase"], c
  * Where a photo is stored. The name holds the camera number and a hash of the source photo, plus a short tag for how it was edited
  * (crop, erase, clean). Browsers keep these files for a year, so changing an edit must change the name: they then fetch the new version.
  */
-const photoRel = (dir: string, s: Pick<Shot, "n" | "md5" | "crop" | "erase" | "clean">) => {
-  const edits = s.crop || s.erase?.length || s.clean ? `-${crypto.createHash("sha1").update(JSON.stringify([s.crop ?? null, s.erase ?? null, s.clean ?? null])).digest("hex").slice(0, 6)}` : "";
+const photoRel = (dir: string, s: Pick<Shot, "n" | "md5" | "crop" | "erase" | "clean">, bg: Rgb | null = null) => {
+  // The backdrop colour is part of the tag, so photos made with a different backdrop never overwrite each other; without one the name is what it always was.
+  const edits = s.crop || s.erase?.length || s.clean || bg ? `-${crypto.createHash("sha1").update(JSON.stringify([s.crop ?? null, s.erase ?? null, s.clean ?? null, ...(bg ? [bg] : [])])).digest("hex").slice(0, 6)}` : "";
   return `${dir}/${s.n}-${s.md5}${edits}`;
 };
 
@@ -787,12 +830,14 @@ function writeAtomic(file: string, data: Buffer) {
   fs.renameSync(tmp, file);
 }
 
-async function makeImage(shot: Shot, rel: string): Promise<{ web: string; thumb: string; made: boolean }> {
+async function makeImage(shot: Shot, rel: string, bg: Rgb | null): Promise<{ web: string; thumb: string; made: boolean }> {
   const web = `/media/${rel}.webp`, thumb = `/media/${rel}-sm.webp`;
   const outLg = path.join(mediaRoot, `${rel}.webp`), outSm = path.join(mediaRoot, `${rel}-sm.webp`);
   if (!flags.has("--force-images") && fs.existsSync(outLg) && fs.existsSync(outSm)) return { web, thumb, made: false };
   fs.mkdirSync(path.dirname(outLg), { recursive: true });
-  const lg = await canvas(await decode(path.join(PHOTOS_DIR, shot.file), shot.crop, shot.erase, shot.clean), SIZES.lg);
+  const onWhite = await canvas(await decode(path.join(PHOTOS_DIR, shot.file), shot.crop, shot.erase, shot.clean), SIZES.lg);
+  // Photos whose openings were cleaned to white (handles, buckles, key-ring eyes) get those openings recoloured too; wallets and card cases never do.
+  const lg = bg ? tintBackdrop(onWhite, bg, { holes: !!shot.clean }) : onWhite;
   writeAtomic(outLg, await fromRaw(lg).webp({ quality: SIZES.lg.q, effort: 4 }).toBuffer());
   writeAtomic(outSm, await fromRaw(lg).resize(SIZES.sm.w, SIZES.sm.h).webp({ quality: SIZES.sm.q, effort: 4 }).toBuffer());
   return { web, thumb, made: true };
@@ -820,15 +865,23 @@ async function main() {
   if (flags.has("--dry-run")) { console.log("dry run: all photo files found, data valid. Nothing changed."); return; }
 
   // 1. photos -> optimised files. Every photo that belongs on a product, or waits in the library, has a fixed place.
-  const jobs: { shot: Shot; rel: string; key: number }[] = [];
-  for (const p of products) for (const s of p.images) jobs.push({ shot: s, rel: photoRel(`products/${p.slug}`, s), key: s.n });
-  for (const m of media.filter((x) => x.status === "spare")) jobs.push({ shot: { file: m.file, n: m.n, label: "", md5: m.md5 }, rel: photoRel("library", { n: m.n, md5: m.md5 }), key: m.n });
+  const reviewed = new Set((await getPool().query<{ slug: string }>("SELECT slug FROM products WHERE NOT needs_review")).rows.map((r) => r.slug));
+  const backdropFor = (slug: string | null) => (slug && reviewed.has(slug) ? null : BACKGROUND);
+  const jobs: { shot: Shot; rel: string; key: number; bg: Rgb | null; was: string }[] = [];
+  for (const p of products) {
+    const bg = backdropFor(p.slug);
+    for (const s of p.images) jobs.push({ shot: s, rel: photoRel(`products/${p.slug}`, s, bg), was: photoRel(`products/${p.slug}`, s), bg, key: s.n });
+  }
+  for (const m of media.filter((x) => x.status === "spare")) {
+    const bg = backdropFor(null), shot = { file: m.file, n: m.n, label: "", md5: m.md5 };
+    jobs.push({ shot, rel: photoRel("library", shot, bg), was: photoRel("library", shot), bg, key: m.n });
+  }
   const webPaths = new Map(jobs.map((j) => [j.key, { web: `/media/${j.rel}.webp`, thumb: `/media/${j.rel}-sm.webp` }]));
   let made = 0, reused = 0;
   if (!flags.has("--skip-images")) {
     let done = 0;
     await pool(jobs, 4, async (j) => {
-      (await makeImage(j.shot, j.rel)).made ? made++ : reused++;
+      (await makeImage(j.shot, j.rel, j.bg)).made ? made++ : reused++;
       if (++done % 25 === 0 || done === jobs.length) process.stdout.write(`\r  photos ${done}/${jobs.length}`);
     });
     process.stdout.write("\n");
@@ -849,6 +902,36 @@ async function main() {
       walk(path.join(mediaRoot, dir));
     }
     console.log(`pruned ${removed} unreferenced image file(s)`);
+  }
+
+  if (flags.has("--images-only")) {
+    console.log(`photos: ${made} processed, ${reused} already done. Database not touched. Send the files live, then run with --repoint-photos.`);
+    return;
+  }
+
+  if (flags.has("--repoint-photos")) {
+    // Swap each photo's old file name for the new one, wherever it is used. Order, selection, prices, stock: all as the admin console left them.
+    const swaps = jobs.filter((j) => j.rel !== j.was);
+    const client = await getPool().connect();
+    let products = 0, library = 0;
+    try {
+      await client.query("BEGIN");
+      for (const j of swaps) {
+        const slug = j.rel.startsWith("products/") ? j.rel.split("/")[1]! : null;
+        const [oldWeb, oldThumb, web, thumb] = [`/media/${j.was}.webp`, `/media/${j.was}-sm.webp`, `/media/${j.rel}.webp`, `/media/${j.rel}-sm.webp`];
+        if (slug) products += (await client.query("UPDATE products SET images = array_replace(images, $2, $3), updated_at = now() WHERE slug = $1 AND $2 = ANY(images)", [slug, oldWeb, web])).rowCount ?? 0;
+        library += (await client.query("UPDATE media_assets SET web_path = $3, thumb_path = $4, updated_at = now() WHERE web_path = $1 AND thumb_path = $2", [oldWeb, oldThumb, web, thumb])).rowCount ?? 0;
+      }
+      await client.query("COMMIT");
+    } catch (err) {
+      await client.query("ROLLBACK").catch(() => undefined);
+      throw err;
+    } finally {
+      client.release();
+    }
+    console.log(`photos: ${made} processed, ${reused} already done | repointed ${products} product photos and ${library} library photos to the new files (nothing else changed)`);
+    console.log("If the API is running, clear its cache so it shows immediately: POST /api/admin/cache/purge (or wait up to a minute).");
+    return;
   }
 
   // 2. products
@@ -917,6 +1000,89 @@ async function main() {
 main()
   .catch((err) => { console.error(`Import failed: ${(err as Error).message}`); process.exitCode = 1; })
   .finally(closePool);
+````
+
+### 4.6 Rollback points for the product photos
+
+`server/src/db/images-rollback.ts` — `npm run images:rollback -- save <name>` / `restore <name> [--dry-run]`
+
+````ts
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { closePool, getPool } from "./pool.js";
+
+/**
+ * Rollback points for the product photos. The photo FILES are never overwritten (a changed photo gets a new file name, see
+ * import-products.ts), so what has to be remembered is which file each product and library entry pointed at. This saves exactly that
+ * as a plain SQL script, and runs it again to go back.
+ *
+ *   npm run images:rollback -- save <name>                save the current photo paths to data/rollback/<name>/restore-images.sql
+ *   npm run images:rollback -- restore <name> [--dry-run]  point every product back at the photos saved under <name>
+ *
+ * `--dry-run` runs the whole script and then undoes it, reporting how many rows it matched. Prices, stock, names and every other
+ * column are left alone. The API keeps the catalogue in memory for up to a minute, so a restore shows on the site within that time.
+ */
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../data/rollback");
+const lit = (s: string) => `'${s.replace(/'/g, "''")}'`;
+const arr = (a: string[]) => (a.length ? `ARRAY[${a.map(lit).join(", ")}]::text[]` : "'{}'::text[]");
+const nullable = (s: string | null) => (s === null ? "NULL" : lit(s));
+
+const [, , cmd, name, ...rest] = process.argv;
+const dir = name ? path.join(ROOT, name) : "";
+const file = path.join(dir, "restore-images.sql");
+
+async function save() {
+  const pool = getPool();
+  const products = (await pool.query<{ slug: string; images: string[]; image_labels: string[] }>("SELECT slug, images, image_labels FROM products ORDER BY slug")).rows;
+  const media = (await pool.query<{ source_file: string; web_path: string | null; thumb_path: string | null }>("SELECT source_file, web_path, thumb_path FROM media_assets ORDER BY source_file")).rows;
+  const lines = [
+    `-- Rollback point "${name}": the photo paths of ${products.length} products and ${media.length} library photos, saved ${new Date().toISOString()}.`,
+    "-- Run with: npm run images:rollback -- restore " + name + "   (add --dry-run first to see what it would do)",
+    "-- Only the photo columns are touched: images and image_labels of products, web_path and thumb_path of media_assets.",
+    "BEGIN;",
+    ...products.map((p) => `UPDATE products SET images = ${arr(p.images)}, image_labels = ${arr(p.image_labels)}, updated_at = now() WHERE slug = ${lit(p.slug)};`),
+    ...media.map((m) => `UPDATE media_assets SET web_path = ${nullable(m.web_path)}, thumb_path = ${nullable(m.thumb_path)}, updated_at = now() WHERE source_file = ${lit(m.source_file)};`),
+    "COMMIT;",
+    "",
+  ];
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(file, lines.join("\n"), "utf8");
+  console.log(`Saved ${products.length} products and ${media.length} library photos to ${path.relative(process.cwd(), file)}`);
+}
+
+async function restore() {
+  if (!fs.existsSync(file)) throw new Error(`No rollback point named "${name}" (looked for ${file})`);
+  const statements = fs.readFileSync(file, "utf8").split("\n").filter((l) => l.startsWith("UPDATE "));
+  const client = await getPool().connect();
+  let matched = 0, missed = 0;
+  try {
+    await client.query("BEGIN");
+    for (const sql of statements) {
+      const r = await client.query(sql);
+      if (r.rowCount) matched++; else missed++;
+    }
+    await client.query(rest.includes("--dry-run") ? "ROLLBACK" : "COMMIT");
+  } catch (err) {
+    await client.query("ROLLBACK").catch(() => undefined);
+    throw err;
+  } finally {
+    client.release();
+  }
+  console.log(`${rest.includes("--dry-run") ? "Dry run (nothing changed): " : "Restored: "}${matched} rows matched, ${missed} not found (rows added since the rollback point are not touched).`);
+}
+
+try {
+  if (!name || !/^[a-z0-9][a-z0-9._-]*$/i.test(name) || (cmd !== "save" && cmd !== "restore")) {
+    throw new Error("Usage: npm run images:rollback -- save <name>   |   restore <name> [--dry-run]");
+  }
+  await (cmd === "save" ? save() : restore());
+} catch (err) {
+  console.error((err as Error).message);
+  process.exitCode = 1;
+} finally {
+  await closePool();
+}
 ````
 
 ---
@@ -1198,6 +1364,8 @@ sudo -u postgres dropdb llx_restore_test
 UPDATE products SET price_inr = 2490, needs_review = false WHERE sku = 'LLI-WAL-001';
 UPDATE products SET cost_inr = 900 WHERE type = 'Wallets';
 UPDATE products SET active = false WHERE sku LIKE 'LLI-SMP-%';        -- hide the 22 starter products
+UPDATE products SET availability = 'coming_soon' WHERE sku = 'LLI-WAL-001';   -- or 'inactive' (shows as out of stock) or 'active'
+UPDATE products SET hover_effect = 'zoom' WHERE type = 'Belts';              -- swap | slide | zoom | none
 ````
 
 A stock count changed with plain SQL is not on the ledger (`inventory_movements`); use the admin console's Inventory page when the
@@ -1215,6 +1383,7 @@ These feed the scripts above. They are data, not scripts, and are large, so they
 | `server/data/catalogue/products.json` (about 105 KB) | the 76 photographed products: SKU, price, colours, copy, photos and their edits | `products:import` |
 | `server/data/catalogue/media.json` (about 80 KB) | every photo from the shoot and its status (used, spare, rejected, duplicate) | `products:import` |
 | `server/data/catalogue/REPORT.md` | the written summary of the import | reading only |
+| `server/data/rollback/<name>/restore-images.sql` (about 130 KB) | one `UPDATE` per product and library photo, written by `images:rollback save`; the first point is `white-backgrounds-2026-11-02` | `images:rollback restore` |
 
 ### 8.1 Starter products
 
