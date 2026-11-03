@@ -25,9 +25,12 @@ const live = (await (await fetch(`${SITE}/${keyFile}`)).text()).trim();
 if (live !== key) throw new Error(`${SITE}/${keyFile} does not show the key yet. Deploy first.`);
 
 console.log(`${urlList.length} pages from ${SITE}/sitemap.xml, key ${key.slice(0, 6)}…`);
-if (process.argv.includes("--dry-run")) { console.log(urlList.slice(0, 5).join("\n"), "\n…"); process.exit(0); }
-const res = await fetch("https://api.indexnow.org/IndexNow", {
-  method: "POST", headers: { "Content-Type": "application/json; charset=utf-8" },
-  body: JSON.stringify({ host: new URL(SITE).host, key, keyLocation: `${SITE}/${keyFile}`, urlList }),
-});
-console.log(`IndexNow answered ${res.status} ${res.statusText} (200 and 202 both mean accepted)`);
+if (process.argv.includes("--dry-run")) {
+  console.log(urlList.slice(0, 5).join("\n"), "\n…");
+} else {
+  const res = await fetch("https://api.indexnow.org/IndexNow", {
+    method: "POST", headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify({ host: new URL(SITE).host, key, keyLocation: `${SITE}/${keyFile}`, urlList }),
+  });
+  console.log(`IndexNow answered ${res.status} ${res.statusText} (200 and 202 both mean accepted)`);
+}
