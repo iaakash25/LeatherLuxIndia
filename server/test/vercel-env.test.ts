@@ -1,5 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
+import express from "express";
+import request from "supertest";
 import { describe, expect, it } from "vitest";
 import { parseEnv } from "../src/config/env.js";
 
@@ -42,6 +44,28 @@ describe("deploy/vercel.env.example", () => {
     expect(e.DB_POOL_MAX).toBeLessThanOrEqual(5);
     expect(e.DB_SSL_MODE).toBe("verify-full");
     expect(e.ORDERS_OPEN).toBe(false); // closed until launch
+  });
+
+  it("on Vercel, believes Vercel's forwarding header even when TRUST_PROXY was never typed in, so each visitor has their own address", async () => {
+    const env = filled(); delete env["TRUST_PROXY"];
+    expect(parse(env).TRUST_PROXY).toBe(0); // not on Vercel: a forged header is not believed
+    for (const marker of [{ VERCEL: "1" }, { VERCEL_ENV: "production" }] as Record<string, string>[]) {
+      const e = parse({ ...env, ...marker });
+      expect(e.TRUST_PROXY, JSON.stringify(marker)).toBe(1);
+      const app = express();
+      app.set("trust proxy", e.TRUST_PROXY);
+      app.get("/ip", (req, res) => { res.json({ ip: req.ip }); });
+      const r = await request(app).get("/ip").set("X-Forwarded-For", "203.0.113.5");
+      expect(r.body.ip).toBe("203.0.113.5");
+    }
+    const blank = parse({ ...env, VERCEL: "1", TRUST_PROXY: "" }); // `TRUST_PROXY=` counts as not set
+    expect(blank.TRUST_PROXY).toBe(1);
+  });
+
+  it("an explicit TRUST_PROXY always wins, on Vercel too", () => {
+    const env = filled(); env["VERCEL"] = "1";
+    env["TRUST_PROXY"] = "0"; expect(parse(env).TRUST_PROXY).toBe(0);
+    env["TRUST_PROXY"] = "2"; expect(parse(env).TRUST_PROXY).toBe(2);
   });
 
   it("refuses to start while a secret is still a placeholder, or the certificate is not one", () => {

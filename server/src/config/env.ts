@@ -82,8 +82,17 @@ const PLACEHOLDER = /^(change-?me|changeme|replace[-_ ]?me|password|secret|xxx+|
 
 export type Env = ReturnType<typeof parseEnv>;
 
+/**
+ * Behind Vercel, the connection to the function comes from Vercel's own network, so unless one proxy is believed every visitor looks like
+ * the same address (127.0.0.1): the visit log would record nothing useful, and the sign-in, newsletter and visit limits would count all
+ * visitors together. Vercel writes X-Forwarded-For itself (it replaces whatever a visitor sends), so on Vercel one proxy is trusted unless
+ * TRUST_PROXY says otherwise. Anywhere else the default stays 0, because there a visitor could forge the header.
+ */
+const onVercel = (s: NodeJS.ProcessEnv) => Boolean(s["VERCEL"] || s["VERCEL_ENV"]);
+
 export function parseEnv(source: NodeJS.ProcessEnv = process.env) {
-  const result = schema.safeParse(source);
+  const input = onVercel(source) && !source["TRUST_PROXY"]?.trim() ? { ...source, TRUST_PROXY: "1" } : source;
+  const result = schema.safeParse(input);
   if (!result.success) {
     const lines = result.error.issues.map((i) => `  - ${i.path.join(".") || "(root)"}: ${i.message}`);
     throw new Error(`Invalid environment configuration:\n${lines.join("\n")}\nSee server/.env.example.`);
