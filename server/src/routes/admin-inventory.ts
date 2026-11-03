@@ -78,7 +78,10 @@ adminInventoryRouter.get("/inventory", async (req, res) => {
               count(*) FILTER (WHERE cost_inr IS NULL)::int AS missing_cost,
               coalesce(sum(stock_qty), 0)::int AS units,
               coalesce(sum(price_inr::bigint * stock_qty), 0)::text AS retail_value,
-              coalesce(sum(cost_inr::bigint * stock_qty), 0)::text AS cost_value
+              coalesce(sum(cost_inr::bigint * stock_qty), 0)::text AS cost_value,
+              -- Profit if everything on the shelf sells at the shop price. Only products with a cost count, on both sides, so the figure is never inflated by stock whose cost is unknown.
+              coalesce(sum((price_inr - cost_inr)::bigint * stock_qty) FILTER (WHERE cost_inr IS NOT NULL), 0)::text AS profit,
+              coalesce(sum(price_inr::bigint * stock_qty) FILTER (WHERE cost_inr IS NOT NULL), 0)::text AS costed_retail_value
          FROM products`,
     ),
     query<{ type: string; n: number }>("SELECT type, count(*)::int AS n FROM products GROUP BY type ORDER BY type"),
@@ -90,6 +93,7 @@ adminInventoryRouter.get("/inventory", async (req, res) => {
     summary: {
       products: s["total"], active: s["active"], hidden: s["hidden"], inactive: s["inactive"], comingSoon: s["coming_soon"], needsReview: s["needs_review"], lowStock: s["low_stock"], outOfStock: s["out_of_stock"],
       missingCost: s["missing_cost"], units: s["units"], retailValueInr: num(s["retail_value"]), costValueInr: num(s["cost_value"]),
+      profitInr: num(s["profit"]), costedRetailValueInr: num(s["costed_retail_value"]),
     },
     types: types.map((t) => ({ type: t.type, count: t.n })),
   });

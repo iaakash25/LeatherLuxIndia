@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
+import { Combobox, Select } from "@/components/ui/select-menu";
 import { api } from "@/lib/api";
 import { Check, Field, fieldErrors, numOrNull } from "./ui";
 import { HoverPicker } from "./HoverPicker";
@@ -75,18 +76,13 @@ export function AddProduct({ types, onCreated, onClose }: { types: string[]; onC
           <input id={id("sku")} className="field" value={f.sku} maxLength={40} onChange={(e) => set("sku", e.target.value)} />
         </Field>
         <Field id={id("type")} label="Category *" error={errors["type"]} hint="Pick one or type a new category.">
-          <input id={id("type")} className="field" list={id("types")} value={f.type} maxLength={60} onChange={(e) => set("type", e.target.value)} aria-invalid={!!errors["type"]} aria-describedby={`${id("type")}-err`} />
-          <datalist id={id("types")}>{types.map((t) => <option key={t} value={t} />)}</datalist>
+          <Combobox id={id("type")} value={f.type} maxLength={60} onChange={(v) => set("type", v)} options={types.map((t) => ({ value: t, label: t }))} aria-invalid={!!errors["type"]} aria-describedby={`${id("type")}-err`} />
         </Field>
         <Field id={id("gender")} label="For" error={errors["gender"]}>
-          <select id={id("gender")} className="field" value={f.gender} onChange={(e) => set("gender", e.target.value as Gender)}>
-            {(Object.keys(GENDER_LABEL) as Gender[]).map((g) => <option key={g} value={g}>{GENDER_LABEL[g]}</option>)}
-          </select>
+          <Select<Gender> id={id("gender")} value={f.gender} onChange={(v) => set("gender", v)} options={(Object.keys(GENDER_LABEL) as Gender[]).map((g) => ({ value: g, label: GENDER_LABEL[g] }))} />
         </Field>
         <Field id={id("status")} label="Shown in the shop as" error={errors["active"] ?? errors["availability"]} hint={STATUS_OPTIONS.find((o) => o.value === f.status)?.hint}>
-          <select id={id("status")} className="field" value={f.status} onChange={(e) => set("status", e.target.value as ShopStatus)}>
-            {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-          </select>
+          <Select<ShopStatus> id={id("status")} value={f.status} onChange={(v) => set("status", v)} options={STATUS_OPTIONS.map((o) => ({ value: o.value, label: o.label }))} />
         </Field>
 
         <Field id={id("priceInr")} label="Price (₹) *" error={errors["priceInr"]}>

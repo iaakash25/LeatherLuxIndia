@@ -5,6 +5,7 @@ import { AddProduct } from "@/components/admin/AddProduct";
 import { GENDER_LABEL, STATUS_LABEL, STATUS_OPTIONS, statusOf, statusPatch, type Gender, type InvList, type InvProduct, type InvSummary, type ShopStatus } from "@/components/admin/inventory-types";
 import { ProductEditor } from "@/components/admin/ProductEditor";
 import { LoadState, Pill, Section, useLoad } from "@/components/admin/ui";
+import { Select } from "@/components/ui/select-menu";
 import { api, errorMessage } from "@/lib/api";
 import { formatINR } from "@/lib/catalog";
 import { imageUrl } from "@/lib/catalog-live";
@@ -66,17 +67,11 @@ function Inventory() {
         {adding && <AddProduct types={types} onClose={() => setAdding(false)} onCreated={() => { setAdding(false); void reload(); }} />}
         <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))]">
           <input className="field" type="search" placeholder="Search name, style no., tag…" aria-label="Search products" value={q} onChange={(e) => setQ(e.target.value)} />
-          <select className="field" aria-label="Category" value={type} onChange={(e) => setType(e.target.value)}>
-            <option value="">All categories</option>
-            {data?.types.map((t) => <option key={t.type} value={t.type}>{t.type} ({t.count})</option>)}
-          </select>
-          <select className="field" aria-label="Gender" value={gender} onChange={(e) => setGender(e.target.value as "" | Gender)}>
-            <option value="">All genders</option>
-            {(Object.keys(GENDER_LABEL) as Gender[]).map((g) => <option key={g} value={g}>{GENDER_LABEL[g]}</option>)}
-          </select>
-          <select className="field" aria-label="Sort" value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-            {SORTS.map(([v, label]) => <option key={v} value={v}>{label}</option>)}
-          </select>
+          <Select aria-label="Category" value={type} onChange={setType}
+            options={[{ value: "", label: "All categories" }, ...(data?.types ?? []).map((t) => ({ value: t.type, label: t.type, meta: String(t.count) }))]} />
+          <Select<"" | Gender> aria-label="Gender" value={gender} onChange={setGender}
+            options={[{ value: "", label: "All genders" }, ...(Object.keys(GENDER_LABEL) as Gender[]).map((g) => ({ value: g, label: GENDER_LABEL[g] }))]} />
+          <Select<Sort> aria-label="Sort" value={sort} onChange={setSort} options={SORTS.map(([v, label]) => ({ value: v, label }))} />
         </div>
 
         <LoadState error={error} ready={!!data} reload={() => void reload()}>
@@ -115,21 +110,52 @@ function Totals({ s, status, onStatus }: { s: InvSummary; status: Status; onStat
       <span className={cn("font-display mt-1 block text-3xl tabular-nums", tone === "bad" && Number(value) > 0 && "text-oxblood", tone === "warn" && Number(value) > 0 && "text-brass")}>{value}</span>
     </button>
   );
+  const none = <span className="mt-2 block text-xs text-muted-foreground">Add cost prices to see this</span>;
+  const costed = s.products - s.missingCost;
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-      {filterTile("active", "In the shop", `${s.active}`)}
-      {filterTile("hidden", "Hidden", s.hidden)}
-      {filterTile("inactive", "Inactive", s.inactive)}
-      {filterTile("coming_soon", "Coming soon", s.comingSoon)}
-      {filterTile("low", "Low stock", s.lowStock, "warn")}
-      {filterTile("out", "Out of stock", s.outOfStock, "bad")}
-      {filterTile("review", "Need review", s.needsReview, "warn")}
-      <div className={tile}><span className="eyebrow block text-[10px] text-muted-foreground">Units on hand</span><span className="font-display mt-1 block text-3xl tabular-nums">{s.units.toLocaleString("en-IN")}</span></div>
-      <div className={tile}><span className="eyebrow block text-[10px] text-muted-foreground">Stock at shop price</span><span className="font-display mt-1 block text-3xl tabular-nums">{formatINR(s.retailValueInr)}</span></div>
-      <div className={tile}>
-        <span className="eyebrow block text-[10px] text-muted-foreground">Stock at cost</span>
-        {s.missingCost >= s.products ? <span className="mt-2 block text-xs text-muted-foreground">Add cost prices to see this</span>
-          : <><span className="font-display mt-1 block text-3xl tabular-nums">{formatINR(s.costValueInr)}</span>{s.missingCost > 0 && <span className="block text-[11px] text-muted-foreground">{s.missingCost} without a cost</span>}</>}
+    <div className="space-y-3">
+      {/* What is on the shelf, as filters: one click narrows the list below to those products. */}
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-7">
+        {filterTile("active", "In the shop", `${s.active}`)}
+        {filterTile("hidden", "Hidden", s.hidden)}
+        {filterTile("inactive", "Inactive", s.inactive)}
+        {filterTile("coming_soon", "Coming soon", s.comingSoon)}
+        {filterTile("low", "Low stock", s.lowStock, "warn")}
+        {filterTile("out", "Out of stock", s.outOfStock, "bad")}
+        {filterTile("review", "Need review", s.needsReview, "warn")}
+      </div>
+      {/* What the stock is worth, in rupees. */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className={tile}>
+          <span className="eyebrow block text-[10px] text-muted-foreground">Units on hand</span>
+          <span className="font-display mt-1 block text-3xl tabular-nums">{s.units.toLocaleString("en-IN")}</span>
+          <span className="block text-[11px] text-muted-foreground">across {s.products} products</span>
+        </div>
+        <div className={tile}>
+          <span className="eyebrow block text-[10px] text-muted-foreground">Stock at shop price</span>
+          <span className="font-display mt-1 block text-3xl tabular-nums">{formatINR(s.retailValueInr)}</span>
+          <span className="block text-[11px] text-muted-foreground">if it all sold at today's prices</span>
+        </div>
+        <div className={tile}>
+          <span className="eyebrow block text-[10px] text-muted-foreground">Stock at cost</span>
+          {costed <= 0 ? none : (
+            <>
+              <span className="font-display mt-1 block text-3xl tabular-nums">{formatINR(s.costValueInr)}</span>
+              <span className="block text-[11px] text-muted-foreground">{s.missingCost > 0 ? `${s.missingCost} products without a cost` : "every product has a cost"}</span>
+            </>
+          )}
+        </div>
+        <div className={cn(tile, costed > 0 && s.profitInr > 0 && "border-ink/40 bg-paper")} title="What you would make if all the stock sold at the shop price: shop price minus cost, for the products that have a cost">
+          <span className="eyebrow block text-[10px] text-muted-foreground">Profit on stock</span>
+          {costed <= 0 ? none : (
+            <>
+              <span className={cn("font-display mt-1 block text-3xl tabular-nums", s.profitInr < 0 && "text-oxblood")}>{s.profitInr < 0 ? "−" : ""}{formatINR(Math.abs(s.profitInr))}</span>
+              <span className="block text-[11px] text-muted-foreground">
+                {s.costedRetailValueInr > 0 ? `${Math.round((s.profitInr / s.costedRetailValueInr) * 100)}% margin` : "no stock on hand"} · on {costed} product{costed === 1 ? "" : "s"} with a cost
+              </span>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -195,13 +221,11 @@ function Row({ p, types, open, onToggle, onSaved }: RowProps) {
           </p>
           <StockCell p={p} onCommit={setStock} />
           <div className="col-span-3 space-y-2 lg:col-span-1">
-            <select
-              className="field h-9 w-full px-1.5 text-xs" aria-label={`What shoppers see for ${p.name}`} title={STATUS_OPTIONS.find((o) => o.value === statusOf(p))?.hint}
-              value={statusOf(p)} disabled={busy}
-              onChange={(e) => { const v = e.target.value as ShopStatus; void patch(statusPatch(v), `${STATUS_LABEL[v]}: ${STATUS_OPTIONS.find((o) => o.value === v)!.hint}`); }}
-            >
-              {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{STATUS_LABEL[o.value]}</option>)}
-            </select>
+            <Select<ShopStatus>
+              size="sm" aria-label={`What shoppers see for ${p.name}`} value={statusOf(p)} disabled={busy} menuClassName="min-w-[17rem]"
+              options={STATUS_OPTIONS.map((o) => ({ value: o.value, label: STATUS_LABEL[o.value], hint: o.hint }))}
+              onChange={(v) => void patch(statusPatch(v), `${STATUS_LABEL[v]}: ${STATUS_OPTIONS.find((o) => o.value === v)!.hint}`)}
+            />
             <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
               <button type="button" onClick={onToggle} aria-expanded={open} className="underline underline-offset-4 hover:text-oxblood">{open ? "Close" : "Open"}</button>
               {p.needsReview && <button type="button" disabled={busy} onClick={() => void patch({ needsReview: false }, "Marked as reviewed")} className="underline underline-offset-4 hover:text-oxblood">Reviewed</button>}

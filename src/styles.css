@@ -191,6 +191,37 @@
 .anim-fade { animation: fade-in 0.4s var(--ease-lux) both; }
 .anim-img-in { animation: img-in 0.7s var(--ease-lux) backwards; }
 
+/* Dropdown menus (src/components/ui/select-menu.tsx): the panel floats under its trigger and eases in, the rows follow one after another,
+   the row under the pointer or the arrow keys is lit with a thin accent bar, and the chosen row gets a check that turns in. */
+@keyframes menu-in { from { opacity: 0; transform: translateY(var(--menu-shift, -8px)) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes menu-out { to { opacity: 0; transform: translateY(calc(var(--menu-shift, -8px) * 0.5)) scale(0.98); } }
+@keyframes menu-item-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
+.menu-panel {
+  z-index: 70; min-width: var(--radix-popover-trigger-width); max-width: min(26rem, calc(100vw - 1.5rem));
+  background: var(--paper); color: var(--ink); overflow: hidden; border-radius: 8px;
+  border: 1px solid oklch(0.205 0.003 145 / 0.12);
+  box-shadow: 0 1px 2px oklch(0.205 0.003 145 / 0.06), 0 14px 30px -10px oklch(0.205 0.003 145 / 0.2), 0 30px 64px -28px oklch(0.205 0.003 145 / 0.28);
+  transform-origin: var(--radix-popover-content-transform-origin);
+}
+.menu-panel[data-side="top"] { --menu-shift: 8px; }
+.menu-panel[data-state="open"] { animation: menu-in 230ms var(--ease-lux) both; }
+.menu-panel[data-state="closed"] { animation: menu-out 130ms ease-in both; }
+.menu-list { max-height: min(19rem, calc(var(--radix-popover-content-available-height, 100vh) - 3.5rem)); overflow-y: auto; overscroll-behavior: contain; padding: 0.375rem; outline: none; scrollbar-width: thin; }
+.menu-item {
+  position: relative; display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0.75rem 0.6rem 1rem; border-radius: 5px;
+  font-size: 0.84rem; line-height: 1.35; cursor: pointer; color: var(--ink);
+  animation: menu-item-in 260ms var(--ease-lux) both; animation-delay: calc(var(--i, 0) * 16ms + 50ms);
+  transition: background-color 0.15s, color 0.15s;
+}
+.menu-item::before { content: ""; position: absolute; left: 0.3rem; top: 0.55rem; bottom: 0.55rem; width: 2px; border-radius: 2px; background: var(--oxblood); transform: scaleY(0); transition: transform 0.28s var(--ease-lux); }
+.menu-item[data-active] { background: var(--chalk); }
+.menu-item[data-active]::before { transform: scaleY(1); }
+.menu-item[data-selected] { font-weight: 500; }
+.menu-item[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; }
+.menu-check { color: var(--oxblood); opacity: 0; transform: scale(0.4) rotate(-14deg); transition: opacity 0.2s, transform 0.38s var(--ease-lux); }
+.menu-item[data-selected] .menu-check { opacity: 1; transform: none; }
+.menu-trigger { cursor: pointer; }
+
 @keyframes marquee { to { transform: translateX(-50%); } }
 .anim-marquee { animation: marquee 40s linear infinite; }
 
@@ -209,6 +240,7 @@
   }
   .anim-marquee, .anim-hero-img, .anim-hero-sheen { animation: none !important; } /* an endless loop at 0.001ms would flicker, not rest */
   .hero-glow, .hero-sheen { display: none; }
+  .menu-panel, .menu-item { animation: none !important; }
   .reveal { opacity: 1; transform: none; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }

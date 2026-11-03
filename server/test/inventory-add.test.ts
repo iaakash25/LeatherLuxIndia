@@ -134,13 +134,35 @@ describe("adding a product", () => {
     expect(shop.body.product.thumbs[0]).toBe(`${p.images[0]}/thumb`);
   });
 
+  it("counts the profit on its stock in the inventory totals, over the products that have a cost", async () => {
+    const before = (await admin.get("/api/admin/inventory?limit=1")).body.summary;
+    const id = (await upload()).body.photo.id;
+    // price 3000, cost 1000, 4 on the shelf: 8000 profit on 12000 of shop-price stock
+    const made = await admin.post("/api/admin/inventory").send(goodProduct([{ id }], { name: "Zz Profit Probe", priceInr: 3000, costInr: 1000, stockQty: 4 }));
+    expect(made.status).toBe(201);
+    const after = (await admin.get("/api/admin/inventory?limit=1")).body.summary;
+    expect(after.profitInr - before.profitInr).toBe(8000);
+    expect(after.costedRetailValueInr - before.costedRetailValueInr).toBe(12000);
+    expect(after.costValueInr - before.costValueInr).toBe(4000);
+    // a product without a cost adds nothing to the profit, however much of it there is
+    const id2 = (await upload()).body.photo.id;
+    await admin.post("/api/admin/inventory").send(goodProduct([{ id: id2 }], { name: "Zz Profit No Cost", priceInr: 9000, costInr: null, stockQty: 10 }));
+    const last = (await admin.get("/api/admin/inventory?limit=1")).body.summary;
+    expect(last.profitInr).toBe(after.profitInr);
+    expect(last.costedRetailValueInr).toBe(after.costedRetailValueInr);
+    expect(last.retailValueInr - after.retailValueInr).toBe(90000);
+  });
+
   it("gives the same name a different address, and numbers style numbers one after another", async () => {
     const id = (await upload()).body.photo.id;
     const r = await admin.post("/api/admin/inventory").send(goodProduct([{ id }]));
     expect(r.status).toBe(201);
     expect(r.body.product.slug).toBe("zz-added-satchel-2");
     const first = Number((await query<{ sku: string }>("SELECT sku FROM products WHERE slug = 'zz-added-satchel'")).rows[0]!.sku.slice(-3));
-    expect(Number(r.body.product.sku.slice(-3))).toBe(first + 1);
+    expect(Number(r.body.product.sku.slice(-3))).toBeGreaterThan(first);
+    const nextId = (await upload()).body.photo.id;
+    const next = await admin.post("/api/admin/inventory").send(goodProduct([{ id: nextId }], { name: "Zz Numbering" }));
+    expect(Number(next.body.product.sku.slice(-3))).toBe(Number(r.body.product.sku.slice(-3)) + 1);
   });
 
   it("needs at least 1 and at most 4 photos, and real uploaded ones", async () => {
@@ -164,7 +186,7 @@ describe("adding a product", () => {
     expect((await admin.post("/api/admin/inventory").send(goodProduct([{ id }], { colours: [], name: "Zz No Colour" }))).status).toBe(400);
     expect((await admin.post("/api/admin/inventory").send(goodProduct([{ id }], { hoverEffect: "spin", name: "Zz Spin" }))).status).toBe(400);
     expect((await customer.post("/api/admin/inventory").send(goodProduct([{ id }], { name: "Zz Customer" }))).status).toBe(403);
-    expect((await query("SELECT 1 FROM products WHERE name LIKE 'Zz %' AND name <> 'Zz Added Satchel'")).rowCount).toBe(0);
+    expect((await query("SELECT 1 FROM products WHERE name IN ('Zz Clash', 'Zz No Price', 'Zz No Colour', 'Zz Spin', 'Zz Customer')")).rowCount).toBe(0);
   });
 
   it("keeps an uploaded photo that is on a product, and can add another to an existing product", async () => {

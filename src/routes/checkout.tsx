@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, type ChangeEvent, type ReactN
 import { toast } from "sonner";
 import { AccountGate } from "@/components/site/AccountGate";
 import { CheckoutClosedPage } from "@/components/site/LaunchNotice";
+import { Select } from "@/components/ui/select-menu";
 import { AddressBlock, OrderItems, StatusBadges, Totals } from "@/components/site/OrderParts";
 import { api, ApiError, errorMessage, type ApiCart, type ApiOrder } from "@/lib/api";
 import { formatINR, productThumb } from "@/lib/catalog";
@@ -165,10 +166,11 @@ function Checkout({ userName }: { userName: string }) {
               {input("pincode", { inputMode: "numeric", autoComplete: "postal-code", maxLength: 6, placeholder: "6 digits", onChange: (e) => { e.target.value = e.target.value.replace(/\D/g, ""); set("pincode")(e); } })}
             </Field>
             <Field id="state" label="State" error={errors.state} className="sm:col-span-2">
-              <select id="state" className="field" value={form.state} onChange={set("state")} aria-invalid={!!errors.state} aria-describedby="state-err" autoComplete="address-level1">
-                <option value="">Choose a state</option>
-                {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
-              </select>
+              <Select
+                id="state" value={form.state} placeholder="Choose a state" aria-invalid={!!errors.state} aria-describedby="state-err"
+                onChange={(v) => { setForm((f) => ({ ...f, state: v })); setErrors((x) => ({ ...x, state: undefined })); setFormError(""); }}
+                options={INDIAN_STATES.map((s) => ({ value: s, label: s }))}
+              />
             </Field>
           </div>
 

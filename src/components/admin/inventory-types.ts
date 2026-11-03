@@ -18,6 +18,8 @@ export type InvProduct = {
 export type InvSummary = {
   products: number; active: number; hidden: number; inactive: number; comingSoon: number; needsReview: number; lowStock: number; outOfStock: number;
   missingCost: number; units: number; retailValueInr: number; costValueInr: number;
+  /** Profit if all stock sells at the shop price, over the products that have a cost; costedRetailValueInr is their shop-price value (the margin's base). */
+  profitInr: number; costedRetailValueInr: number;
 };
 
 export type InvList = { total: number; products: InvProduct[]; summary: InvSummary; types: { type: string; count: number }[] };

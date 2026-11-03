@@ -1,9 +1,10 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
+import { Search, SlidersHorizontal, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { z } from "zod";
 import { images, ALL_TYPES, applyFilters, COLLECTIONS, COLOURS, formatINR, getCollection, PRICE_MAX, PRICE_MIN, searchProducts, type Filters, type SortKey } from "@/lib/catalog";
 import { useCatalog } from "@/lib/catalog-live";
+import { Select } from "@/components/ui/select-menu";
 import { Drawer } from "@/components/site/Drawer";
 import { ProductCard } from "@/components/site/ProductCard";
 import { LiveHero } from "@/components/site/LiveHero";
@@ -56,7 +57,6 @@ function CollectionPage() {
   const [f, setF] = useState<Filters>(EMPTY);
   const [sort, setSort] = useState<SortKey>("featured");
   const [panel, setPanel] = useState(false);
-  const [sortOpen, setSortOpen] = useState(false);
   const [lastSlug, setLastSlug] = useState(slug);
   if (lastSlug !== slug) { setLastSlug(slug); setF(EMPTY); }
 
@@ -113,19 +113,8 @@ function CollectionPage() {
               <button aria-label="Clear search" onClick={() => navigate({ search: {} })} className="hover:text-oxblood"><X className="h-3.5 w-3.5" /></button>
             </div>
           )}
-          <div className="relative">
-            <button onClick={() => setSortOpen((o) => !o)} aria-expanded={sortOpen} aria-haspopup="listbox" className="flex items-center gap-2 text-[13px] hover:text-oxblood">
-              <span className="max-sm:hidden text-muted-foreground">Sort:</span> {SORTS.find((s) => s.k === sort)?.l}
-              <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", sortOpen && "rotate-180")} />
-            </button>
-            {sortOpen && (
-              <ul role="listbox" className="absolute right-0 top-full mt-3 w-56 border border-hairline bg-paper py-2 shadow-drawer">
-                {SORTS.map((s) => (
-                  <li key={s.k}><button role="option" aria-selected={s.k === sort} onClick={() => { setSort(s.k); setSortOpen(false); }} className={cn("block w-full px-4 py-2.5 text-left text-[13px] hover:bg-chalk", s.k === sort && "text-oxblood")}>{s.l}</button></li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <Select<SortKey> variant="text" align="end" prefix="Sort:" aria-label="Sort" value={sort} onChange={setSort} menuClassName="w-56"
+            options={SORTS.map((x) => ({ value: x.k, label: x.l }))} />
         </div>
         {chips.length > 0 && (
           <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-2 px-5 pb-3 lg:px-10">

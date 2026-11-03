@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Check, Field, fieldErrors, fromLocalInput, LoadState, NotAppliedNotice, numOrNull, Pill, Section, toLocalInput, useLoad } from "@/components/admin/ui";
+import { Select } from "@/components/ui/select-menu";
 import { api, errorMessage } from "@/lib/api";
 import { COLLECTIONS, formatINR } from "@/lib/catalog";
 import { useCatalog } from "@/lib/catalog-live";
@@ -198,20 +199,14 @@ function OfferForm({ initial, onCancel, onSaved }: { initial: Offer | null; onCa
         </Field>
 
         <Field id="kind" label="Discount" error={errors["kind"]}>
-          <select id="kind" className="field" value={f.kind} onChange={(e) => set("kind", e.target.value as Offer["kind"])}>
-            <option value="percentage">Percentage off</option>
-            <option value="fixed">Fixed amount off (₹)</option>
-            <option value="free_shipping">Free shipping</option>
-          </select>
+          <Select<Offer["kind"]> id="kind" value={f.kind} onChange={(v) => set("kind", v)}
+            options={[{ value: "percentage", label: "Percentage off" }, { value: "fixed", label: "Fixed amount off (₹)" }, { value: "free_shipping", label: "Free shipping" }]} />
         </Field>
         {f.kind !== "free_shipping" ? num("value", f.kind === "percentage" ? "Percent (1–100)" : "Amount (₹)") : <div />}
 
         <Field id="scope" label="Applies to" error={errors["scope"]}>
-          <select id="scope" className="field" value={f.scope} onChange={(e) => { set("scope", e.target.value as Offer["scope"]); set("scopeValues", []); }}>
-            <option value="all">Everything</option>
-            <option value="collection">Selected collections</option>
-            <option value="product">Selected products</option>
-          </select>
+          <Select<Offer["scope"]> id="scope" value={f.scope} onChange={(v) => { set("scope", v); set("scopeValues", []); }}
+            options={[{ value: "all", label: "Everything" }, { value: "collection", label: "Selected collections" }, { value: "product", label: "Selected products" }]} />
         </Field>
         {num("minOrderInr", "Minimum order (₹)", "0 for no minimum.")}
 
