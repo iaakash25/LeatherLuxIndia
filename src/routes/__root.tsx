@@ -104,7 +104,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      brand.logoUrl ? { rel: "icon", href: brand.logoUrl } : { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      // The site icon is a fixed set of square files made from the logo (scripts/make-favicons.mjs), not the logo itself: search engines only
+      // accept a square icon whose side is a multiple of 48 px, and the logo is wide. Run that script again if the logo changes.
+      { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon-96x96.png" },
+      { rel: "shortcut icon", href: "/favicon.ico" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" },
