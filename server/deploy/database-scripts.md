@@ -5,7 +5,7 @@ Each script below is copied word for word from the project (`server/...` paths a
 a database administrator as it is. Nothing here contains a secret: passwords are placeholders, and the database password, JWT secret
 and pepper live only in `server/.env` and in Vercel's Environment Variables.
 
-Up to date as of migration 007 (applied to the live database on 2026-11-03). When a migration or one of these scripts changes, this file is
+Up to date as of migration 009 (applied to the live database on 2026-11-03). When a migration or one of these scripts changes, this file is
 regenerated from the project files rather than edited by hand.
 
 **This deployment:** Postgres on an EC2 server, database `LLI`, application role `llx_app`. The API needs Postgres 13 or newer
@@ -15,9 +15,9 @@ regenerated from the project files rather than edited by hand.
 
 1. Order of use
 2. One-time server setup (role, database, hardening, network)
-3. Schema migrations 001 to 007 (all the tables)
+3. Schema migrations 001 to 009 (all the tables)
 4. Scripts that run the migrations, seed data, create admins, import products and roll photos back
-5. Connection, certificate and rate-limit code that talks to the database
+5. Connection, certificate, rate-limit, visit-log and visitor-counter code that talks to the database
 6. Backup and restore
 7. Everyday SQL
 8. Data files that are not inlined
@@ -39,7 +39,7 @@ regenerated from the project files rather than edited by hand.
 | 8 | Print the certificate settings for Vercel | `npm run db:ca` |
 | 9 | Nightly backup | `deploy/backup-db.sh` from cron on the database server |
 
-Migrations 006 (rate limits, needed by the Vercel deployment) and 007 (availability, hover effect and photos uploaded in the admin console) are already applied to the live database.
+Migrations 006 (rate limits, needed by the Vercel deployment), 007 (availability, hover effect and photos uploaded in the admin console), 008 (the footer's page-load counter) and 009 (the visit log: IP address, page, date and time of every page view) are already applied to the live database. The visit log holds IP addresses, which are personal data: see `docs/visit-log.md` in the repository for what it stores, ready-made queries and the privacy checklist.
 
 ---
 
@@ -488,6 +488,44 @@ CREATE TABLE product_photos (
   created_at    timestamptz NOT NULL DEFAULT now()
 );
 CREATE INDEX product_photos_created_idx ON product_photos (created_at);
+````
+
+### 008_site_counters.sql
+
+`server/src/db/migrations/008_site_counters.sql` — The footer's "Total visitors" number: one counter that goes up on every page load (replaces the unique-visitor table 003)
+
+````sql
+-- Named counters for the site. The first is the footer's "Total visitors": it goes up by one every time a page is loaded or refreshed
+-- (before, it counted each browser once, using site_visitors, which is now unused and can be dropped when convenient).
+-- It starts from the number the footer showed when this was introduced, so the figure never drops.
+CREATE TABLE site_counters (
+  name        text PRIMARY KEY CHECK (name ~ '^[a-z][a-z0-9_]{1,40}$'),
+  value       bigint NOT NULL DEFAULT 0 CHECK (value >= 0),
+  updated_at  timestamptz NOT NULL DEFAULT now()
+);
+INSERT INTO site_counters (name, value) SELECT 'page_loads', count(*) FROM site_visitors;
+````
+
+### 009_visit_log.sql
+
+`server/src/db/migrations/009_visit_log.sql` — The visit log: the visitor's IP address, the page, the date and time of every page view
+
+````sql
+-- The visit log: one row for every page a visitor looks at, with the visitor's IP address and the date and time. Written by POST /api/visits/log,
+-- which the storefront calls on every page view. It holds personal data (an IP address is personal data), so it is meant for the shop owner's
+-- eyes only and is pruned after VISIT_LOG_RETENTION_DAYS (365 by default, 0 keeps everything). See docs/visit-log.md.
+CREATE TABLE visit_log (
+  id          bigserial PRIMARY KEY,
+  visited_at  timestamptz NOT NULL DEFAULT now(),
+  ip          inet NOT NULL,                       -- the visitor's address, IPv4 or IPv6 (the real one, taken from the platform's forwarding header)
+  path        text NOT NULL CHECK (left(path, 1) = '/' AND char_length(path) <= 300),  -- the page, e.g. /products/aria-top-handle (no query string)
+  referrer    text CHECK (referrer IS NULL OR char_length(referrer) <= 300),           -- the site they came from (its address only), on the first page of a visit
+  user_agent  text CHECK (user_agent IS NULL OR char_length(user_agent) <= 400),       -- the browser and device they used
+  is_bot      boolean NOT NULL DEFAULT false       -- crawlers and monitors are recorded too, marked, so they can be filtered out
+);
+CREATE INDEX visit_log_time_idx ON visit_log (visited_at DESC);
+CREATE INDEX visit_log_ip_idx   ON visit_log (ip, visited_at DESC);   -- "what did this address look at?"
+CREATE INDEX visit_log_path_idx ON visit_log (path, visited_at DESC); -- "who looked at this page?"
 ````
 
 The runner also creates its own bookkeeping table the first time it runs (shown in 4.1):
@@ -1299,6 +1337,142 @@ export class PgRateLimitStore implements Store {
 }
 ````
 
+### 5.5 Visit log writer and retention (SQL on `visit_log`)
+
+`server/src/lib/visit-log.ts` — writes one row per page view and deletes entries older than `VISIT_LOG_RETENTION_DAYS` (365)
+
+````ts
+import { isIP } from "node:net";
+import type { Request } from "express";
+import { env } from "../config/env.js";
+import { query } from "../db/pool.js";
+import { logger } from "./logger.js";
+
+/**
+ * The visit log (table visit_log, migration 009): the address, page, date and time of every page view, as reported by the storefront.
+ * See docs/visit-log.md for what is stored, why, and how to read it.
+ */
+
+/** Crawlers, uptime monitors and link-preview fetchers: logged, but marked so they can be left out of any count. */
+export const NOT_A_PERSON = /bot|crawl|spider|slurp|headless|lighthouse|pingdom|uptime|monitor|preview|curl|wget|python|httpclient|axios|node-fetch/i;
+
+/**
+ * The visitor's address. Express works it out from the platform's forwarding header (TRUST_PROXY says how many proxies to believe, so a visitor
+ * cannot choose their own), and a plain IPv4 address that arrives in IPv6 clothing (::ffff:203.0.113.7) is written as IPv4. Null if it is not an address.
+ */
+export function clientIp(req: Pick<Request, "ip">): string | null {
+  const raw = (req.ip ?? "").replace(/^::ffff:/i, "").trim();
+  return isIP(raw) ? raw : null;
+}
+
+/** "/products/aria-top-handle?x=1#top" → "/products/aria-top-handle". Null for anything that is not a plain page path. */
+export function cleanPath(raw: string): string | null {
+  const p = raw.split(/[?#]/)[0] ?? "";
+  return p.startsWith("/") && !p.startsWith("//") && p.length <= 300 && !/[\s\u0000-\u001f\u007f]/.test(p) ? p : null;
+}
+
+/** The site a visitor came from, reduced to its address ("https://www.google.com"): never the page or the search words in it. Null if not a plain web address. */
+export function cleanReferrer(raw: string | undefined): string | null {
+  if (!raw) return null;
+  try {
+    const u = new URL(raw);
+    return (u.protocol === "https:" || u.protocol === "http:") && u.origin.length <= 300 ? u.origin : null;
+  } catch {
+    return null;
+  }
+}
+
+export type PageView = { ip: string; path: string; referrer: string | null; userAgent: string | null; at?: Date };
+
+export async function recordPageView(v: PageView): Promise<void> {
+  const ua = v.userAgent ? v.userAgent.slice(0, 400) : null;
+  await query(
+    "INSERT INTO visit_log (visited_at, ip, path, referrer, user_agent, is_bot) VALUES (COALESCE($1, now()), $2, $3, $4, $5, $6)",
+    [v.at ?? null, v.ip, v.path, v.referrer, ua, !ua || NOT_A_PERSON.test(ua)],
+  );
+  // Housekeeping on about 1 request in 200, in small batches, so the table does not grow for ever and no request waits on a big delete.
+  if (Math.random() < 1 / 200) void pruneVisitLog().catch((err) => logger.warn({ err: (err as Error).message }, "visit log pruning failed"));
+}
+
+/** Deletes entries older than the retention period (VISIT_LOG_RETENTION_DAYS; 0 keeps everything). Returns how many were deleted. */
+export async function pruneVisitLog(now = new Date()): Promise<number> {
+  const days = env().VISIT_LOG_RETENTION_DAYS;
+  if (days <= 0) return 0;
+  const cutoff = new Date(now.getTime() - days * 86_400_000);
+  const r = await query("DELETE FROM visit_log WHERE id IN (SELECT id FROM visit_log WHERE visited_at < $1 ORDER BY visited_at LIMIT 5000)", [cutoff]);
+  return r.rowCount ?? 0;
+}
+````
+
+### 5.6 Visitor counter and visit-log routes (SQL on `site_counters`)
+
+`server/src/routes/visits.ts` — `POST /api/visits` adds one to the counter; `POST /api/visits/log` records a page view
+
+````ts
+import { Router } from "express";
+import { z } from "zod";
+import { query } from "../db/pool.js";
+import { visitsCache } from "../lib/caches.js";
+import { clientIp, cleanPath, cleanReferrer, NOT_A_PERSON, recordPageView } from "../lib/visit-log.js";
+import { pageViewLimiter, visitLimiter } from "../middleware/rate-limit.js";
+
+/**
+ * "Total visitors" in the storefront footer: a counter that goes up by one every time a page is loaded or refreshed (the browser reports it
+ * once per page load). It does not try to tell people apart, so nothing about the visitor is kept: no id, address or browser details, only the
+ * number. (The visit log further down is separate, and does keep the address: that is its job.) It is a simple counter, not analytics.
+ */
+export const visitsRouter = Router();
+
+// (Crawlers, uptime monitors and link-preview fetchers would otherwise inflate the number: NOT_A_PERSON, in lib/visit-log.ts.)
+
+const total = () => visitsCache.get("total", async () => Number((await query<{ n: string }>("SELECT value AS n FROM site_counters WHERE name = 'page_loads'")).rows[0]?.n ?? 0));
+
+visitsRouter.get("/", async (_req, res) => {
+  res.set("Cache-Control", "public, max-age=15");
+  res.json({ total: await total() });
+});
+
+visitsRouter.post("/", visitLimiter(), async (req, res) => {
+  res.set("Cache-Control", "no-store");
+  const ua = req.get("user-agent") ?? "";
+  if (!ua || NOT_A_PERSON.test(ua)) {
+    res.json({ total: await total(), counted: false });
+    return;
+  }
+  // One atomic statement, so many pages loading at the same moment each add exactly one.
+  const { rows } = await query<{ value: string }>(
+    `INSERT INTO site_counters (name, value) VALUES ('page_loads', 1)
+     ON CONFLICT (name) DO UPDATE SET value = site_counters.value + 1, updated_at = now()
+     RETURNING value`,
+  );
+  const value = Number(rows[0]!.value);
+  visitsCache.invalidate(); // a later read of the total must not show the number from before this load
+  res.json({ total: value, counted: true });
+});
+
+/**
+ * The visit log: the storefront reports every page view here (the first page of a visit and each page after it), and one row is written with the
+ * visitor's IP address, the page, the date and time, their browser and, on the first page, the site they came from. Crawlers are logged too, marked.
+ * Nothing is read back through the public API; the table is for the shop owner (docs/visit-log.md).
+ */
+const pageView = z.object({
+  path: z.string().max(400).transform((p, ctx) => {
+    const clean = cleanPath(p);
+    if (clean) return clean;
+    ctx.addIssue({ code: "custom", message: "A page path starts with / and has no spaces" });
+    return z.NEVER;
+  }),
+  referrer: z.string().max(600).optional(),
+});
+
+visitsRouter.post("/log", pageViewLimiter(), async (req, res) => {
+  const { path, referrer } = pageView.parse(req.body);
+  const ip = clientIp(req);
+  if (ip) await recordPageView({ ip, path, referrer: cleanReferrer(referrer), userAgent: req.get("user-agent") ?? null });
+  res.status(204).end(); // nothing to tell the browser, and nothing it should wait for
+});
+````
+
 ---
 
 ## 6. Backup and restore
@@ -1366,6 +1540,19 @@ UPDATE products SET cost_inr = 900 WHERE type = 'Wallets';
 UPDATE products SET active = false WHERE sku LIKE 'LLI-SMP-%';        -- hide the 22 starter products
 UPDATE products SET availability = 'coming_soon' WHERE sku = 'LLI-WAL-001';   -- or 'inactive' (shows as out of stock) or 'active'
 UPDATE products SET hover_effect = 'zoom' WHERE type = 'Belts';              -- swap | slide | zoom | none
+````
+````sql
+-- the visit log (see docs/visit-log.md for more): the latest 50 page views, in Indian time
+SELECT visited_at AT TIME ZONE 'Asia/Kolkata' AS time_ist, ip, path, is_bot FROM visit_log ORDER BY visited_at DESC LIMIT 50;
+-- everything one address looked at
+SELECT visited_at AT TIME ZONE 'Asia/Kolkata' AS time_ist, path FROM visit_log WHERE ip = '203.0.113.7' ORDER BY visited_at;
+-- per day: page views and different addresses (people only)
+SELECT (visited_at AT TIME ZONE 'Asia/Kolkata')::date AS day, count(*) AS page_views, count(DISTINCT ip) AS addresses
+  FROM visit_log WHERE NOT is_bot GROUP BY 1 ORDER BY 1 DESC;
+-- remove one address (a deletion request)
+DELETE FROM visit_log WHERE ip = '203.0.113.7';
+-- the footer number
+SELECT value FROM site_counters WHERE name = 'page_loads';
 ````
 
 A stock count changed with plain SQL is not on the ledger (`inventory_movements`); use the admin console's Inventory page when the
