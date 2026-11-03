@@ -113,7 +113,7 @@ export function Footer() {
           ))}
         </div>
         <div className="mt-20 flex flex-col gap-3 border-t border-chalk/15 pt-6 text-xs text-chalk/50 lg:flex-row lg:justify-between">
-          <p>© 2026 {brandTitle(brand)} · Design concept prototype — sample content only</p>
+          <p>© 2026 {brandTitle(brand)}</p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <VisitorCount />
             <p>India (INR ₹) · English</p>
