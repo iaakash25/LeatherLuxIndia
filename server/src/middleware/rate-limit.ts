@@ -19,9 +19,15 @@ export const globalLimiter = () =>
 export const authLimiter = () =>
   rateLimit({ ...base, ...shared("auth"), windowMs: 15 * 60_000, limit: env().RATE_LIMIT_AUTH_PER_15MIN, handler: handler("Too many attempts, try again in a few minutes") });
 
-/** Registering a visit: a person needs this once per session, so a low cap stops anyone inflating the count. */
+/** Counting a page load: every load and refresh counts, so the cap is generous (20 a minute on average for one address, which is also a whole office
+ *  behind one router); it only stops a script from running the number up. */
 export const visitLimiter = () =>
-  rateLimit({ ...base, ...shared("visit"), windowMs: 60 * 60_000, limit: 30, handler: handler("Too many requests, try again later") });
+  rateLimit({ ...base, ...shared("visit"), windowMs: 60 * 60_000, limit: 1200, handler: handler("Too many requests, try again later") });
+
+/** Logging a page view writes a row, so one address may log at most 3,000 an hour (50 a minute: a keen shopper opens a page a second). Counted in memory,
+ *  like the global limit, so the log's own protection costs no database write. */
+export const pageViewLimiter = () =>
+  rateLimit({ ...base, windowMs: 60 * 60_000, limit: 3000, handler: handler("Too many requests, try again later") });
 
 export const newsletterLimiter = () =>
   rateLimit({ ...base, ...shared("newsletter"), windowMs: 60 * 60_000, limit: env().RATE_LIMIT_NEWSLETTER_PER_HOUR, handler: handler("Too many requests, try again later") });

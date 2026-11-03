@@ -7,7 +7,7 @@ import { TtlCache } from "./cache.js";
 // What is cached, and what must clear it:
 //   catalogue  product lists and product pages   cleared by: admin product edits, orders placed or cancelled
 //   branding   store name + logo                 cleared by: admin branding edits
-//   visitors   the footer's total                cleared by: a new visitor being recorded
+//   visitors   the footer's total                cleared by: a page load being counted
 //   signed-in users  who a login cookie belongs to  cleared by: change-password, sign-out-everywhere
 // Anything that writes to those tables from the API MUST call the matching invalidate…() below.
 // (Changes made outside the API, e.g. straight SQL, show up when the time-to-live runs out, or on an admin "purge".)

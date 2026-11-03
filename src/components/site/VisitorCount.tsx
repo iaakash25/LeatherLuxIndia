@@ -4,58 +4,42 @@ import { useCountUp } from "@/hooks/use-count-up";
 import { api, apiEnabled } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
-const ID_KEY = "llx-visitor-id";
-const SENT_KEY = "llx-visit-sent";
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+/** The total this browser last saw, so a refresh visibly ticks up from it. (Only a number: nothing that identifies the visitor.) */
+const SEEN_KEY = "llx-visitors-seen";
+const readSeen = (): number | null => {
+  try { const n = Number(localStorage.getItem(SEEN_KEY)); return Number.isInteger(n) && n > 0 ? n : null; } catch { return null; }
+};
 
-/** A random id this browser makes up for itself and keeps. null when storage is blocked (then we only read the total). */
-function browserId(): string | null {
-  try {
-    let id = localStorage.getItem(ID_KEY);
-    if (!id || !UUID.test(id)) {
-      id = crypto.randomUUID();
-      localStorage.setItem(ID_KEY, id);
-    }
-    return id;
-  } catch {
-    return null;
-  }
-}
-
-let inflight: Promise<number | null> | null = null;
-/** Registers this browser (once per tab session) and returns the total. One shared request, however many times it is asked. */
-function report(): Promise<number | null> {
-  inflight ??= (async () => {
-    try {
-      const id = browserId();
-      let alreadySent = false;
-      try { alreadySent = sessionStorage.getItem(SENT_KEY) === "1"; } catch { /* storage blocked */ }
-      const counting = !!id && !alreadySent;
-      const r = counting
-        ? await api<{ total: number }>("/visits", { method: "POST", body: { visitorId: id } })
-        : await api<{ total: number }>("/visits");
-      if (counting) { try { sessionStorage.setItem(SENT_KEY, "1"); } catch { /* storage blocked */ } }
-      return r.total;
-    } catch {
-      return null; // counter unavailable: show nothing rather than a wrong number
-    }
-  })().finally(() => { inflight = null; });
-  return inflight;
-}
-
+let counted: Promise<number | null> | undefined;
 /**
- * "Total visitors" for the footer. Each browser is counted once (the server stores only a hash of its id and
- * honours Do Not Track); a repeat visit in the same tab session doesn't even call the server to count again.
+ * Counts this page load and returns the new total. Every load and every refresh counts once: the answer is kept for the life of the page, so
+ * the footer mounting twice (React's development double-run) or the visitor moving between pages without reloading does not count again.
  */
+function report(): Promise<number | null> {
+  counted ??= api<{ total: number }>("/visits", { method: "POST" })
+    .then((r) => r.total)
+    .catch(() => null); // counter unavailable: show nothing rather than a wrong number
+  return counted;
+}
+
+/** "Total visitors" for the footer. It goes up by one every time a page is loaded or refreshed. */
 export function VisitorCount() {
   const [total, setTotal] = useState<number | null>(null);
+  const [from, setFrom] = useState(0);
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     if (!apiEnabled) return;
     let cancelled = false;
-    report().then((n) => { if (!cancelled && n !== null) setTotal(n); });
+    const seen = readSeen();
+    report().then((n) => {
+      if (cancelled || n === null) return;
+      // Count up from what this browser saw last time; the first time (or after a reset) from one below, so the +1 is still shown.
+      setFrom(seen !== null && seen < n ? seen : Math.max(0, n - 1));
+      setTotal(n);
+      try { localStorage.setItem(SEEN_KEY, String(n)); } catch { /* storage blocked */ }
+    });
     return () => { cancelled = true; };
   }, []);
 
@@ -68,7 +52,7 @@ export function VisitorCount() {
     return () => io.disconnect();
   }, [total]);
 
-  const shown = useCountUp(total, inView);
+  const shown = useCountUp(total, inView, 1400, from);
   if (!apiEnabled) return null;
   const fmt = (n: number) => n.toLocaleString("en-IN");
 

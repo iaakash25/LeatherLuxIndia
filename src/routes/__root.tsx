@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -13,6 +14,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { BrandProvider, brandTitle, DEFAULT_BRAND, loadBrand } from "@/lib/brand";
+import { logPageView } from "@/lib/page-view";
 import { canonicalUrl } from "@/lib/seo";
 import { StoreProvider } from "@/lib/store";
 import { Header } from "@/components/site/Header";
@@ -135,6 +137,13 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+/** Reports every page the visitor opens (the first one and each after it) to the visit log. Draws nothing. */
+function PageViewLogger() {
+  const path = useRouterState({ select: (s) => s.location.pathname });
+  useEffect(() => { logPageView(path); }, [path]);
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const { brand } = Route.useLoaderData();
@@ -145,6 +154,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <StoreProvider>
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-ink focus:px-4 focus:py-2 focus:text-chalk">Skip to content</a>
+        <PageViewLogger />
         <Header />
         <main id="main"><Outlet /></main>
         <Footer />

@@ -200,9 +200,13 @@ What a shopper types is judged by `src/lib/validation.ts` / `server/src/lib/vali
 
 `GET /api/pincode/:pin` returns `{ city, state, district, areas }` for the checkout form to fill in. It reads India Post's public data from `api.postalpincode.in` (the browser cannot: the site's security policy allows only the shop's own address), keeps each answer for a day, and sends cache headers. 400: the pincode cannot be real; 404 `pincode_not_found`: no such pincode; 503 `lookup_unavailable`: the service is down, and the shopper types the place. An order never calls it.
 
+### Visit log
+
+Every page view is also written to `visit_log` (migration 009): the visitor's **IP address**, the page, the date and time, the browser and (first page of a visit) the site they came from, with crawlers marked `is_bot`. The storefront reports each page to `POST /api/visits/log`; entries are deleted after `VISIT_LOG_RETENTION_DAYS` (365). It is personal data: read `docs/visit-log.md` for the columns, ready-made queries and the privacy checklist (a privacy notice on the site is still to be written).
+
 ### Visitor counter
 
-The footer shows total unique visitors (`GET/POST /visits`). Each browser makes up a random id and keeps it in its own `localStorage`; the server stores only an HMAC of it (no IP, no user agent), skips crawlers and honours Do Not Track / Global Privacy Control. It is a simple counter, not analytics: clearing site data counts as a new visitor.
+The footer shows "Total visitors" (`GET/POST /api/visits`): a counter that goes up by one **every time a page is loaded or refreshed**, from any browser, whether or not it has been here before (the storefront reports once per full page load, not on moving between pages). The counter itself keeps nothing about the visitor: the number lives in `site_counters` (migration 008, row `page_loads`), with no id, address or browser details. It skips crawlers, monitors and scripts by their user agent, and one address may add at most 1,200 an hour. On a refresh the footer's number ticks up from the total that browser saw last time. It is a simple counter, not analytics. The older unique-visitor table `site_visitors` is no longer written; the counter started from the number of rows it had (13 at the time), so the figure never dropped, and the table can be dropped when convenient.
 
 ### Before launch: orders closed
 

@@ -68,6 +68,9 @@ const schema = z.object({
   RATE_LIMIT_AUTH_PER_15MIN: int(1, 10_000).default(20),
   RATE_LIMIT_NEWSLETTER_PER_HOUR: int(1, 10_000).default(10),
 
+  // How long the visit log (every page view with the visitor's IP address) is kept before it is deleted. 0 keeps it for ever.
+  VISIT_LOG_RETENTION_DAYS: int(0, 3650).default(365),
+
   // false = the shop is open for browsing and saving a bag, but placing an order is refused (pre-launch). Set to true on launch day.
   ORDERS_OPEN: boolOn,
 
