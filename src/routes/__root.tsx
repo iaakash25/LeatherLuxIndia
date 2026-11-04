@@ -88,6 +88,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   staleTime: 30_000,
   head: ({ loaderData, matches }) => {
     const brand = loaderData?.brand ?? DEFAULT_BRAND;
+    // A page that does not exist (the server answers 404). It must not look like a real page to a search engine: no canonical address (it
+    // used to name the home page, for every missing URL), no home-page title and description, and noindex.
+    // (A missing child page, such as an unknown product, is status "notFound"; an address no route matches at all is flagged `_notFound`.)
+    if (matches.some((m) => m.status === "notFound" || m._notFound)) {
+      return {
+        meta: [
+          { charSet: "utf-8" },
+          { name: "viewport", content: "width=device-width, initial-scale=1" },
+          { title: `Page not found — ${brandTitle(brand)}` },
+          { name: "robots", content: "noindex" },
+        ],
+        links: [
+          { rel: "stylesheet", href: appCss },
+          { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon-96x96.png" },
+          { rel: "shortcut icon", href: "/favicon.ico" },
+          { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+        ],
+      };
+    }
     // The last match is the page itself, so its path is the address being served.
     const canonical = canonicalUrl(matches[matches.length - 1]?.pathname ?? "/");
     return {

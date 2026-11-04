@@ -57,6 +57,34 @@ The surest route to product photos with prices in Google Shopping and Google Ima
 with a product feed. It needs the shop to be open (a working checkout, shipping and return policies), so it belongs to launch week; ask for a feed
 generated from the live catalogue when the time comes.
 
+## Pages Search Console lists as "not indexed" (4 URLs, 4 November 2026)
+
+The Pages report showed four URLs as not indexed: `/blogs/news`, `/collections/frontpage`, `/agents.md` and `/pages/contact`, under the reasons *Blocked
+due to access forbidden (403)* (1), *Blocked by robots.txt* (1) and *Discovered - currently not indexed* (2). What was found:
+
+- **They are not pages of this shop.** None has ever existed here, nothing on the site links to them (every internal link on the home, collection and
+  product pages returns 200 and none points to them), and the sitemap lists only real pages (all 105 return 200). Three of the four are Shopify's
+  default addresses (`/blogs/news`, `/collections/frontpage`, `/pages/contact`), so they most likely come from whatever the domain served, or from
+  old links to it, before this site: the repository's first commit is 1 November, and the report's chart already showed them in early October.
+- **The reasons describe what Google saw at its last attempt, not what the site does now.** Today each of the four answers a plain **404** on every
+  address the site has (`.com`, `www`, `.in`, `www.in`, `vercel.app`; plain `http` redirects to `https`), also when asked as Googlebot. None answers 403,
+  and `robots.txt` allows all four (it blocks only `/admin`, `/checkout`, `/orders` and `/api/`). `/agents.md` is a 404 too: no project, source or
+  configuration file is reachable on the live site (23 such paths were tested: `AGENTS.md`, `.env`, `.git/config`, `package.json`, `docs/...`).
+- **"Not indexed" is not an error for them.** A page that does not exist should not be indexed, and 404 is the right answer. There is nothing to
+  validate or to request; they leave the list as Google re-crawls them (weeks), or stay there harmlessly. To see which URL has which reason, click each
+  reason row in the report, then use *URL Inspection > Test live URL* on it: it will say *Not found (404)* and that robots.txt allows it.
+- **One real fault was fixed.** A missing page answered 404 but its head said the opposite: `canonical` and `og:url` named the **home page** (for every
+  missing address), with the home page's title and description and no `noindex`. That tells a search engine the missing address is a copy of the home
+  page. A missing page now has its own title (*Page not found*), `noindex` and no canonical address (`head` in `src/routes/__root.tsx`, pinned by
+  `src/test/not-found-head.test.ts`).
+- **Do not redirect unknown addresses to the home page.** Google treats that as a "soft 404", which is worse than a 404. Redirect only when there is
+  a real old address with real inbound links, to its true equivalent (for example `/collections/frontpage` to `/collections/all`), and only if the
+  old address is known to matter.
+- **A gap this surfaced:** the footer's *Shipping, Returns, Care guide, Contact, Our approach, Materials, Stores* and *Careers* are plain text; those
+  pages do not exist. A shop needs Contact, Shipping, Returns and Privacy pages before launch (Google Merchant Center and Indian e-commerce rules
+  both expect them), and the first thing a visitor or Google tries is `/pages/contact`. They need real content (address, phone, policies), so they
+  are written with the owner, not invented.
+
 ## Bing and Edge show nothing yet
 
 Edge searches with Bing, and Bing has not indexed the site at all (a `site:leatherluxindia.com` search there returns unrelated pages). Its crawler
