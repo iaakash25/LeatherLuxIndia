@@ -8,6 +8,7 @@ import { validatePincode } from "@/lib/validation";
 import { COLOURS, formatINR, type Product } from "@/lib/catalog";
 import { brandFromMatches, brandTitle } from "@/lib/brand";
 import { loadCatalog, useCatalog } from "@/lib/catalog-live";
+import { imageMeta, jsonLd, productJsonLd, seoProduct } from "@/lib/seo";
 import { LAUNCH } from "@/lib/launch";
 import { useOrdersOpen } from "@/lib/store-status";
 import { useStore } from "@/lib/store";
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/products/$slug")({
   loader: async ({ params, context }) => {
     const p = (await loadCatalog(context.queryClient)).find((x) => x.slug === params.slug);
     if (!p) throw notFound();
-    return { name: p.name, tagline: p.tagline };
+    return { name: p.name, tagline: p.tagline, seo: seoProduct(p) };
   },
   head: ({ loaderData, matches }) => {
     const site = brandTitle(brandFromMatches(matches));
@@ -31,8 +32,13 @@ export const Route = createFileRoute("/products/$slug")({
           { property: "og:title", content: `${loaderData.name} — ${site}` },
           { property: "og:description", content: loaderData.tagline },
           { property: "og:type", content: "product" },
+          ...imageMeta(loaderData.seo.images[0], loaderData.name),
         ]
       : [{ title: `Unavailable — ${site}` }, { name: "robots", content: "noindex" }],
+    // Tells Google what the product looks like (and, once the shop is open, its price and stock).
+    ...(loaderData
+      ? { scripts: [{ type: "application/ld+json", children: jsonLd(productJsonLd(loaderData.seo, { site, launched: !LAUNCH.enabled })) }] }
+      : {}),
     };
   },
   notFoundComponent: ProductUnavailable,

@@ -7,5 +7,7 @@ Disallow: /checkout
 Disallow: /orders
 Disallow: /api/
 Allow: /api/branding/logo
+# Photos uploaded in the admin console are served from here: Google Images has to be able to fetch them.
+Allow: /api/photos/
 
 Sitemap: https://leatherluxindia.com/sitemap.xml

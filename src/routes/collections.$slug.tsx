@@ -10,6 +10,7 @@ import { ProductCard } from "@/components/site/ProductCard";
 import { LiveHero } from "@/components/site/LiveHero";
 import { Img, Reveal } from "@/components/site/Reveal";
 import { brandFromMatches, brandTitle } from "@/lib/brand";
+import { imageMeta } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 const searchSchema = z.object({ q: z.string().optional() });
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/collections/$slug")({
   loader: ({ params }) => {
     const c = getCollection(params.slug);
     if (!c) throw notFound();
-    return { slug: c.slug, title: c.title, intro: c.intro };
+    return { slug: c.slug, title: c.title, intro: c.intro, image: c.image };
   },
   head: ({ loaderData, matches }) => {
     const site = brandTitle(brandFromMatches(matches));
@@ -30,6 +31,7 @@ export const Route = createFileRoute("/collections/$slug")({
           { name: "description", content: loaderData.intro },
           { property: "og:title", content: `${loaderData.title} — ${site}` },
           { property: "og:description", content: loaderData.intro },
+          ...imageMeta(loaderData.image, loaderData.title),
         ]
       : [{ title: `Collection not found — ${site}` }, { name: "robots", content: "noindex" }],
     };

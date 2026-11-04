@@ -15,7 +15,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { BrandProvider, brandTitle, DEFAULT_BRAND, loadBrand } from "@/lib/brand";
 import { logPageView } from "@/lib/page-view";
-import { canonicalUrl } from "@/lib/seo";
+import { images } from "@/lib/catalog";
+import { canonicalUrl, imageMeta } from "@/lib/seo";
 import { StoreProvider } from "@/lib/store";
 import { Header } from "@/components/site/Header";
 import { AccountDrawer, CartDrawer, MobileMenu, SearchOverlay, WishlistDrawer } from "@/components/site/Panels";
@@ -99,6 +100,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: brandTitle(brand) },
       { property: "og:url", content: canonical },
       { name: "twitter:card", content: "summary_large_image" },
+      // The default picture for link previews and search; a page that has its own (a product, a collection) replaces it.
+      ...imageMeta(images.hero, brandTitle(brand)),
     ],
     links: [
       { rel: "canonical", href: canonical },
