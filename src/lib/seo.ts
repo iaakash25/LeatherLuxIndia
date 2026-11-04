@@ -52,11 +52,13 @@ export const seoProduct = (p: Product): SeoProduct => ({
 });
 
 /**
- * Structured data for a product page: its name and pictures, so Google can show them (in Images and beside the listing).
- * The price and stock (`offers`) are added only once the shop is open (`launched`): before that nothing can be bought, and "in stock"
- * next to a price would be untrue. A product that is only coming soon never gets an offer.
+ * Structured data for a product page: its name, pictures, price and stock, so Google can show them (in Images and beside the listing).
+ * Google rejects a Product that has no price (`offers`), review or rating, so a product without a price is not described at all: nothing
+ * before the shop opens (`launched`), because nothing can be bought, "in stock" beside a price would be untrue, and the reviews on the
+ * page are samples; and nothing for a product that is only coming soon. Pictures reach Google without it (page tags and the sitemap).
  */
 export function productJsonLd(p: SeoProduct, o: { site: string; launched: boolean }) {
+  if (!o.launched || p.availability === "coming_soon") return null;
   const url = canonicalUrl(`/products/${p.slug}`);
   const image = [...new Set(p.images.map(shareImage).filter((u): u is string => !!u))];
   const soldOut = p.stock === "out" || p.availability === "inactive";
@@ -72,17 +74,13 @@ export function productJsonLd(p: SeoProduct, o: { site: string; launched: boolea
     color: p.colours.join(", "),
     material: p.material,
     brand: { "@type": "Brand", name: o.site },
-    ...(o.launched && p.availability !== "coming_soon"
-      ? {
-          offers: {
-            "@type": "Offer",
-            url,
-            priceCurrency: "INR",
-            price: p.price,
-            itemCondition: "https://schema.org/NewCondition",
-            availability: soldOut ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
-          },
-        }
-      : {}),
+    offers: {
+      "@type": "Offer",
+      url,
+      priceCurrency: "INR",
+      price: p.price,
+      itemCondition: "https://schema.org/NewCondition",
+      availability: soldOut ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+    },
   };
 }

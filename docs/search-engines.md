@@ -31,17 +31,22 @@ preview when a link is shared on WhatsApp, Facebook, X or LinkedIn. Before, the 
 | What | Where | Effect |
 | --- | --- | --- |
 | `og:image` / `twitter:image` (+ alt text) on every page | `imageMeta()` in `src/lib/seo.ts`; default (the hero) in `src/routes/__root.tsx`, replaced by a product's first photo or a collection's banner | the picture in link previews, and Google's hint for which picture represents the page |
-| `Product` structured data on every product page | `productJsonLd()` in `src/lib/seo.ts`, used by `src/routes/products.$slug.tsx` | name, all photos, SKU, material, colour: eligible for Google Images' product badge |
+| `Product` structured data on every product page, **from launch day** | `productJsonLd()` in `src/lib/seo.ts`, used by `src/routes/products.$slug.tsx` | name, photos, SKU, price and stock: lets Google show the price and a product badge in Images and in the listing |
 | Pictures in the sitemap | `buildSitemap()` in `src/lib/sitemap.ts` | Google Images finds every photo of every product, including ones added later in the admin console |
 | `Allow: /api/photos/` | `public/robots.txt` | Google can fetch photos uploaded in the admin console (the 76 imported products' photos are under `/media/`, which was never blocked) |
 
-**Price and stock are not in the structured data yet, on purpose.** They are added when `LAUNCH.enabled` is set to `false` in `src/lib/launch.ts`
-(launch day): until then nothing can be bought, and "in stock" beside a price would be untrue. A coming-soon product never gets a price.
+**There is no `Product` structured data before launch, on purpose.** Google rejects a Product that has no price, review or rating (the Rich Results
+Test says *Either "offers", "review", or "aggregateRating" should be specified*, and the item is "invalid"), and before launch nothing can be
+bought, so "in stock" beside a price would be untrue, and the reviews on the product page are samples, not real ones. So until
+`LAUNCH.enabled` is set to `false` in `src/lib/launch.ts` (launch day) the product pages carry no Product block, and the Rich Results Test shows
+"no items detected" rather than an error. The pictures themselves reach Google without it (the page tags and the sitemap above). A coming-soon
+product never gets one. On launch day the block appears by itself, with price and stock, and the test should then pass.
 
 What the site cannot decide: **whether Google shows a thumbnail next to a result, and which one.** Google chooses, mostly on phones, and only after it
 has crawled the new tags (days to a few weeks). To prompt it, in Search Console run **URL Inspection → Request indexing** on the home page and a
-few product pages, and in **Sitemaps** resubmit `https://leatherluxindia.com/sitemap.xml` (it now carries the pictures). Check the markup with
-Google's Rich Results Test (search.google.com/test/rich-results) on a product page, and a share preview by pasting a product link into WhatsApp.
+few product pages, and in **Sitemaps** resubmit `https://leatherluxindia.com/sitemap.xml` (it now carries the pictures). Check the page tags with
+any link preview (paste a product link into WhatsApp). After launch, check the product data with Google's Rich Results Test
+(search.google.com/test/rich-results) on a product page.
 
 The surest route to product photos with prices in Google Shopping and Google Images is a free **Merchant Center** account (merchants.google.com)
 with a product feed. It needs the shop to be open (a working checkout, shipping and return policies), so it belongs to launch week; ask for a feed

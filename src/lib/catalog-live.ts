@@ -80,8 +80,11 @@ export function useCatalog() {
       products,
       /** True once the list came from the API (not the built-in fallback). */
       live: apiEnabled && q.isSuccess && !q.isPlaceholderData,
-      /** True until the first answer arrives or the fallback is in use, so pages can wait before saying "not found". */
-      settled: !apiEnabled || q.isSuccess || q.isError,
+      /**
+       * True once the live list has arrived (or failed, so the built-in one stays), so pages can wait before saying "not found".
+       * The built-in list shown meanwhile is placeholder data, which TanStack Query also reports as a success: it must not count.
+       */
+      settled: !apiEnabled || (q.isSuccess && !q.isPlaceholderData) || q.isError,
       /** A product on sale right now (deactivated products are absent). */
       getProduct: (slug: string) => products.find((p) => p.slug === slug),
       /** For things that outlive the listing, e.g. past orders: live first, then the built-in catalogue. */

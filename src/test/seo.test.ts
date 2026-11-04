@@ -39,8 +39,10 @@ describe("imageMeta", () => {
 });
 
 describe("productJsonLd", () => {
+  const open = { site: "Leather Lux India", launched: true };
+
   it("names the product and lists its pictures as absolute addresses, without repeats", () => {
-    const j = productJsonLd({ ...base, images: [...base.images, base.images[0]!] }, { site: "Leather Lux India", launched: false });
+    const j = productJsonLd({ ...base, images: [...base.images, base.images[0]!] }, open)!;
     expect(j["@type"]).toBe("Product");
     expect(j.name).toBe("Aria Top-Handle");
     expect(j.url).toBe(`${SITE_ORIGIN}/products/aria-top-handle`);
@@ -50,38 +52,41 @@ describe("productJsonLd", () => {
     expect(j.description).toBe("A longer paragraph.");
   });
 
-  it("states no price or stock before the shop opens: nothing can be bought yet", () => {
-    expect("offers" in productJsonLd(base, { site: "S", launched: false })).toBe(false);
+  it("states nothing before the shop opens: Google rejects a Product with no price, and nothing can be bought yet", () => {
+    expect(productJsonLd(base, { site: "S", launched: false })).toBeNull();
   });
 
-  it("after launch, states the price in rupees and whether it is in stock", () => {
-    const inStock = productJsonLd(base, { site: "S", launched: true }).offers as Record<string, unknown>;
+  it("states the price in rupees and whether it is in stock", () => {
+    const inStock = productJsonLd(base, open)!.offers as Record<string, unknown>;
     expect(inStock).toMatchObject({ "@type": "Offer", priceCurrency: "INR", price: 14990, availability: "https://schema.org/InStock" });
-    const low = productJsonLd({ ...base, stock: "low" }, { site: "S", launched: true }).offers as Record<string, unknown>;
+    const low = productJsonLd({ ...base, stock: "low" }, open)!.offers as Record<string, unknown>;
     expect(low["availability"]).toBe("https://schema.org/InStock");
     for (const sold of [{ stock: "out" as const }, { availability: "inactive" as const }]) {
-      const o = productJsonLd({ ...base, ...sold }, { site: "S", launched: true }).offers as Record<string, unknown>;
+      const o = productJsonLd({ ...base, ...sold }, open)!.offers as Record<string, unknown>;
       expect(o["availability"], JSON.stringify(sold)).toBe("https://schema.org/OutOfStock");
     }
   });
 
-  it("never offers a product that is only coming soon, and leaves out what it does not have", () => {
-    const j = productJsonLd({ ...base, availability: "coming_soon", stock: "out", sku: undefined, images: ["data:image/png;base64,AA"], description: undefined }, { site: "S", launched: true });
-    expect("offers" in j).toBe(false);
+  it("says nothing about a product that is only coming soon, even after launch", () => {
+    expect(productJsonLd({ ...base, availability: "coming_soon", stock: "out" }, open)).toBeNull();
+  });
+
+  it("leaves out what the product does not have", () => {
+    const j = productJsonLd({ ...base, sku: undefined, images: ["data:image/png;base64,AA"], description: undefined }, open)!;
     expect("sku" in j).toBe(false);
     expect("image" in j).toBe(false);
     expect(j.description).toBe("A sculpted top-handle.");
   });
 
   it("stays valid JSON that cannot close the script tag, whatever the product is called", () => {
-    const text = jsonLd(productJsonLd({ ...base, name: `</script><script>alert(1)</script> "Quote"` }, { site: "S", launched: true }));
+    const text = jsonLd(productJsonLd({ ...base, name: `</script><script>alert(1)</script> "Quote"` }, open));
     expect(text).not.toContain("</script>");
     expect(JSON.parse(text).name).toContain("</script>");
   });
 
   it("works for every built-in product", () => {
     for (const p of PRODUCTS) {
-      const j = productJsonLd(seoProduct(p), { site: "S", launched: true });
+      const j = productJsonLd(seoProduct(p), open)!;
       expect(j.image?.length, p.slug).toBeGreaterThan(0);
       for (const u of j.image ?? []) expect(u, p.slug).toMatch(/^https?:\/\//);
       expect((j.offers as { price: number }).price, p.slug).toBe(p.price);

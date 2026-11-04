@@ -20,7 +20,7 @@ export const Route = createFileRoute("/products/$slug")({
   loader: async ({ params, context }) => {
     const p = (await loadCatalog(context.queryClient)).find((x) => x.slug === params.slug);
     if (!p) throw notFound();
-    return { name: p.name, tagline: p.tagline, seo: seoProduct(p) };
+    return { name: p.name, tagline: p.tagline, seo: seoProduct(p), product: p };
   },
   head: ({ loaderData, matches }) => {
     const site = brandTitle(brandFromMatches(matches));
@@ -35,15 +35,16 @@ export const Route = createFileRoute("/products/$slug")({
           ...imageMeta(loaderData.seo.images[0], loaderData.name),
         ]
       : [{ title: `Unavailable — ${site}` }, { name: "robots", content: "noindex" }],
-    // Tells Google what the product looks like (and, once the shop is open, its price and stock).
-    ...(loaderData
-      ? { scripts: [{ type: "application/ld+json", children: jsonLd(productJsonLd(loaderData.seo, { site, launched: !LAUNCH.enabled })) }] }
-      : {}),
+    // Tells Google what the product is, with its price and stock. None before the shop opens (see productJsonLd).
+    ...(loaderData ? productScripts(productJsonLd(loaderData.seo, { site, launched: !LAUNCH.enabled })) : {}),
     };
   },
   notFoundComponent: ProductUnavailable,
   component: ProductPage,
 });
+
+const productScripts = (ld: ReturnType<typeof productJsonLd>) =>
+  ld ? { scripts: [{ type: "application/ld+json", children: jsonLd(ld) }] } : {};
 
 function ProductUnavailable() {
   return (
@@ -62,10 +63,12 @@ const REVIEWS = [
 
 function ProductPage() {
   const { slug } = Route.useParams();
-  const { getProduct, settled } = useCatalog();
-  const p = getProduct(slug);
-  // Until the live list arrives we render from the built-in catalogue; a product that only exists in
-  // the database waits here instead of flashing "unavailable".
+  const { product: loaded } = Route.useLoaderData();
+  const { getProduct, live, settled } = useCatalog();
+  // Until the live list arrives the built-in catalogue stands in for it, and a product that only exists in the database is not in that.
+  // The page was loaded with its product (the server read it from the live catalogue, and the browser gets the same copy), so that is
+  // what the first paint shows: the real product at once, never a flash of "unavailable". Once the live list is in, it takes over.
+  const p = live ? getProduct(slug) : (loaded ?? getProduct(slug));
   if (!p) return settled ? <ProductUnavailable /> : <p role="status" className="px-5 py-40 text-center text-sm text-muted-foreground">Loading…</p>;
   return <ProductView p={p} slug={slug} />;
 }
