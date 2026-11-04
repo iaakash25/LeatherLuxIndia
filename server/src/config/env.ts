@@ -83,16 +83,16 @@ const PLACEHOLDER = /^(change-?me|changeme|replace[-_ ]?me|password|secret|xxx+|
 export type Env = ReturnType<typeof parseEnv>;
 
 /**
- * Behind Vercel, the connection to the function comes from Vercel's own network, so unless one proxy is believed every visitor looks like
- * the same address (127.0.0.1): the visit log would record nothing useful, and the sign-in, newsletter and visit limits would count all
- * visitors together. Vercel writes X-Forwarded-For itself (it replaces whatever a visitor sends), so on Vercel one proxy is trusted unless
- * TRUST_PROXY says otherwise. Anywhere else the default stays 0, because there a visitor could forge the header.
+ * Behind Vercel, the connection to the function always comes from Vercel's own network, so unless at least one proxy is believed every
+ * visitor looks like the same address (127.0.0.1): the visit log would record nothing useful, and the sign-in, newsletter and visit limits
+ * would count all visitors together. Vercel writes X-Forwarded-For itself (it replaces whatever a visitor sends), so on Vercel TRUST_PROXY
+ * is never allowed below 1, whatever the project's settings say (the live project had it typed in as 0). Anywhere else the default stays 0,
+ * because there a visitor could forge the header.
  */
 const onVercel = (s: NodeJS.ProcessEnv) => Boolean(s["VERCEL"] || s["VERCEL_ENV"]);
 
 export function parseEnv(source: NodeJS.ProcessEnv = process.env) {
-  const input = onVercel(source) && !source["TRUST_PROXY"]?.trim() ? { ...source, TRUST_PROXY: "1" } : source;
-  const result = schema.safeParse(input);
+  const result = schema.safeParse(source);
   if (!result.success) {
     const lines = result.error.issues.map((i) => `  - ${i.path.join(".") || "(root)"}: ${i.message}`);
     throw new Error(`Invalid environment configuration:\n${lines.join("\n")}\nSee server/.env.example.`);
@@ -129,6 +129,7 @@ export function parseEnv(source: NodeJS.ProcessEnv = process.env) {
 
   return {
     ...e,
+    TRUST_PROXY: onVercel(source) ? Math.max(e.TRUST_PROXY, 1) : e.TRUST_PROXY,
     isProd,
     isTest: e.NODE_ENV === "test",
     corsOrigins: origins,

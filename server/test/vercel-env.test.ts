@@ -46,7 +46,7 @@ describe("deploy/vercel.env.example", () => {
     expect(e.ORDERS_OPEN).toBe(false); // closed until launch
   });
 
-  it("on Vercel, believes Vercel's forwarding header even when TRUST_PROXY was never typed in, so each visitor has their own address", async () => {
+  it("on Vercel, believes Vercel's forwarding header even when TRUST_PROXY is missing or typed in as 0, so each visitor has their own address", async () => {
     const env = filled(); delete env["TRUST_PROXY"];
     expect(parse(env).TRUST_PROXY).toBe(0); // not on Vercel: a forged header is not believed
     for (const marker of [{ VERCEL: "1" }, { VERCEL_ENV: "production" }] as Record<string, string>[]) {
@@ -60,12 +60,14 @@ describe("deploy/vercel.env.example", () => {
     }
     const blank = parse({ ...env, VERCEL: "1", TRUST_PROXY: "" }); // `TRUST_PROXY=` counts as not set
     expect(blank.TRUST_PROXY).toBe(1);
+    expect(parse({ ...env, VERCEL: "1", TRUST_PROXY: "0" }).TRUST_PROXY).toBe(1); // what the live project had: it must not switch the header off
   });
 
-  it("an explicit TRUST_PROXY always wins, on Vercel too", () => {
-    const env = filled(); env["VERCEL"] = "1";
-    env["TRUST_PROXY"] = "0"; expect(parse(env).TRUST_PROXY).toBe(0);
-    env["TRUST_PROXY"] = "2"; expect(parse(env).TRUST_PROXY).toBe(2);
+  it("a larger TRUST_PROXY is kept on Vercel, and an explicit 0 is kept anywhere else", () => {
+    const env = filled();
+    expect(parse({ ...env, VERCEL: "1", TRUST_PROXY: "2" }).TRUST_PROXY).toBe(2);
+    expect(parse({ ...env, TRUST_PROXY: "0" }).TRUST_PROXY).toBe(0);
+    expect(parse({ ...env, TRUST_PROXY: "1" }).TRUST_PROXY).toBe(1);
   });
 
   it("refuses to start while a secret is still a placeholder, or the certificate is not one", () => {

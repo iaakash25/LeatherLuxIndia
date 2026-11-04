@@ -13,7 +13,6 @@ import { adminRouter } from "./routes/admin.js";
 import { authRouter } from "./routes/auth.js";
 import { brandingRouter } from "./routes/branding.js";
 import { cartRouter } from "./routes/cart.js";
-import { diagIpRouter } from "./routes/diag-ip.js"; // TEMPORARY
 import { catalogRouter } from "./routes/catalog.js";
 import { healthRouter, miscRouter } from "./routes/misc.js";
 import { photosRouter } from "./routes/photos.js";
@@ -90,7 +89,6 @@ export function createApp() {
   app.use("/api/admin", adminRouter);
   app.use("/api/branding", brandingRouter);
   app.use("/api/visits", visitsRouter);
-  app.use("/api/diag-ip", diagIpRouter); // TEMPORARY
   app.use("/api", catalogRouter);
   app.use("/api", miscRouter);
 
