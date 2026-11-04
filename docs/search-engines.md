@@ -42,6 +42,11 @@ bought, so "in stock" beside a price would be untrue, and the reviews on the pro
 "no items detected" rather than an error. The pictures themselves reach Google without it (the page tags and the sitemap above). A coming-soon
 product never gets one. On launch day the block appears by itself, with price and stock, and the test should then pass.
 
+The pages' HTML also holds the real products now. The home page's rows, each collection's products and a product's own page used to be drawn from the
+22 built-in sample products first and swapped for the live ones in the browser, so a direct visit flashed the wrong content ("This piece is
+unavailable" for any of the 76 photographed products) and a crawler that does not run scripts saw the samples. Each of those pages' loaders now reads
+the live catalogue on the server (`src/routes/index.tsx`, `collections.$slug.tsx`, `products.$slug.tsx`).
+
 What the site cannot decide: **whether Google shows a thumbnail next to a result, and which one.** Google chooses, mostly on phones, and only after it
 has crawled the new tags (days to a few weeks). To prompt it, in Search Console run **URL Inspection → Request indexing** on the home page and a
 few product pages, and in **Sitemaps** resubmit `https://leatherluxindia.com/sitemap.xml` (it now carries the pictures). Check the page tags with

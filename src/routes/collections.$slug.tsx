@@ -2,8 +2,8 @@ import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-ro
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { z } from "zod";
-import { images, ALL_TYPES, applyFilters, COLLECTIONS, COLOURS, formatINR, getCollection, PRICE_MAX, PRICE_MIN, searchProducts, type Filters, type SortKey } from "@/lib/catalog";
-import { useCatalog } from "@/lib/catalog-live";
+import { images, ALL_TYPES, applyFilters, COLLECTIONS, COLOURS, formatINR, getCollection, listProduct, PRICE_MAX, PRICE_MIN, searchProducts, type Filters, type SortKey } from "@/lib/catalog";
+import { loadCatalog, useCatalog } from "@/lib/catalog-live";
 import { Select } from "@/components/ui/select-menu";
 import { Drawer } from "@/components/site/Drawer";
 import { ProductCard } from "@/components/site/ProductCard";
@@ -17,10 +17,16 @@ const searchSchema = z.object({ q: z.string().optional() });
 
 export const Route = createFileRoute("/collections/$slug")({
   validateSearch: (s) => searchSchema.parse(s),
-  loader: ({ params }) => {
+  loader: async ({ params, context }) => {
     const c = getCollection(params.slug);
     if (!c) throw notFound();
-    return { slug: c.slug, title: c.title, intro: c.intro, image: c.image };
+    // The collection's products, read from the live catalogue on the server, so the page's HTML already holds the real ones.
+    const all = await loadCatalog(context.queryClient);
+    return {
+      slug: c.slug, title: c.title, intro: c.intro, image: c.image,
+      products: all.filter(c.filter).map(listProduct),
+      hasComingSoon: all.some((p) => p.availability === "coming_soon"),
+    };
   },
   head: ({ loaderData, matches }) => {
     const site = brandTitle(brandFromMatches(matches));
@@ -55,14 +61,19 @@ function CollectionPage() {
   const { q } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
   const c = getCollection(slug)!;
-  const { products } = useCatalog();
+  const loaded = Route.useLoaderData();
+  const { products, live } = useCatalog();
+  // Until the browser has the live list, the products the page was loaded with stand in for it (the built-in list that is showing meanwhile
+  // is only a placeholder, with other products in it). Once the live list is in, it takes over.
+  const list = useMemo(() => (live ? products.filter(c.filter) : loaded.products), [live, products, c, loaded]);
+  const hasComingSoon = live ? products.some((p) => p.availability === "coming_soon") : loaded.hasComingSoon;
   const [f, setF] = useState<Filters>(EMPTY);
   const [sort, setSort] = useState<SortKey>("featured");
   const [panel, setPanel] = useState(false);
   const [lastSlug, setLastSlug] = useState(slug);
   if (lastSlug !== slug) { setLastSlug(slug); setF(EMPTY); }
 
-  const base = useMemo(() => searchProducts(q ?? "", products.filter(c.filter)), [c, q, products]);
+  const base = useMemo(() => searchProducts(q ?? "", list), [q, list]);
   const results = useMemo(() => applyFilters(base, f, sort), [base, f, sort]);
   const availTypes = ALL_TYPES.filter((t) => base.some((p) => p.type === t));
   const availColours = Object.keys(COLOURS).filter((k) => base.some((p) => p.colours.includes(k)));
@@ -97,7 +108,7 @@ function CollectionPage() {
       <div className="no-scrollbar overflow-x-auto border-b border-hairline">
         <ul className="mx-auto flex max-w-[1600px] gap-7 px-5 lg:px-10">
           {/* The Coming Soon tab only appears while something is coming soon (or when you are on it). */}
-          {COLLECTIONS.filter((x) => x.slug !== "coming-soon" || slug === "coming-soon" || products.some((p) => p.availability === "coming_soon")).map((x) => (
+          {COLLECTIONS.filter((x) => x.slug !== "coming-soon" || slug === "coming-soon" || hasComingSoon).map((x) => (
             <li key={x.slug}><Link to="/collections/$slug" params={{ slug: x.slug }} className={cn("block whitespace-nowrap border-b py-4 text-[13px] transition-colors", x.slug === slug ? "border-ink" : "border-transparent text-muted-foreground hover:text-ink")}>{x.title}</Link></li>
           ))}
         </ul>

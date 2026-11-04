@@ -67,6 +67,21 @@ export type Product = {
   rank: number;
 };
 
+/** A product as a list or a rail shows it: without the long copy that only the product page reads, so the list a page loads with stays small. */
+export function listProduct(p: Product): Product {
+  const { description: _description, imageLabels: _imageLabels, ...rest } = p;
+  return rest;
+}
+
+/** The three rows of products on the home page. */
+export function homeRails(products: readonly Product[]) {
+  return {
+    signature: products.filter((p) => p.isNew).slice(0, 4),
+    best: products.filter((p) => p.bestseller).slice(0, 8),
+    gifts: products.filter((p) => p.gift).sort((a, b) => a.price - b.price).slice(0, 4),
+  };
+}
+
 /** The small version of a product's `i`-th photo (the full photo when there is no smaller one). */
 export const productThumb = (p: Pick<Product, "images" | "thumbs">, i = 0): string => (p.thumbs ?? p.images)[i] ?? p.images[i] ?? p.images[0]!;
 

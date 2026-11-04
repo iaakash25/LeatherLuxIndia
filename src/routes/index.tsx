@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { useEffect, useRef } from "react";
-import { images, formatINR } from "@/lib/catalog";
-import { useCatalog } from "@/lib/catalog-live";
+import { useEffect, useMemo, useRef } from "react";
+import { images, formatINR, homeRails, listProduct } from "@/lib/catalog";
+import { loadCatalog, useCatalog } from "@/lib/catalog-live";
 import { LaunchBand } from "@/components/site/LaunchNotice";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Img, Reveal } from "@/components/site/Reveal";
@@ -12,6 +12,11 @@ import { absoluteUrl, jsonLd, SITE_ORIGIN } from "@/lib/seo";
 import { LiveHero } from "@/components/site/LiveHero";
 
 export const Route = createFileRoute("/")({
+  // The three rows of products, read from the live catalogue on the server, so the page's HTML already holds the real products.
+  loader: async ({ context }) => {
+    const rails = homeRails(await loadCatalog(context.queryClient));
+    return { signature: rails.signature.map(listProduct), best: rails.best.map(listProduct), gifts: rails.gifts.map(listProduct) };
+  },
   head: ({ matches }) => {
     const brand = brandFromMatches(matches);
     const site = brandTitle(brand);
@@ -90,10 +95,11 @@ function SectionHead({ eyebrow, title, link, slug }: { eyebrow: string; title: R
 
 function Home() {
   const craftImg = useParallax<HTMLImageElement>(0.08);
-  const { products } = useCatalog();
-  const signature = products.filter((p) => p.isNew).slice(0, 4);
-  const best = products.filter((p) => p.bestseller).slice(0, 8);
-  const gifts = products.filter((p) => p.gift).sort((a, b) => a.price - b.price).slice(0, 4);
+  const loaded = Route.useLoaderData();
+  const { products, live } = useCatalog();
+  // Until the browser has the live list, the rows the page was loaded with stand in for it (the built-in list that is showing meanwhile
+  // is only a placeholder, with other products in it). Once the live list is in, it takes over.
+  const { signature, best, gifts } = useMemo(() => (live ? homeRails(products) : loaded), [live, products, loaded]);
 
   return (
     <>
